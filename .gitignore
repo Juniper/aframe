@@ -6,3 +6,8 @@ db.sqlite3.*
 .DS_Store
 .idea/.*
 .idea/
+
+# vim temp files
+*~
+*.swp
+*.swo
