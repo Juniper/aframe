@@ -54,6 +54,12 @@
 		<link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 		<link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
 
+		<script type="text/javascript">
+		window.onload = function() {
+			setTimeout(function() { document.getElementById('test').click(); }, 400)
+		}
+		</script>
+
 	</head>
 
 	<!--
@@ -145,7 +151,7 @@
 				
 				<!-- collapse menu button -->
 				<div id="hide-menu" class="btn-header pull-right">
-					<span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+					<span> <a id='test' href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
 				</div>
 				<!-- end collapse menu -->
 				
