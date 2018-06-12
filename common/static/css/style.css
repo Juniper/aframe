@@ -33,11 +33,13 @@ a img {
 
 h1 {
     color: orange;
-    padding: 20px;
+    padding: 0px;
+    font-size: 30px;
 }
 
 h2 {
     color: orange;
+    font-size: 35px;
     padding-left: 0px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -203,7 +205,7 @@ table tr td {
 
 div .centered_box {
     margin: auto;
-    width: 80%;
+    width: 95%;
     border: 4px solid grey;
     padding: 10px 50px 30px 50px;
     background-color: #fff;
