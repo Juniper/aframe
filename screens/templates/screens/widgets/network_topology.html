@@ -173,7 +173,10 @@
             });
 
         </script>
-        <input type="button" onclick="javascript: add_network_device({{ widget_layout_id }});" value="Add"/>
+        <!-- <input type="button" onclick="javascript: add_network_device({{ widget_layout_id }});" value="Add" style="background-color: grey" /> -->
+
+        <a href="javascript:void(0);" class="btn btn-success">Add</a>
+
     </div>
     <div id="save_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
         <div style="text-align: right">
@@ -182,9 +185,13 @@
         <h3>Save Topology</h3>
         Topology Name:
         <input type="text" size="25" id="save_network_topology_name_{{ widget_layout_id }}"
-               placeholder="DC1"/>
-        <input type="button" onclick="javascript: save_network_topology('{{ widget_layout_id }}')"
-               value="Save"/>
+               placeholder="Save Network Topology"/ style="background-color: lightblue">
+
+
+<!--         <input type="button" onclick="javascript: save_network_topology('{{ widget_layout_id }}')"
+               value="Save"/ style="background-color: grey" > -->
+        <a href="javascript:void(0);" class="btn btn-success">Save</a>
+
     </div>
     <div id="load_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
         <div style="text-align: right">
@@ -193,13 +200,19 @@
         <h3>Load Topology</h3>
         Topology Name:
         <input type="text" size="25" id="load_network_topology_name_{{ widget_layout_id }}"
-               placeholder="DC1"/>
-        <input type="button" onclick="javascript: load_network_topology('{{ widget_layout_id }}')"
-               value="Load"/>
+               placeholder="Load Network Topology"/ style="background-color: lightblue">
+
+
+<!--         <input type="button" onclick="javascript: load_network_topology('{{ widget_layout_id }}')"
+               value="Load"/ style="background-color: grey" > -->
+        <a href="javascript:void(0);" class="btn btn-success">Load</a>
+
         <br/>
         Browse all Network Topologies:
-        <input type="button" onclick="javascript: list_network_topologies('{{ widget_layout_id }}')"
-               value="Browse"/>
+<!--         <input type="button" onclick="javascript: list_network_topologies('{{ widget_layout_id }}')"
+               value="Browse"/ style="background-color: grey" > -->
+        <a href="javascript:void(0);" class="btn btn-success">Browse</a>
+
     </div>
     <div id="configure_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
         <div style="text-align: right">
@@ -212,7 +225,7 @@
                     Detail Widget:
                 </td>
                 <td>
-                    <input type="text" size="25" id="detail_widget_{{ widget_layout_id }}"/>
+                    <input type="text" size="25" id="detail_widget_{{ widget_layout_id }}" style="background-color: lightblue"/>
                 </td>
             </tr>
             <tr>
@@ -220,7 +233,7 @@
                     Detail Widget ID Parameter:
                 </td>
                 <td>
-                    <input type="text" size="25" id="detail_identifier_param_{{ widget_layout_id }}"/>
+                    <input type="text" size="25" id="detail_identifier_param_{{ widget_layout_id }}" style="background-color: lightblue"/>
                 </td>
             </tr>
             <tr>
@@ -228,7 +241,7 @@
                     Config Widget:
                 </td>
                 <td>
-                    <input type="text" size="25" id="config_widget_{{ widget_layout_id }}"/>
+                    <input type="text" size="25" id="config_widget_{{ widget_layout_id }}" style="background-color: lightblue"/>
                 </td>
             </tr>
             <tr>
@@ -236,7 +249,7 @@
                     Config Widget ID Parameter:
                 </td>
                 <td>
-                    <input type="text" size="25" id="config_identifier_param_{{ widget_layout_id }}"/>
+                    <input type="text" size="25" id="config_identifier_param_{{ widget_layout_id }}" style="background-color: lightblue"/>
                 </td>
             </tr>
             <tr>
@@ -244,7 +257,7 @@
                     Telemetry Widget:
                 </td>
                 <td>
-                    <input type="text" size="25" id="telemetry_widget_{{ widget_layout_id }}"/>
+                    <input type="text" size="25" id="telemetry_widget_{{ widget_layout_id }}" style="background-color: lightblue"/>
                 </td>
             </tr>
             <tr>
@@ -252,23 +265,23 @@
                     Telemetry ID Parameter:
                 </td>
                 <td>
-                    <input type="text" size="25" id="telemetry_identifier_param_{{ widget_layout_id }}"/>
+                    <input type="text" size="25" id="telemetry_identifier_param_{{ widget_layout_id }}" style="background-color: lightblue"/>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
                     <input type="button" onclick="javascript: save_network_topology_config('{{ widget_layout_id }}')"
-                           value="Save"/>
+                           value="Save"/ style="background-color: grey" >
                 </td>
             </tr>
         </table>
 
     </div>
     <div id="network_topology_{{ widget_layout_id }}" style="background-image: url({% static 'images/grid_lite.png' %});
-                                        background-repeat: repeat;
+                                        /*background-repeat: repeat;*/
                                         width:1000px;
                                         height:400px;
-                                        position:relative;
+                                        position: center"
                                         "></div>
     <input type="hidden" id="topology_name_{{ widget_layout_id }}"/>
 </td>

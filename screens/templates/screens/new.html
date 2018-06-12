@@ -97,7 +97,7 @@
             <td>
                 <input type="text" size="25" id="template_autocomplete"
                        placeholder="search input form definitions"> &nbsp;
-                <input type="button" onclick="javascript: add_automation()" value="Add"/>
+                <input type="button" onclick="javascript: add_automation()" value="Add" style="background-color: grey" />
             </td>
         </tr>
         <tr>
@@ -121,7 +121,7 @@
                     <option value="{{ w.id }}">{{ w.label }}</option>
                     {% endfor %}
                 </select>
-                <input type="button" onclick="javascript: add_screen_widget()" value="Add"/>
+                <input type="button" onclick="javascript: add_screen_widget()" value="Add" style="background-color: grey" />
             </td>
         </tr>
         <tr>
@@ -138,7 +138,7 @@
 
         <tr>
             <td colspan="2">
-                <input type="button" onclick="submit_form()" value="Save"/>
+                <input type="button" onclick="submit_form()" value="Save" style="background-color: grey" />
             </td>
         </tr>
     </table>
