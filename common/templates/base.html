@@ -40,19 +40,31 @@
 		<!-- #APP SCREEN / ICONS -->
 		<!-- Specifying a Webpage Icon for Web Clip 
 			 Ref: https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html -->
-		<link rel="apple-touch-icon" href="img/splash/sptouch-icon-iphone.png">
-		<link rel="apple-touch-icon" sizes="76x76" href="img/splash/touch-icon-ipad.png">
-		<link rel="apple-touch-icon" sizes="120x120" href="img/splash/touch-icon-iphone-retina.png">
-		<link rel="apple-touch-icon" sizes="152x152" href="img/splash/touch-icon-ipad-retina.png">
+		<!--
+		<link rel="apple-touch-icon" href="images/splash/sptouch-icon-iphone.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="images/splash/touch-icon-ipad.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="images/splash/touch-icon-iphone-retina.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="images/splash/touch-icon-ipad-retina.png">
+		-->
 		
 		<!-- iOS web-app metas : hides Safari UI Components and Changes Status Bar Appearance -->
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 		
 		<!-- Startup image for web apps -->
-		<link rel="apple-touch-startup-image" href="img/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
-		<link rel="apple-touch-startup-image" href="img/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
-		<link rel="apple-touch-startup-image" href="img/splash/iphone.png" media="screen and (max-device-width: 320px)">
+		<!--
+		<link rel="apple-touch-startup-image" href="images/splash/ipad-landscape.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:landscape)">
+		<link rel="apple-touch-startup-image" href="images/splash/ipad-portrait.png" media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
+		<link rel="apple-touch-startup-image" href="images/splash/iphone.png" media="screen and (max-device-width: 320px)">
+		-->
+
+		<!--
+		<script type="text/javascript">
+		window.onload = function() {
+			setTimeout(function() { document.getElementById('test').click(); }, 400)
+		}
+		</script>
+		-->
 
 	</head>
 
@@ -99,7 +111,7 @@
 		* 'fixed-page-footer' - Fixes footer
 		* 'container'         - boxed layout mode (non-responsive: will not work with fixed-navigation & fixed-ribbon)
 	-->
-	<body class="fixed-header fixed-navigation fixed-page-footer">
+	<body class="fixed-header minified fixed-navigation fixed-page-footer">
 
 		<!-- #HEADER -->
 		<header id="header">
@@ -145,7 +157,7 @@
 				
 				<!-- collapse menu button -->
 				<div id="hide-menu" class="btn-header pull-right">
-					<span> <a href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
+					<span> <a id='test' href="javascript:void(0);" data-action="toggleMenu" title="Collapse Menu"><i class="fa fa-reorder"></i></a> </span>
 				</div>
 				<!-- end collapse menu -->
 				
@@ -272,11 +284,8 @@
 					</h1>
 				</div>
 				<!-- end col -->
-				<div id="content">
-					<div class="centered_box" id="centered_box">
-						{% block content %}{% endblock %}
-					</div>
-				</div>
+				{% block content %}{% endblock %}
+
 				
 
 			<!-- end row -->
@@ -290,7 +299,7 @@
 		<div class="page-footer">
 			<div class="row">
 				<div class="col-xs-12 col-sm-6">
-					<span class="txt-color-white">AFrame 1.9.x <span class="hidden-xs"> - Juniper Networks</span> © 2017-2019</span>
+					<span class="txt-color-white">AFrame <span class="hidden-xs"> - Juniper Networks</span> © 2017-2019</span>
 				</div>
 			</div>
 			<!-- end row -->

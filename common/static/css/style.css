@@ -189,6 +189,7 @@ table {
 th {
        border-bottom:2px solid grey;
        text-align: left;
+       font-size: 17px;
        padding:6px;
        padding-left: 10px;
 }
@@ -201,6 +202,7 @@ table tr td {
        padding: 5px;
        padding-left: 10px;
        text-align: left;
+       font-size: 17px;
 }
 
 div .centered_box {
