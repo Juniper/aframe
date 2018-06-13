@@ -40,36 +40,54 @@
     }
 
 </script>
-Simple list output of the desired pre-loaded automation
+
+<label class="label" style="font-size:15px; color:black; padding:0; margin:10px" >Simple List Output of the Desired Pre-Loaded Automation </label>
 <br/>
-Title: <input type="text" name="list_title" size="35" id="list_title"
-       placeholder="List Title" value="">
+
+<label class="label" style="font-size:12px; color:grey; padding:0; margin:10px" >Title </label>
+
+<!-- <input type="text" name="list_title" size="35" id="list_title"
+       placeholder="List Title" value=""> -->
+
+<input type="text" style="font-size:12px;" class="input-md" id="list_title"
+       placeholder="List Title">
+
 <br/>
-Pre-loaded Automation
-<input type="text" name="input_form_name" size="25" id="list_autocomplete"
-       placeholder="search automations" value="">
+
+<label class="label" style="font-size:12px; color:grey; padding:0; margin:10px" >Pre-loaded Automation </label>
+
+<!-- <input type="text" name="input_form_name" size="25" id="list_autocomplete"
+       placeholder="search automations" value=""> -->
+
+       <input type="text" style="font-size:12px;" class="input-md" id="list_autocomplete"
+       placeholder="Search Automations" value="">
 <br/>
 <table>
     <tr>
         <td>
-            <input type="text" id="col_1_header" title="Column 1 Header" placeholder="column 1 header"/>
+            <input type="text" style="font-size:12px; margin:0" id="col_1_header" title="Column 1 Header" placeholder="Column 1 Header"/>
+<!--             <input type="text" style="font-size:12px; padding:0; margin:0" class="input-md" id="list_autocomplete" placeholder="Column 1 Header"/>
+ -->
         </td>
         <td>
-            <input type="text" id="col_2_header" title="Column 2 Header" placeholder="column 2 header"/>
+            <input type="text" style="font-size:12px; margin:0" id="col_2_header" title="Column 2 Header" placeholder="Column 2 Header"/>
         </td>
     </tr>
     <tr>
         <td>
-            <input type="text" id="col_1_key" placeholder="Column 1 key"/>
+            <input type="text" style="font-size:12px; margin:0" id="col_1_key" title="Column 1 Key" placeholder="Column 1 Key"/>
         </td>
 
         <td>
-            <input type="text" id="col_2_key" placeholder="Column 2 key"/>
+            <input type="text" style="font-size:12px; margin:0" id="col_2_key" title="Column 2 Key" placeholder="Column 2 Key"/>
         </td>
     </tr>
     <tr>
         <td colspan="2">
-            <input type="button" onclick="javascript: set_list_config()" value="OK"/>
+<!--             <input type="button" onclick="javascript: set_list_config()" value="OK"/>
+ -->
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: set_list_config()" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+
         </td>
     </tr>
 </table>

@@ -550,6 +550,8 @@
 
 <h2>{{ screen.description }}</h2>
 
+
+
 <div class="screen_box" id="screen_box_base" onclick="javascript: bring_window_to_front(this)">
 </div>
 
@@ -566,16 +568,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">Screen Configuration Controls</td>
+                    <td colspan="2">
+                    <label class="label" style="font-size:15px; color:black; padding: 0px; margin:0px; margin-top: 10px" >Screen Configuration Controls</label></td>
+
+                    
                 </tr>
             </tbody>
             <tbody class="screen_box_menu">
                 <tr>
                     <td>
-                         <input type="text" size="25" id="template_autocomplete"
-                                            placeholder="Add Automation to Screen"/>
+<!--                          <input type="text" size="25" id="template_autocomplete"
+                                            placeholder="Add Automation to Screen"/> -->
+<!--                               <textarea  placeholder="Add Automation to Screen:" rows="1" class="custom-scroll" id="template_autocomplete" style="font-size:15px; color:black; margin:0px; padding:0px; margin-top: 20px"> </textarea> -->
+
+                            
+                    <textarea rows="1" placeholder="Add Automation to Screen:" id="template_autocomplete" style="font-size:15px; color:black; margin:0px; padding:0px; margin-top: 20px"class="custom-scroll"></textarea>
+             <!--                  <input type="text" id="template_autocomplete" placeholder="Add Automation to Screen" style="font-size:15px; color:black; margin:0px; padding:0px; margin-top: 20px" class="input-md" /> -->
+
                         <input type="hidden" id="template_autocomplete_id"/>
-                        <input type="button" onclick="javascript: add_automation()" value="Add" style="background-color: grey" />
+                        <!-- <input type="button" onclick="javascript: add_automation()" value="Add"  /> -->
+                        <a href="javascript:void(0);" style="text-decoration: none; margin-bottom: 21px" onclick="javascript: add_automation()" value="Add" class="btn bg-color-blue txt-color-white">Add</a>
+
                     </td>
                 </tr>
                 <tr>
@@ -606,7 +619,7 @@
                         {% endfor %}
                         </select>
                         &nbsp;
-                        <input type="button" onclick="javascript: add_widget_config()" value="Add" style="background-color: grey" />
+                        <input type="button" onclick="javascript: add_widget_config()" value="Add"  />
                     </td>
                 </tr>
                 <tr>
@@ -616,7 +629,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="button" onclick="javascript: update_layout()" value="Save Screen Layout" style="background-color: grey" />
+                        <input type="button" onclick="javascript: update_layout()" value="Save Screen Layout" />
                     </td>
                 </tr>
             </tbody>
