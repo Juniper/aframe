@@ -29,25 +29,25 @@ function embed_template() {
     doc.css('cursor', 'progress');
 
     var params = {
-        "template_name" : template_name
+        "template_name": template_name
     }
 
     var url = "/tools/embedTemplate/"
 
-    var post = jQuery.post(url, params, function(response) {
+    var post = jQuery.post(url, params, function (response) {
         load_overlay(response);
     });
 
-    post.fail(function() {
+    post.fail(function () {
         alert('Could not perform request!');
     });
 
-    post.always(function() {
+    post.always(function () {
         doc.css('cursor', '');
     });
 }
 
-function load_widget_configs(w_id){
+function load_widget_configs(w_id) {
     // We will get the select object as the parameter
     // the value represents the choice the user has made
     // let's check the widget definition to see if there
@@ -64,8 +64,8 @@ function load_widget_configs(w_id){
     var obj = $("#" + w_id);
     var config_button = $("#" + obj.prop("id") + "_config_button");
 
-    $(widgets).each(function(i,w) {
-        console.log(w.id +  " == " + obj.val());
+    $(widgets).each(function (i, w) {
+        console.log(w.id + " == " + obj.val());
         if (w.id == obj.val()) {
             widget_config = w;
             // break out
@@ -90,32 +90,32 @@ function load_widget_configs(w_id){
     var doc = jQuery(document.documentElement);
     doc.css('cursor', 'progress');
 
-    var url = "/input_forms/loadWidgetConfig/"
+    var url = "/input_forms/loadWidgetConfig/";
 
     var params = {
         "widget_id": obj.val(),
         "target_id": obj.prop("id")
     }
 
-    var post = jQuery.post(url, params, function(response) {
+    var post = jQuery.post(url, params, function (response) {
         load_overlay(response);
     });
 
-    post.fail(function() {
+    post.fail(function () {
         alert('Could not perform request!');
     });
 
-    post.always(function() {
+    post.always(function () {
         doc.css('cursor', '');
     });
 }
 
-function load_widget_configs_manual(widget_id, widget_name) {
+function load_screen_widget_configs_manual(widget_id, widget_layout_id) {
 
-    var doc = jQuery(document.documentElement);
+    let doc = jQuery(document.documentElement);
     doc.css('cursor', 'progress');
 
-    var url = "/input_forms/loadWidgetConfig/"
+     let url = "/input_forms/loadWidgetConfig/"
 
     var params = {
         "widget_name": widget_name,

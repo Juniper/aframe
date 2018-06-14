@@ -47,6 +47,12 @@ h3 {
     color: orange;
 }
 
+h4 {
+    font-weight: normal;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
 .overlay_menu {
     size: 8px;
     text-align: right;
