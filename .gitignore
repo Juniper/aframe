@@ -11,3 +11,8 @@ db.sqlite3.*
 *~
 *.swp
 *.swo
+
+conf/imports/themes/
+conf/imports/forms/
+conf/imports/screens/
+screens/templates/themes/test.html
