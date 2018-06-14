@@ -1,26 +1,67 @@
 {% extends "base.html" %}
+
 {% block title %}A-Frame{% endblock %}
+
+
+{% block breadcrumb %}
+<li><a href="/screens/">Screens</a></li>
+<li>Groups</li>
+{% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-database"></i> 
+    Screens 
+<span>>  
+    Groups
+</span>
+{% endblock %}
+
 {% block content %}
-    <h2>Screens</h2>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Options</th>
-        </tr>
-        {% for screen in screen_list %}
-            <tr>
-                <td><a href="{{ screen.id }}">{{ screen.name }}</a></td>
-                <td>{{ screen.description }}</td>
-                <td>
-                    <a href="delete/{{ screen.id }}">Delete</a>
-                    &nbsp;
-                    <a href="edit/{{ screen.id }}">Edit</a>
-                    &nbsp;
-                    <a href="export/{{ screen.id }}">Export</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
-    <a href="/screens/new">Define new Screen</a>
+<div class="row">
+    <div class="col-sm-12">
+        
+        <div class="well">
+            
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <!--
+                        <tr>
+                            <th colspan="3">Endpoint Groups</th>
+                        </tr>
+                        -->
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for screen in screen_list %}
+                           <tr>
+                                <td><a href="{{ screen.id }}">{{ screen.name }}</a> </td>
+
+                             <td>{{ screen.description }}</td>
+                            </td>
+                            <td width="300px">
+                                <a href="edit/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
+                                        &nbsp;
+                                <a href="delete/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                                        &nbsp;
+                                <a href="export/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Export</a>
+                            </td>
+                        </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a class="btn btn-primary" style="text-decoration:none;" <a href="/screens/new">Define new Screen</a>
+
+        </div>
+
+        
+    </div>
+</div>
+
 {% endblock %}

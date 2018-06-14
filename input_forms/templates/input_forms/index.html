@@ -1,33 +1,71 @@
-
 {% extends "base.html" %}
+
 {% block title %}A-Frame{% endblock %}
-{% block content %}
-<h2>Network Automations</h2>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Options</th>
-    </tr>
-    {% for input_form in input_form_list %}
-    <tr>
-        <td><a href="{{ input_form.id }}">{{ input_form.name }}</a> </td>
-        <td>{{ input_form.description }}</td>
-        <td>
-            <a href="/tools/delete/{{ input_form.script.id }}">Delete</a>
-            &nbsp;
-            <a href="edit/{{ input_form.id }}">Edit Form</a>
-            &nbsp;
-            <a href="/tools/edit/{{ input_form.script.id }}/">Edit Template</a>
-            &nbsp;
-            <a href="/tools/clone/{{ input_form.script.id }}">Clone</a>
-            &nbsp;
-            <a href="export/{{ input_form.id }}">Export</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-<a href="/tools/newTemplate/">Define new Automation</a>
-&nbsp;
-<a href="import">Import Automation</a>
+
+{% block breadcrumb %}
+<li><a href="/networkautomation/">Network Automation</a></li>
+<li>Groups</li>
 {% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-database"></i> 
+    Network Automation 
+<span>>  
+     Groups
+</span>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        
+        <div class="well">
+            
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <!--
+                        <tr>
+                            <th colspan="3">Endpoint Groups</th>
+                        </tr>
+                        -->
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for input_form in input_form_list %}
+                           <tr>
+                                <td><a href="{{ input_form.id }}">{{ input_form.name }}</a> </td>
+                                <td>{{ input_form.description }}</td>
+                                </td>
+                                <td width="600px">
+                                
+                                <a href="edit/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Form</a>
+                                <a href="/tools/edit/{{ input_form.script.id }}/" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> 'Edit Template'</a>
+                                        &nbsp;
+                                <a href="/tools/clone/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> 'Clone'</a>
+                                        &nbsp;
+                                <a href="export/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> 'Export'</a>
+                                        &nbsp;
+                                <a href="/tools/delete/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> 'Delete'</a>
+                                        &nbsp;
+                                </td>
+                        </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <a class="btn btn-primary" style="text-decoration:none;" <a href="/tools/newTemplate/">Define new Automation</a>
+            <a class="btn btn-primary" style="text-decoration:none;" <a href="import">Import Automation</a>
+        </div>
+
+        
+    </div>
+</div>
+
+{% endblock %}
+
