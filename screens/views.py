@@ -54,14 +54,18 @@ def detail(request, screen_id):
     #    input_forms[input_form.id] = input_form.name
 
     layout_obj = json.loads(screen.layout)
+    print layout_obj['input_forms']
     for inf in layout_obj.get('input_forms', []):
+        print 'input form tuype is'
+        print type(inf)
         if InputForm.objects.filter(pk=inf).exists():
             input_form = InputForm.objects.get(pk=inf)
             input_form_ids.append(int(inf))
             input_forms[inf] = input_form.name
         else:
-            print('UNKNOWN INPUTFORM ID %s' % inf)
-            logger.warn("unknown input form id for %s" % inf)
+            print 'UNKNOWN INPUTFORM ID %s' % inf
+
+    print 'theme is %s' % screen.theme
 
     ifi_json = json.dumps(input_form_ids)
     input_forms_json = json.dumps(input_forms)
@@ -122,10 +126,14 @@ def create(request):
     else:
         input_forms_data = json.loads(input_forms)
 
+    print input_forms_data
+
     if widgets == "":
         widgets_data = []
     else:
         widgets_data = json.loads(widgets)
+
+    print widgets
 
     layout = dict()
     layout['input_forms'] = dict()
@@ -173,7 +181,6 @@ def create(request):
 
 
 def edit(request):
-    logger.info("__ screens edit __")
     return HttpResponseRedirect("/screens")
 
 
@@ -213,6 +220,9 @@ def update_layout(request):
     layout = request.POST["layout"]
     theme = request.POST["theme"]
 
+    print layout
+    print theme
+
     screen = get_object_or_404(Screen, pk=screen_id)
     screen.layout = layout
     screen.theme = theme
@@ -229,11 +239,13 @@ def update_layout(request):
                 break
 
         if not found:
+            print "Removing: " + str(inf.id)
             input_form = InputForm.objects.get(pk=inf.id)
             screen.input_forms.remove(input_form)
 
     # now let's add any news ones that have been configured
     for input_form_id in layout_obj['input_forms'].keys():
+        print input_form_id
         found = False
         for inf in input_forms_list:
             if inf.id == input_form_id:
@@ -271,6 +283,7 @@ def export_screen(request, screen_id):
         if ScreenWidgetConfig.objects.filter(widget_type=widget_id).exists():
             widget_config = ScreenWidgetConfig.objects.get(widget_type=widget_id)
             # context.update
+            print widget_config.data
             exported_data['widgets'][widget_id] = quote(widget_config.data)
 
     exported_data['screen'] = dict()
@@ -278,7 +291,6 @@ def export_screen(request, screen_id):
     exported_data['screen']['description'] = screen.description
     exported_data['screen']['theme'] = screen.theme
     exported_data['screen']['layout'] = screen.layout
-    exported_data['screen']['id'] = str(screen.id)
 
     exported_json = json.dumps(exported_data)
     response = HttpResponse(exported_json, content_type="application/json")
@@ -309,6 +321,7 @@ def load_widget_config(request):
 
     found = False
     for w in widgets:
+
         if w["id"] == widget_id:
             widget_name = w["label"]
             widget_configuration_template = w["configuration_template"]
@@ -328,8 +341,10 @@ def load_widget_config(request):
     # grab the widget global configuration if it exists and set on the context
     # FIXME - widget_type and widget_id are used interchangeably, this should just be widget_id basically everywhere
     if ScreenWidgetConfig.objects.filter(widget_type=widget_id).exists():
+        print "FOUND WIDGET CONFIG"
         widget_config = ScreenWidgetConfig.objects.get(widget_type=widget_id)
         # context.update
+        print widget_config.data
         context.update({"widget_global_config": widget_config.data})
 
     if widget_consumes_input_form != "":
@@ -415,8 +430,10 @@ def load_widget(request):
         # grab the widget global configuration if it exists and set on the context
         # FIXME - widget_type and widget_id are used interchangeably, this should just be widget_id basically everywhere
         if ScreenWidgetConfig.objects.filter(widget_type=widget_id).exists():
+            print "FOUND WIDGET CONFIG"
             widget_config = ScreenWidgetConfig.objects.get(widget_type=widget_id)
             # context.update
+            print widget_config.data
             context.update({"widget_global_config": widget_config.data})
 
         if "consumes_automation" in w:
@@ -436,7 +453,6 @@ def load_widget(request):
                 context.update({"automation_output": results_object})
             except ValueError:
                 print "Could not parse JSON output from automation!"
-                logger.warn('Could not parse JSON output from automation!')
                 pass
 
         return render(request, "screens/widgets/%s" % widget_template, context)
@@ -670,7 +686,7 @@ def search(request):
     results = []
     for screen in screen_list:
         r = dict()
-        r["value"] = str(screen.id)
+        r["value"] = screen.id
         r["label"] = screen.name + " " + screen.description
         results.append(r)
 
