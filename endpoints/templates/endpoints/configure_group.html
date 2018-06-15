@@ -119,12 +119,12 @@
 					<tr>
 						<td>
 							{% if opts.type == "text" %}
-							<fieldset>
-								<section>
+							<fieldset style="padding-top:10px">
+								<section style="margin-bottom:10px">
+									<label class="label">{{ opts.label }}</label>
 									<label class="input"> <i class="icon-prepend fa fa-edit"></i>
 										<input type="text" name="{{ opts.name }}" id="text_input_{{ opts.name }}"
 											placeholder="{{ opts.value }}"/>
-										<b class="tooltip tooltip-top-left">{{ opts.label }}</b>
 									</label>
 								</section>
 							</fieldset>
@@ -133,6 +133,32 @@
 								document.getElementById("formContainer").style.width = "90%";
 							</script>
 							<table id="list_items_{{ opts.name }}">
+								<tbody>
+								<tr>
+									<fieldset> 
+									{% for list_item in opts.list_items %}
+									<td>
+										<section style="padding-right:5px;padding-left:5px;">
+										<label class="label">{{ list_item.label }}</label>
+										<label class="input">
+											<i class="icon-prepend fa fa-edit"></i>
+											<input type="text" id="list_item_{{ list_item.name }}" name="{{ list_item.name }}"
+												placeholder="{{ list_item.value }}" style="width: 150px"/>
+										</label>
+										</section>
+									</td>
+									{% endfor %}
+									<td>
+										<section>
+											<label class="label">Add</label>
+											<button type="button" class="btn btn-circle btn-primary" value="Add" onclick="javascript: add_list_item('{{ opts.name }}')">
+												<i class="fa fa-plus"></i> 
+											</button>
+										</section>
+									</td>
+									</fieldset>
+								</tr>
+								</tbody>
 								<tbody>
 								<tr>
 								{% for list_item in opts.list_items %}
@@ -144,26 +170,25 @@
 								</tbody>
 								<tbody id="new_rows">
 								</tbody>
-								<tbody>
-								<tr>
-									{% for list_item in opts.list_items %}
-									<td>
-										<input type="text" id="list_item_{{ list_item.name }}" name="{{ list_item.name }}"
-											   placeholder="{{ list_item.value }}" style="width: 125px"/>
-									</td>
-									{% endfor %}
-									<td>
-										<input type="button" value="Add" onclick="javascript: add_list_item('{{ opts.name }}')"/>
-									</td>
-								</tr>
-								</tbody>
 							</table>
 							{% else %}
-							<select id="choices_{{ opts.name }}" name="{{ opts.name }}">
-								{% for c in opts.choices %}
-								<option value="{{ c.name }}">{{ c.label }}</option>
-								{% endfor %}
-							</select>
+							<fieldset style="padding-top: 15px">
+								<section>
+									{% if 'protocol' in opts.name %}
+										<label class="label">Protocol</label>
+									{% elif 'cache_timeout' in opts.name %}
+										<label class="label">Cache Timeout</label>
+									{% endif %}
+									<label class="select">
+										<select id="choices_{{ opts.name }}" name="{{ opts.name }}">
+											{% for c in opts.choices %}
+											<option value="{{ c.name }}">{{ c.label }}</option>
+											{% endfor %}
+										</select>
+										<i></i>
+									</label>
+								</section>
+							</fieldset>
 							{% endif %}
 						</td>
 					</tr>
@@ -176,7 +201,16 @@
 			
 			    <input type="hidden" name="provider_options" id="provider_options" value="{{ provider_options_json }}"/>
 			
-			    <input type="button" value="Create" onclick="javascript: submit_form();"/>
+			<footer style="padding-top:20px">
+				<button type="button" class="btn btn-sm btn-success btn-next" onclick="javascript: submit_form();">
+						Create
+					<i class="fa fa-arrow-right"></i>
+				</button>
+				<button type="button" class="btn btn-sm btn-danger btn-back" onclick="javascript: window.history.back()">
+					<i class="fa fa-arrow-left"></i>
+						Back
+				</button>
+			</footer>
 			</form>
 
 		</div>
