@@ -9,10 +9,10 @@
 {% endblock %}
 
 {% block pageheader %}
-<i class="fa fa-lg fa-fw fa-database"></i> 
+<span class="fa fa-xlg fa-fw fa-desktop"; style="font-size: xx-large;"></span>
     Screens 
 <span>>  
-    Groups
+    All Screens
 </span>
 {% endblock %}
 
@@ -46,9 +46,9 @@
                             <td width="300px">
                                 <a href="edit/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
                                         &nbsp;
+                                <a href="export/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Export</a> &nbsp;
                                 <a href="delete/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                                         &nbsp;
-                                <a href="export/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Export</a>
                             </td>
                         </tr>
                             {% endfor %}
@@ -56,7 +56,7 @@
                 </table>
             </div>
 
-            <a class="btn btn-primary" style="text-decoration:none;" <a href="/screens/new">Define new Screen</a>
+            <a class="btn btn-primary" style="text-decoration:none;" <a href="/screens/new">Define New Screen</a>
 
         </div>
 

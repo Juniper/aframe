@@ -15,56 +15,74 @@
 
     </script>
 {% endblock %}
+
 {% block content %}
 <form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();"  action="/tools/create/">
     <h2>New Template - Step 3 of 3</h2>
     <table id="action_params_container">
-        <tr>
+
+
+
+        <fieldset>
+            <section>
+                <label class="input"> <i style="font-size: large;"> Action Provider: </i> &nbsp;
+                    <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" value="{{ action_provider }}" readonly="true"></label> &nbsp;
+                    
+            </section>
+        <!-- <tr>
             <td>
                 Action Provider
             </td>
             <td>
                 {{ action_provider }}
             </td>
-        </tr>
-        {% for option in options.values %}
-        <tr>
-            <td>
-                {{ option.label }}
-            </td>
-            <td>
-                {{ option.value }}
-            </td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td>
-                Name:
-            </td>
-            <td>
-                <input type="text" name="name" placeholder="New Template"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Description:
-            </td>
-            <td>
-                <textarea cols="65" rows="5" name="description" placeholder="A brief description of this template"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Template Type:
-            </td>
-            <td>
+        </tr> -->
+
+
+            <section>
+            {% for option in options.values %}
+            <label class="input"> <i style="font-size: large;"> Request Type </i> &nbsp;
+                <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" value="{{ option.value }}" readonly="true"></label> &nbsp;
+            {% endfor %}
+        </section>
+
+
+
+        <section>
+            <label class="input"> <i style="font-size: large;"> Template Name: </i> &nbsp;
+                <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" placeholder="New Template"></label> &nbsp;
+                
+        </section>
+
+
+        <section>
+            <label class="input"> <i style="font-size: large;"> Description: </i> &nbsp;
+                <textarea cols="65" rows="5" name="description" style="font-size: medium; width: 1289px"placeholder="A brief description of this template" wrap="true"></textarea>
+                
+        </section> 
+
+        <section>
+        
+            <label class="input"> <i style="font-size: large;"> Template Type: </i> &nbsp;
                 <select name="type">
-                    <option value="standalone" selected="selected">Standalone</option>
-                    <option value="per-endpoint">Per-Endpoint</option>
+                    <option value="standalone" style = "font-size: large;" selected="selected">Standalone</option> &nbsp;
+                    <option value="per-endpoint">Per-Endpoint</option>&nbsp;
                 </select>
-            </td>
-        </tr>
-        <tr>
+        
+        </section>
+
+
+        <section>
+                <label class="input"> <i style="font-size: large;"> Template: </i> &nbsp;
+                <textarea cols="65" rows="25" name="description" style="font-size: medium; width: 1289px"placeholder="The template text to be used. 
+
+Use the {% templatetag openvariable %} format {% templatetag closevariable %} to introduce variables, in this case a variable named 'format' will be available to your forms. 
+
+Variable names must not include special characters!" wrap="true"></textarea>
+                
+        </section> 
+                
+<!--         </section> 
             <td>
                 Template:
             </td>
@@ -77,7 +95,10 @@ introduce variables, in this case a variable named 'format' will be available to
 
 Variable names must not include special characters!"></textarea>
             </td>
-        </tr>
+        </tr> -->
+
+
+<!-- 
     </table>
     <h3>Advanced Options:</h3>
     <table>
@@ -91,8 +112,26 @@ Variable names must not include special characters!"></textarea>
                 <input type="button" onclick="javascript: embed_template()" value="View API"/>
             </td>
         </tr>
-    </table>
+    </table> -->
+
+        <section>
+        <label class="input"> <i class="icon-prepend fa fa-edit"; style="font-size:large; width: 1289px"/>  Embed Template: </i> <br>&nbsp;
+
+<!-- 
+                <input type="text" name="embedded_template" style="font-size: medium; width: 1289px" id="template_autocomplete"
+                       placeholder="Search Template Definitions"></label> <br> &nbsp; -->
+                
+        
+        <section>
+            <input type="text" style="font-size: medium; width: 1000px" name="name" id="template_autocomplete" placeholder="Search Template Definitions"></label> &nbsp;
+
+                    <input type="button" style="font-size: small;" onclick="javascript: embed_template()" value="View API"/></label> <br> &nbsp;
+        </section>
+
+        <section>
+
+                </section> 
     <input type="hidden" name="action_provider" value="{{ action_provider }}"/>
-    <input type="submit" value="Create"/>
+    <input type="submit" style ="font-size: medium" value="Create"/>
 </form>
 {% endblock %}

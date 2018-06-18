@@ -71,49 +71,110 @@
 
     </script>
 {% endblock %}
+
+
+
+
 {% block content %}
 <h2>Edit Template</h2>
 <form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/update/">
     {% csrf_token %}
-    <table>
-        <tr>
-            <td>
-                Template Name:
-            </td>
-            <td>
-                <input type="text" name="name" value="{{ template.name }}">
-            </td>
-        </tr>
-        <tr>
-            <td>Description</td>
-            <td>
-                <textarea name="description">{{ template.description }}</textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Template Type:
-            </td>
-            <td>
-                <select name="type">
-                    <option value="standalone"
-                            {% if template.type == 'standalone' %} selected {% endif %}>
-                        Standalone
-                    </option>
-                    <option value="per-endpoint"
-                            {% if template.type == 'per-endpoint' %} selected {% endif %}>
-                        Per-Endpoint
-                    </option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Template</td>
-            <td><textarea cols="65" rows="10" class="template_editor"
-                          name="template">{{ template.template }}</textarea></td>
-        </tr>
+    <div class="row">
+    <div class="col-sm-12">
+        <div class="well">
+            <form action="/input_forms/edit/" method="POST" id="smart-form-register" class="smart-form">
+                <header style="font-size:23px;">
+                    Template Name
+                </header>&nbsp;
 
-    </table>
+                <fieldset>
+                    <section>
+                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size: large;"> Template Name: </i> &nbsp;
+                            <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" value="{{ template.name }}"></label> &nbsp;
+                            
+                    </section>
+
+                    <section>
+                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 1289px"> Description:    </i>&nbsp;
+                            <input type="text" style="font-size: medium; width: 1289px" name="description" id="Input Description"  value="{{ template.description }}"/></label>&nbsp;
+                    </section>
+
+
+                    <section>
+                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 1289px"/>  Instructions:    </i>&nbsp;
+                            <textarea rows="1" cols="65" style="font-size: medium; width: 1289px" name="instructions" id="instructions">{{ input_form.instructions }}</textarea></label>&nbsp;
+                    </section> 
+                    <section>
+                        <label class="input"> <i class="icon-prepend fa fa-edit"; style="font-size:large; width: 1289px"/>  Template:    </i>&nbsp;
+                            <textarea rows="9" cols="65" style="font-size: medium; width: 1289px" name="template" id="instructions" >{{ template.template }}</textarea></label>&nbsp;
+                    </section> 
+
+                    <h3>Tools</h3>
+
+                    <section>
+                    <label class="input"> <i class="icon-prepend fa fa-edit"; style="font-size:large; width: 1289px"/>  Embed Template:    </i>&nbsp;
+                        <td>
+                            <input type="text" name="embedded_template" style="font-size: medium" id="template_autocomplete"
+                                   placeholder="Search Templates Definitions"> &nbsp;
+                            <input type="button" style="font-size: small" onclick="javascript: embed_template()" value="View API"/>
+                        </td>
+                    </section> 
+
+                    <h3>Action Options</h3>
+
+                    {% for opts in default_options %}
+                    <tr>
+                        <label class="input"> <i class="icon-prepend fa fa-edit"; style="font-size:large; width: 1289px"/>  Request Type:    </i>&nbsp;
+                        <!-- <td name="action_params_label">
+                            {{ opts.label }}
+                        </td> -->
+                        <td name="action_params_data" style="font-size: large">
+                            {% if opts.type == "text" %}
+                            <input type="text" name="{{ opts.name }}" style="font-size: large" 
+                                   onblur="javascript: check_embedded_variable(this)"
+                                   placeholder="{{ opts.default }}"/>
+                            &nbsp;
+                            <input type="text" name="{{ opts.name }}_variable"
+                                       id="{{ opts.name }}_variable"
+                                       placeholder="{% templatetag openvariable %} Variable {% templatetag closevariable %} Label"
+                                       style="display: none; width: 165px; font-size: large" />
+                            {% elif opts.type == 'secret' %}
+                                <select name="{{ opts.name }}" title="Secret lookup from conf/secrets.yml" style="font-size: large">
+                                    {% for s in secrets %}
+                                        <option value="{{ s.name }}" style="font-size: large">{{ s.label }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                            <select name="{{ opts.name }}" style="font-size: large">
+                                {% for c in opts.choices %}
+                                <option value="{{ c.name }}" style="font-size: large">{{ c.label }}</option>
+                                {% endfor %}
+                            </select>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <table>
+                    {% endfor %}
+                </table>
+
+    <input type="hidden" name="id" value="{{ template.id }}"/>
+    <input type="hidden" id="action_options" value="{{ action_options }}"/>
+    <input type="submit" style="font-size: small" value="Update"/> &nbsp;
+    <input type="button" style="font-size: small" onclick="javascript: window.location.href = '/tools/clone/{{ template.id }}'" value="Clone"/>
+</form>
+{% endblock %}
+<!--                     <tr>
+                        <td>
+                            Embed Template:
+                        </td>
+                        <td>
+                            <input type="text" name="embedded_template" size="25" id="template_autocomplete"
+                                   placeholder="search templates definitions"> &nbsp;
+                            <input type="button" onclick="javascript: embed_template()" value="View API"/>
+                        </td> -->
+                    <!-- </tr> -->
+  
+    <!-- </table>
     <h3>Tools</h3>
     <table>
         <tr>
@@ -124,8 +185,8 @@
                 <input type="text" name="embedded_template" size="25" id="template_autocomplete"
                        placeholder="search templates definitions"> &nbsp;
                 <input type="button" onclick="javascript: embed_template()" value="View API"/>
-            </td>
-        </tr>
+            </td> -->
+<!--         </tr>
     </table>
     <h3>Action Options</h3>
     <table>
@@ -166,4 +227,3 @@
     <input type="submit" value="Update"/> &nbsp;
     <input type="button" onclick="javascript: window.location.href = '/tools/clone/{{ template.id }}'" value="Clone"/>
 </form>
-{% endblock %}

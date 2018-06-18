@@ -3,15 +3,15 @@
 {% block title %}A-Frame{% endblock %}
 
 {% block breadcrumb %}
-<li><a href="/networkautomation/">Network Automation</a></li>
+<li><a href="/input_forms/">Network Automation</a></li>
 <li>Groups</li>
 {% endblock %}
 
 {% block pageheader %}
-<i class="fa fa-lg fa-fw fa-database"></i> 
-    Network Automation 
-<span>>  
-     Groups
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+    Automations
+<span>>
+    All Automations
 </span>
 {% endblock %}
 
@@ -43,14 +43,14 @@
                                 </td>
                                 <td width="600px">
                                 
-                                <a href="edit/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Form</a>
-                                <a href="/tools/edit/{{ input_form.script.id }}/" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> 'Edit Template'</a>
+                                <a href="edit/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Form</a> &nbsp;
+                                <a href="/tools/edit/{{ input_form.script.id }}/" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Template</a>
                                         &nbsp;
-                                <a href="/tools/clone/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> 'Clone'</a>
+                                <a href="/tools/clone/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Clone</a>
                                         &nbsp;
-                                <a href="export/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> 'Export'</a>
+                                <a href="export/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Export</a>
                                         &nbsp;
-                                <a href="/tools/delete/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> 'Delete'</a>
+                                <a href="/tools/delete/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                                         &nbsp;
                                 </td>
                         </tr>
