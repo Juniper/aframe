@@ -1,9 +1,17 @@
+
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %}A-Frame - New Template{% endblock %}
+{% block breadcrumb %}
+
+<i class="fa fa-lg fa-fw fa-database"></i> 
+    Automations 
+<span>>
+    New Automation
+</span>
+{% endblock %}
 {% block scripts %}
     <script type="text/javascript">
-
     function validateForm() {
         return true;
     }
@@ -15,123 +23,84 @@
 
     </script>
 {% endblock %}
-
 {% block content %}
-<form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();"  action="/tools/create/">
-    <h2>New Template - Step 3 of 3</h2>
-    <table id="action_params_container">
 
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well" style="width:85%;margin:auto">
 
+            <form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();"  action="/tools/create/"  id="smart-form-register"  class="smart-form">
+                 <h2>New Template - Step 3 of 3</h2>
 
         <fieldset>
-            <section>
-                <label class="input"> <i style="font-size: large;"> Action Provider: </i> &nbsp;
-                    <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" value="{{ action_provider }}" readonly="true"></label> &nbsp;
-                    
-            </section>
-        <!-- <tr>
-            <td>
-                Action Provider
-            </td>
-            <td>
-                {{ action_provider }}
-            </td>
-        </tr> -->
+                    <section>
+                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Action Provider: </label><br>
+                            <td>
+                                <font size="2" color="grey">{{action_provider}}</font>
+                            </td>
+                    </section><br>
+
+                    <section>
+                        {% for option in options.values %}
+                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Request Type: </label><br>
+                            <td>
+                                 <font size="2" color="grey">{{option.value}}</font>
+                            </td>
+
+                            {% endfor %}
+                    </section><br>
+
+                    <section>
+                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Template Name:</label><br>
+                           <input type="text" style="font-size: medium; width:100%"; name="nameTemplate" placeholder="New Template Name"></label> 
+
+                    </section><br>
 
 
-            <section>
-            {% for option in options.values %}
-            <label class="input"> <i style="font-size: large;"> Request Type </i> &nbsp;
-                <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" value="{{ option.value }}" readonly="true"></label> &nbsp;
-            {% endfor %}
-        </section>
+                    <section>
+                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Description:</label><br>
+                           <textarea cols="65" rows="5" style="font-size:medium; width:100%"; name="description" placeholder="A brief description of this template"></textarea>
+                    </section><br>            
+
+                    <section>
+                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Template Type:</label><br>
+                            <select name="type">
+                                <option value="standalone" style = "font-size: medium;" selected="selected">Standalone</option> &nbsp;
+                                <option value="per-endpoint">Per-Endpoint</option>&nbsp;
+                            </select>
+                    </section><br>
 
 
-
-        <section>
-            <label class="input"> <i style="font-size: large;"> Template Name: </i> &nbsp;
-                <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" placeholder="New Template"></label> &nbsp;
-                
-        </section>
-
-
-        <section>
-            <label class="input"> <i style="font-size: large;"> Description: </i> &nbsp;
-                <textarea cols="65" rows="5" name="description" style="font-size: medium; width: 1289px"placeholder="A brief description of this template" wrap="true"></textarea>
-                
-        </section> 
-
-        <section>
-        
-            <label class="input"> <i style="font-size: large;"> Template Type: </i> &nbsp;
-                <select name="type">
-                    <option value="standalone" style = "font-size: large;" selected="selected">Standalone</option> &nbsp;
-                    <option value="per-endpoint">Per-Endpoint</option>&nbsp;
-                </select>
-        
-        </section>
-
-
-        <section>
-                <label class="input"> <i style="font-size: large;"> Template: </i> &nbsp;
-                <textarea cols="65" rows="25" name="description" style="font-size: medium; width: 1289px"placeholder="The template text to be used. 
-
-Use the {% templatetag openvariable %} format {% templatetag closevariable %} to introduce variables, in this case a variable named 'format' will be available to your forms. 
-
-Variable names must not include special characters!" wrap="true"></textarea>
-                
-        </section> 
-                
-<!--         </section> 
-            <td>
-                Template:
-            </td>
-            <td>
-                <textarea
-                        name="template" cols="65" rows="25"
-                        placeholder="
-The template text to be used. Use the {% templatetag openvariable %} format {% templatetag closevariable %} to
+                    <section>
+                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Template:</label><br>
+                           <textarea
+                        name="template" cols="65" rows="18" style="font-size:large; width:100%"
+                        placeholder="The template text to be used. Use the {% templatetag openvariable %} format {% templatetag closevariable %} to
 introduce variables, in this case a variable named 'format' will be available to your forms.
-
 Variable names must not include special characters!"></textarea>
-            </td>
-        </tr> -->
+                    </section><br>  
 
 
-<!-- 
-    </table>
-    <h3>Advanced Options:</h3>
-    <table>
-        <tr>
-            <td>
-                Embed Template:
-            </td>
-            <td>
-                <input type="text" name="embedded_template" size="25" id="template_autocomplete"
-                       placeholder="search templates definitions"> &nbsp;
-                <input type="button" onclick="javascript: embed_template()" value="View API"/>
-            </td>
-        </tr>
-    </table> -->
 
         <section>
-        <label class="input"> <i class="icon-prepend fa fa-edit"; style="font-size:large; width: 1289px"/>  Embed Template: </i> <br>&nbsp;
+            <label class="input" style="color:black; font-size:large; margin:auto; padding:auto width: 100%;">Embed Template:</label><br>
+             <input type="text" style="font-size: medium; width: 100%" name="name" id="template_autocomplete" placeholder="Search Template Definitions"></label> &nbsp;
+               
+        </section><br>
 
-<!-- 
-                <input type="text" name="embedded_template" style="font-size: medium; width: 1289px" id="template_autocomplete"
-                       placeholder="Search Template Definitions"></label> <br> &nbsp; -->
-                
-        
         <section>
-            <input type="text" style="font-size: medium; width: 1000px" name="name" id="template_autocomplete" placeholder="Search Template Definitions"></label> &nbsp;
-
-                    <input type="button" style="font-size: small;" onclick="javascript: embed_template()" value="View API"/></label> <br> &nbsp;
+            <input type="button" style="font-size: small;" onclick="javascript: embed_template()" value="View API"/></label> <br><br> &nbsp;
         </section>
 
         <section>
-
-                </section> 
-    <input type="hidden" name="action_provider" value="{{ action_provider }}"/>
-    <input type="submit" style ="font-size: medium" value="Create"/>
+            <input type="hidden" name="action_provider" value="{{ action_provider }}"/>
+            <input type="submit" style ="font-size: medium" value="Create"/>
+        </section> 
+    
 </form>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
 {% endblock %}
