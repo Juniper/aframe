@@ -159,6 +159,9 @@ def update(request):
 
 def create(request):
     required_fields = set(["name", "description", "template", "type"])
+    print request.POST["name"]
+    print request.POST["description"]
+    print request.POST["type"]
     if not required_fields.issubset(request.POST):
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 

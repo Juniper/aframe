@@ -301,6 +301,7 @@
 				document.write('<script src="{% static 'js/libs/jquery-ui.min.js' %}"><\/script>');
 			}
 		</script>
+		{% block plugins %}{% endblock %}
 
 		<!-- IMPORTANT: APP CONFIG -->
 		<script src="{% static 'js/app.config.js' %}"></script>

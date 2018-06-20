@@ -106,7 +106,7 @@ def endpoint_list(request, group_id):
         argument = request.GET["argument"]
         provider_instance.apply_filter(filter_name, argument)
 
-    endpoint_array = provider_instance.get_page(offset, page_size)
+    endpoint_array = provider_instance.get_page()
 
     if len(endpoint_array) < page_size:
         next_offset = -1

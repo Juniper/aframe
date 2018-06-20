@@ -207,6 +207,10 @@ def new_from_template(request, template_id):
 
 def create(request):
     logger.info("__ input_forms create __")
+    print request.POST["config_template_id"]
+    print request.POST["name"]
+    print request.POST["description"]
+    print request.POST["json"]
     required_fields = set(["config_template_id", "name", "description", "json"])
     if not required_fields.issubset(request.POST):
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
