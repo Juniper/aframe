@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %}A-Frame - New Template{% endblock %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>New Automation</li>
+{% endblock %}
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+	Automations 
+<span>>
+	New Automation
+</span>
+{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
     function validateForm() {
@@ -13,23 +24,36 @@
 </script>
 {% endblock %}
 {% block content %}
-<form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/configureAction/">
-    <h2>New Template - Step 1 of 3</h2>
-    <h3>Choose Action provider</h3>
-    <table id="action_params_container">
-        <tr>
-            <td>
-                Action Provider
-            </td>
-            <td>
-                <select name="action_provider" id="action_provider">
-                    {% for ap in action_providers %}
-                    <option value="{{ ap.0 }}">{{ ap.1 }}</option>
-                    {% endfor %}
-                </select>
-            </td>
-        </tr>
-    </table>
-    <input type="submit" value="Next"/>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:50%;margin:auto">
+
+<form method="post" class="smart-form" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/configureAction/">
+	<header>
+		New Template - Step 1 of 3
+	</header>
+	<fieldset>
+		<section>
+			<label class="label">Choose Action Provider</label>	
+			<label class="select">
+				<select name="action_provider" id="action_provider">
+                    			{% for ap in action_providers %}
+                    			<option value="{{ ap.0 }}">{{ ap.1 }}</option>
+                    			{% endfor %}
+				</select><i></i>
+			</label>
+					
+		</section>
+	</fieldset>
+	<footer>
+		<button type="submit" class="btn btn-sm btn-success btn-next" data-last="Finish">
+			Next
+		<i class="fa fa-arrow-right"></i></button>
+
+		<a class="btn btn-sm btn-danger" style="text-decoration:none;" href="/input_forms/"><i class="fa fa-remove"></i> Cancel</a>
+	</footer>
 </form>
+		</div>
+	</div>
+</div>
 {% endblock %}
