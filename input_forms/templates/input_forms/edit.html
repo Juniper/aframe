@@ -154,40 +154,38 @@
 
 
 {% block content %}
-<h2>Edit Input Form</h2>
 <form method="POST" action="/input_forms/update" id="update_form">
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="well">
+        <div class="well" style="width:85%;margin:auto">
             <form action="/input_forms/edit/" method="POST" id="smart-form-register" class="smart-form">
-                <header style="font-size:23px;">
+                <h2>
                     Edit Input Form 
-
-                </header>&nbsp;
+                </h2>
             
                 <fieldset>
                     <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size: large;"> Input Name:    </i> &nbsp;
-                            <input type="text" style="font-size: medium; width: 1289px" name="name" id="name" value="{{ input_form.name }}"></label> &nbsp;
+                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size: large;"> Input Name:</i> &nbsp;
+                            <input type="text" style="font-size: medium; width: 100%" name="name" id="name" value="{{ input_form.name }}"></label> &nbsp;
                             
                     </section>
             
                     <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 1289px">  Input Description:    </i>&nbsp;
-                            <input type="text" style="font-size: medium; width: 1289px" name="description" id="Input Description"  value="{{ input_form.description }}" /></label>&nbsp;
+                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 100%">  Input Description:    </i>&nbsp;
+                            <input type="text" style="font-size: medium; width: 100%" name="description" id="Input Description"  value="{{ input_form.description }}" /></label>&nbsp;
                     </section>
 
 
                     <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 1289px"/>  Instructions:    </i>&nbsp;
-                            <textarea rows="1" cols="65" style="font-size: medium; width: 1289px" name="instructions" id="instructions">{{ input_form.instructions }}</textarea></label>&nbsp;
+                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 100%"/>  Instructions:    </i>&nbsp;
+                            <textarea rows="1" cols="65" style="font-size: medium; width: 100%" name="instructions" id="instructions">{{ input_form.instructions }}</textarea></label>&nbsp;
                     </section> 
 
 
                     <section>
                         <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size: large;">  Template:  </i>&nbsp;
-                            <a href="/tools/{{ config_template.id }}" style="font-size: medium; width: 1289px">{{ config_template.name }}</a></label>&nbsp;
+                            <a href="/tools/{{ config_template.id }}" style="font-size: medium; width: 100%">{{ config_template.name }}</a></label>&nbsp;
                     </section>
 
                     <section>
@@ -226,11 +224,11 @@
                                                 <td>
                                                     <!-- {{ variable.description }} -->
                                                     <input type="text" id="{{ t }}_label" name="{{ t }}_label" value="{{ t }}"
-                                                        style="width: 150px" />
+                                                        style="width: 100%" />
                                                 </td>
                                                 <td>
                                                            <input type="text" id="{{ t }}_default" name="{{ t }}_default" value="none"
-                                                            style="width: 150px"/>
+                                                            style="width: 100%"/>
                                                 </td>
                                                 <td>
                                                     <select name="{{ t }}_widget" id="{{ t }}_widget"
@@ -242,7 +240,7 @@
                                                 <input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
                                                 <input type="button" id="{{ t }}_widget_config_button" value="Configure"
                                                 onclick="javascript: load_widget_configs('{{ t }}_widget')"
-                                                style="display: none; width: 100px;"/>
+                                                style="display: none; width: 100%;"/>
                                                 </td>
                                 </tr>
                                 {% endfor %}
@@ -264,6 +262,19 @@
     </div>
     </div>
 </div>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</fieldset>
+</form>
+</div>
+</div>
+</div>
+</form>
+
 {% endblock %}
 
 
