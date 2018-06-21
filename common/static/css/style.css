@@ -21,12 +21,12 @@ pre {
 }
 
 a {
-	color: grey;
+	color: #888D90;
 	text-decoration: none;
 }
 
 a:hover {
-	color: grey;
+	color: #0096A4;
 	text-decoration:underline;
 }
 
@@ -36,18 +36,18 @@ a img {
 
 h1 {
     font-size: 30px;
-    color: rgb(94, 158, 214);
+    color: #8FAD15;
     padding: 10px;
 }
 h2 {
     font-size: 35px;
-    color: rgb(94, 158, 214);
+    color: #8FAD15;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 h3 {
-    color: rgb(94, 158, 214);
+    color: #0096a4;
 }
 
 h4 {

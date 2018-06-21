@@ -3,13 +3,13 @@
 {% block title %}A-Frame{% endblock %}
 
 {% block breadcrumb %}
-<li><a href="/input_forms/">Automation</a></li>
+<li><a href="/input_forms/">Network Automations</a></li>
 <li>Edit Input Form</li>
 {% endblock %}
 
 {% block pageheader %}
 <span class="fa fa-xlg fa-fw fa-desktop"; style="font-size: xx-large;"></span>
-    Automation
+    Automations
 <span>>  
     Edit Input Form
 </span>
@@ -154,126 +154,111 @@
 
 
 {% block content %}
-<form method="POST" action="/input_forms/update" id="update_form">
-
 <div class="row">
-    <div class="col-sm-12">
-        <div class="well" style="width:85%;margin:auto">
-            <form action="/input_forms/edit/" method="POST" id="smart-form-register" class="smart-form">
-                <h2>
-                    Edit Input Form 
-                </h2>
-            
-                <fieldset>
-                    <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size: large;"> Input Name:</i> &nbsp;
-                            <input type="text" style="font-size: medium; width: 100%" name="name" id="name" value="{{ input_form.name }}"></label> &nbsp;
-                            
-                    </section>
-            
-                    <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 100%">  Input Description:    </i>&nbsp;
-                            <input type="text" style="font-size: medium; width: 100%" name="description" id="Input Description"  value="{{ input_form.description }}" /></label>&nbsp;
-                    </section>
+	<div class="col-sm-12">
+		<div class="well" style="width:80%;margin:auto;">
 
-
-                    <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size:large; width: 100%"/>  Instructions:    </i>&nbsp;
-                            <textarea rows="1" cols="65" style="font-size: medium; width: 100%" name="instructions" id="instructions">{{ input_form.instructions }}</textarea></label>&nbsp;
-                    </section> 
-
-
-                    <section>
-                        <label class="input"> <i class="icon-prepend fa fa-edit" style="font-size: large;">  Template:  </i>&nbsp;
-                            <a href="/tools/{{ config_template.id }}" style="font-size: medium; width: 100%">{{ config_template.name }}</a></label>&nbsp;
-                    </section>
-
-                    <section>
-                        <label class="avail tags"> <i class="icon-prepend fa fa-edit" style="font-size: large;">  Available Tags:  </i>&nbsp;
-                        </label>
-                    </section>
-
-                    
-                    <div class="row">
-                        <div class="col-sm-12">
-                            
-                            <div class="well">
-                                
-                                <div class="table-responsive">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <!--
-                                            <tr>
-                                                <th colspan="3">Endpoint Groups</th>
-                                            </tr>
-                                            -->
-                                            <tr>
-                                                <th>Variable</th>
-                                                <th>Label</th>
-                                                <th>Default Value</th>
-                                                <th>UI Widget</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for t in available_tags %}
-                                            <tr id="template__variable__{{ forloop.counter }}">
-                                                <td>
-                                                        {{t}}
-                                                    <!-- <a href="/input_forms/input_forms/{{ template__variable__ }}">{{ variable }}</a> -->
-                                                </td>
-                                                <td>
-                                                    <!-- {{ variable.description }} -->
-                                                    <input type="text" id="{{ t }}_label" name="{{ t }}_label" value="{{ t }}"
-                                                        style="width: 100%" />
-                                                </td>
-                                                <td>
-                                                           <input type="text" id="{{ t }}_default" name="{{ t }}_default" value="none"
-                                                            style="width: 100%"/>
-                                                </td>
-                                                <td>
-                                                    <select name="{{ t }}_widget" id="{{ t }}_widget"
-                                                    onchange="javascript: load_widget_configs('{{ t }}_widget')">
-                                                    {% for w in widgets %}
-                                                    <option value="{{ w.id }}">{{ w.label }}</option>
-                                                    {% endfor %}
-                                                </select>
-                                                <input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
-                                                <input type="button" id="{{ t }}_widget_config_button" value="Configure"
-                                                onclick="javascript: load_widget_configs('{{ t }}_widget')"
-                                                style="display: none; width: 100%;"/>
-                                                </td>
-                                </tr>
-                                {% endfor %}
-                                 </table>
-                                </div>
-
-                                </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="hidden" name="json" id="json"/>
-                <input type="hidden" name="json_data" id="json_data" value="{{ input_form.json }}"/>
-                <input type="hidden" name="config_template_id" value="{{ config_template.id }}"/>
-                <input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
-                <input type="button" style="font-size:large;"; onclick="submit_form()" value="Save"/>
-            </td>
-        </tr>
-        </tr>
-    </div>
-    </div>
+			<form method="POST" class="smart-form" action="/input_forms/update" id="update_form">
+			
+				<header>
+					Edit Input Form 
+				</header>
+			
+				<fieldset>
+					<section>
+						<label class="label">Name</label>
+						<label class="input"> <i class="icon-prepend fa fa-edit"></i>
+							<input type="text" name="name" id="name" value="{{ input_form.name }}" onblur="return clean_string_no_special(this);">
+						</label>
+					</section>
+			
+					<section>
+						<label class="label">Description</label>
+						<label class="input"> <i class="icon-prepend fa fa-edit"></i>
+							<input type="text" name="description" id="description"  value="{{ input_form.description }}">
+						</label>
+					</section>
+			
+			
+					<section>
+						<label class="label">Instructions</label>
+						<label class="textarea">
+							<textarea rows="4" name="instructions" id="instructions">{{ input_form.instructions }}</textarea>
+						</label>
+					</section> 
+			
+			
+					<section>
+						<label class="label">Template</label>
+						&nbsp;&nbsp;&nbsp;&nbsp;<a style="font-size:22px;text-decoration:underline;" href="/tools/{{ config_template.id }}">{{ config_template.name }}</a>
+					</section>
+			
+					<section>
+						<label class="label">Available Tags:</label>
+			
+					
+								
+						<div class="table-responsive">
+							<table class="table table-bordered" id="tag_configurator">
+								<thead>
+									<tr>
+										<th style="width:170px;max-width:170px;">Variable</th>
+										<th style="width:170px;max-width:170px;">Label</th>
+										<th style="width:200px;max-width:200px;">Default Value</th>
+										<th>UI Widget</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for t in available_tags %}
+									<tr id="template__variable__{{ forloop.counter }}">
+										<td>
+											{{t}}
+										</td>
+										<td>
+											<label class="input">
+												<input type="text" id="{{ t }}_label" name="{{ t }}_label" value="{{ t }}">
+											</label>
+										</td>
+										<td>
+											<label class="input">
+												<input type="text" id="{{ t }}_default" name="{{ t }}_default" value="none">
+											</label>
+										</td>
+										<td>
+											<label style="float:left;" class="select">
+												<select name="{{ t }}_widget" id="{{ t }}_widget"
+													onchange="javascript: load_widget_configs('{{ t }}_widget')">
+													{% for w in widgets %}
+													<option value="{{ w.id }}">{{ w.label }}</option>
+													{% endfor %}
+												</select><i></i>
+											</label>
+											<input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
+											<a class="btn btn-lg btn-info" id="{{ t }}_widget_config_button" href="javascript: load_widget_configs('{{ t }}_widget');" style="padding:5px;display: none;float:right;"/>
+												<i class="fa fa-gears"></i>
+												Configure
+											</a>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</fieldset>
+				<footer>
+					<input type="hidden" name="json" id="json"/>
+					<input type="hidden" name="json_data" id="json_data" value="{{ input_form.json }}"/>
+					<input type="hidden" name="config_template_id" value="{{ config_template.id }}"/>
+					<input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
+					<button type="button" class="btn btn-success" onclick="submit_form()">
+						Save
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
 </div>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</fieldset>
-</form>
-</div>
-</div>
-</div>
-</form>
 
 {% endblock %}
 
