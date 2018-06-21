@@ -22,7 +22,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="well" style="width:50%;margin:auto;">
-{{ input_form.instructions }}
+<label class="label" style="font-size:17px;white-space:normal;">{{ input_form.instructions }}</label>
 <form method="POST" class="smart-form" action="/input_forms/applyToQueue">
 	<header>
 		{{ input_form.name }}
@@ -64,6 +64,8 @@
 				<b class="tooltip tooltip-top-left">Optional: Password to apply if the endpoint provider does not provide authentication parameters</b>
 			</label>
 		</section>
+	</fieldset>
+	<fieldset>
 		{% include "input_forms/input_form_body.html" %}
 	</fieldset>
 	<footer>
