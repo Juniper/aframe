@@ -1,62 +1,82 @@
 
 {% extends "base.html" %}
 {% block title %}A-Frame - Template{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automation</a></li>
+<li>Template Details</li>
+{% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+    Automations
+<span>>
+    Template Details
+</span>
+{% endblock %}
+
 {% block content %}
-<h2>Template Details</h2>
-<table>
-    <tr>
-        <td>
-            Name
-        </td>
-        <td>
-          {{ template.name }}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Description
-        </td>
-        <td>
-            {{ template.description }}
-        </td> 
-    </tr>
-     <tr>
-        <td>
-            Transport
-        </td>
-        <td>
-            {{ template.action_provider }}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Detail
-        </td>
-        <td>
-            <pre>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well" style="width:80%;margin:auto;">
+		<h2 style="margin-top:0px;padding:0px;">Template Details</h2>
+		<table>
+			<tr>
+				<td>
+					Name:
+				</td>
+				<td>
+				  {{ template.name }}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Description:
+				</td>
+				<td>
+					{{ template.description }}
+				</td> 
+			</tr>
+			 <tr>
+				<td>
+					Transport:
+				</td>
+				<td>
+					{{ template.action_provider }}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Template:
+				</td>
+				<td><!-- must be formatted like this -->
+					<pre>
 {{ template.template }}
-            </pre>
-        </td> 
-    </tr>
-    <tr>
-        <td>
-            Options
-        </td>
-        <td>
-		    <a href="delete/{{ template.id }}">Delete</a>
-            &nbsp;
-		    <a href="edit/{{ template.id }}">Edit</a>
-	    </td>
-    </tr>
-     <tr>
-        <td>
-            Input Form
-        </td>
-        <td>
-		    <a href="/input_forms/view_from_template/{{ template.id }}">View</a>
-            &nbsp;
-		    <a href="/input_forms/edit_from_template/{{ template.id }}">Edit</a>
-        </td>
-    </tr>
-</table>
+					</pre>
+				</td> 
+			</tr>
+			<tr>
+				<td>
+					Options:
+				</td>
+				<td>
+					<a class="btn btn-labeled btn-primary" href="edit/{{ template.id }}"><span class="btn-label"><i class="fa fa-edit"></i></span> Edit</a>
+					&nbsp;
+					<a class="btn btn-labeled btn-danger" href="delete/{{ template.id }}"><span class="btn-label"><i class="fa fa-trash"></i></span> Delete</a>
+				</td>
+			</tr>
+			 <tr>
+				<td>
+					Input Form
+				</td>
+				<td>
+					<a class="btn btn-labeled btn-primary" href="/input_forms/edit_from_template/{{ template.id }}"><span class="btn-label"><i class="fa fa-edit"></i></span> Edit</a>
+					&nbsp;
+					<a class="btn btn-labeled btn-info" href="/input_forms/view_from_template/{{ template.id }}"><span class="btn-label"><i class="fa fa-info"></i></span> View</a>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+</div>
 {% endblock %}
