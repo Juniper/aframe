@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 {% block title %}A-Frame - Edit Template{% endblock %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Edit Template</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-sliders"; style="font-size: xx-large;"></span>
+    Automations
+<span>>  
+    Edit Template
+</span>
+{% endblock %}
 {% block scripts %}
     <script type="text/javascript">
     function validateForm() {
@@ -72,179 +84,108 @@
     </script>
 {% endblock %}
 
-
-
-
 {% block content %}
-
-    <div class="row">
-    <div class="col-sm-12">
-        <div class="well" style="width:85%;margin:auto">
-            <form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/update/" class="smart-form">
-            {% csrf_token %}
-
-            <h2>Edit Template</h2>
-                <fieldset>
-
-                    <section>
-                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Template Name:</label><br>
-                            <input type="text" name="name" style="font-size:medium; width:100%;" value="{{ template.name }}">
-
-                    </section><br>
-
-
-                    <section>
-                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Description:</label><br>
-                           <textarea name="description" style="font-size:medium; width:100%;">{{ template.description }}</textarea>
-                    </section><br>            
-
-                    <section>
-                        <label class="input"> <i style="color:black; font-size:large; margin:auto; padding:auto; font-style:normal"/>  Instructions:    </i><br><br>
-                            <textarea rows="1" cols="65" style="font-size: medium; width: 100%" name="instructions">{{ input_form.instructions }}</textarea></label>
-                    </section> 
-
-                    <section>
-                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Template Type:</label><br>
-                            <select name="type">
-                                <option value="standalone" style = "font-size: medium;" selected="selected">Standalone</option> 
-                                <option value="per-endpoint">Per-Endpoint</option>&nbsp;
-                            </select>
-                    </section><br>
-
-
-                    <section>
-                        <label class="input"> <i style="color:black; font-size:large; margin:auto; padding:auto; font-style:normal"/>  Template:    </i><br>
-                            <textarea rows="9" cols="65" style="font-size: medium; width: 100%" name="template" >{{ template.template }}</textarea></label>
-                    </section>  
-
-
-                    <h3>Tools</h3>
-
-
-
-
-                    <section>
-                        <label class="input" style="color:black; font-size:large; margin:auto; padding:auto width: 100%;">Embed Template:</label><br>
-                        <input type="text" style="font-size: medium; width: 100%" name="name" placeholder="Search Template Definitions"></label><br><br>
-                        <input type="button" style="font-size: small" onclick="javascript: embed_template()" value="View API"/>
-                           
-                    </section><br>
-
-                    <h3>Action Options</h3>
-
-                    {% for opts in default_options %}
-                    <tr>
-                        <label class="input"> <i style="color:black; font-size:large; margin:auto; padding:auto; font-style:normal"/>Request Type:</i><br>
-                        <td name="action_params_data" style="color:black; font-size:large; margin:auto; padding:auto;">
-                            {% if opts.type == "text" %}
-                            <input type="text" name="{{ opts.name }}" style="font-size: large" 
-                                   onblur="javascript: check_embedded_variable(this)"
-                                   placeholder="{{ opts.default }}"/><br><br>
-                            
-                            <input type="text" name="{{ opts.name }}_variable"
-                                       id="{{ opts.name }}_variable"
-                                       placeholder="{% templatetag openvariable %} Variable {% templatetag closevariable %} Label"
-                                       style="display: none; width: 100%; font-size: large" /><br><br>
-                            {% elif opts.type == 'secret' %}
-                                <select name="{{ opts.name }}" title="Secret lookup from conf/secrets.yml" style="font-size: large">
-                                    {% for s in secrets %}
-                                        <option value="{{ s.name }}" style="font-size: large">{{ s.label }}</option><br>
-                                    {% endfor %}
-                                </select>
-                            {% else %}
-                            <select name="{{ opts.name }}" style="font-size: large">
-                                {% for c in opts.choices %}
-                                <option value="{{ c.name }}" style="font-size: large">{{ c.label }}</option><br>
-                                {% endfor %}
-                            </select>
-                            {% endif %}
-                        </td><br>
-                    </tr>
-                    <table>
-                            <input type="hidden" name="id" value="{{ template.id }}"/>
-    <input type="hidden" id="action_options" value="{{ action_options }}"/><br>
-
-    <!-- <a class="btn btn-primary" href="javascript:void(0);">Primary</a> -->
-
-    <input type="submit" class="btn btn-primary" href="javascript:void(0);"style="font-size: small; width: 70px; background-color: rgb(94, 158, 214); color:#f6f6f6;" value="Update"/><br>
-    <input type="button" style="font-size: small; width:70px; background-color: rgb(94, 158, 214); color:#f6f6f6;" onclick="javascript: window.location.href = '/tools/clone/{{ template.id }}'" value="Clone"/><br>
-                    {% endfor %}
-                </table>
-
-
-</form>
-</label>
-</tr>
-</label>
-</section>
-</fieldset>
-</form>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:70%;margin:auto">
+			<form method="POST" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/update/" class="smart-form">
+				{% csrf_token %}
+				<header>
+					Edit Template
+				</header>
+				<fieldset>
+					<section style="width:60%">
+						<label class="label">Template Name</label>
+						<label class="input">
+							<input type="text" name="name" value="{{ template.name }}">
+						</label>
+					</section>
+					<section style="width:60%">
+						<label class="label">Description</label>
+						<label class="textarea">
+							<textarea rows="4" name="description">{{ template.description }}</textarea>
+						</label>
+					</section>
+					<section style="width:60%">
+						<label class="label">Template Type</label>
+						<label class="select">
+							<select name="type">
+								<option value="standalone">Standalone</option> 
+								<option value="per-endpoint">Per-Endpoint</option>
+							</select><i></i>
+						</label>
+					</section>
+					<section>
+						<label class="label">Template</label>
+						<label class="textarea">
+							<textarea rows="15" name="template">{{ template.template }}</textarea>
+						</label>
+					</section>  
+				</fieldset>
+				<fieldset>
+					<h3>Tools</h3></br>
+					<section class="col col-6" style="height:57px">
+						<label class="label">Embed Template</label>
+						<label class="input">
+							<input type="text" name="embedded_template" id="template_autocomplete" placeholder="Search Template Definitions">
+						</label>
+						   
+					</section>
+					<section class="col col-6" style="height:57px;">
+						<button type="button" class="btn btn-lg btn-primary" style="position:relative;top:50%;transform:translateY(-50%);padding:8px;" onclick="javascript: embed_template()">
+							View API
+						</button>
+					</section>
+				</fieldset>
+				<fieldset>
+					<h3>Action Options</h3></br>
+					{% for opts in default_options %}
+					<section style="width:60%">
+						{% if opts.type == "text" %}
+						<label class="label">{{ opts.label }}</label>
+						<label class="input">
+							<input type="text" name="{{ opts.name }}" onblur="javascript: check_embedded_variable(this)" placeholder="{{ opts.default }}">
+						</label>
+					</section>	
+						<input type="text" name="{{ opts.name }}_variable"
+							id="{{ opts.name }}_variable"
+							placeholder="{% templatetag openvariable %} Variable {% templatetag closevariable %} Label"
+							style="display: none; width: 100%;"/>
+						{% elif opts.type == 'secret' %}
+						<label class="label">{{ opts.label }}</label>
+						<label class="select">
+							<select name="{{ opts.name }}" title="Secret lookup from conf/secrets.yml">
+								{% for s in secrets %}
+									<option value="{{ s.name }}">{{ s.label }}</option>
+								{% endfor %}
+							</select><i></i>
+						</label>
+					</section>
+						{% else %}
+						<label class="label">{{ opts.label }}</label>
+						<label class="select">
+							<select name="{{ opts.name }}">
+								{% for c in opts.choices %}
+								<option value="{{ c.name }}">{{ c.label }}</option><br>
+								{% endfor %}
+							</select><i></i>
+						</label>
+					</section>
+						{% endif %}
+					{% endfor %}
+				</fieldset>
+				<input type="hidden" name="id" value="{{ template.id }}"/>
+				<input type="hidden" id="action_options" value="{{ action_options }}"/><br>
+				<footer>
+					<button type="submit" class="btn btn-success" href="javascript:void(0);">
+						Update
+					</button>
+					<button type="button" class="btn btn-primary" onclick="javascript: window.location.href = '/tools/clone/{{ template.id }}'">
+						Clone
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
 </div>
-</div>
-</div>
-</form>
 {% endblock %}
-<!--                     <tr>
-                        <td>
-                            Embed Template:
-                        </td>
-                        <td>
-                            <input type="text" name="embedded_template" size="25" id="template_autocomplete"
-                                   placeholder="search templates definitions"> &nbsp;
-                            <input type="button" onclick="javascript: embed_template()" value="View API"/>
-                        </td> -->
-                    <!-- </tr> -->
-  
-    <!-- </table>
-    <h3>Tools</h3>
-    <table>
-        <tr>
-            <td>
-                Embed Template:
-            </td>
-            <td>
-                <input type="text" name="embedded_template" size="25" id="template_autocomplete"
-                       placeholder="search templates definitions"> &nbsp;
-                <input type="button" onclick="javascript: embed_template()" value="View API"/>
-            </td> -->
-<!--         </tr>
-    </table>
-    <h3>Action Options</h3>
-    <table>
-        {% for opts in default_options %}
-        <tr>
-            <td name="action_params_label">
-                {{ opts.label }}
-            </td>
-            <td name="action_params_data">
-                {% if opts.type == "text" %}
-                <input type="text" name="{{ opts.name }}"
-                       onblur="javascript: check_embedded_variable(this)"
-                       placeholder="{{ opts.default }}"/>
-                &nbsp;
-                <input type="text" name="{{ opts.name }}_variable"
-                           id="{{ opts.name }}_variable"
-                           placeholder="{% templatetag openvariable %} Variable {% templatetag closevariable %} Label"
-                           style="display: none; width: 165px"/>
-                {% elif opts.type == 'secret' %}
-                    <select name="{{ opts.name }}" title="Secret lookup from conf/secrets.yml">
-                        {% for s in secrets %}
-                            <option value="{{ s.name }}">{{ s.label }}</option>
-                        {% endfor %}
-                    </select>
-                {% else %}
-                <select name="{{ opts.name }}">
-                    {% for c in opts.choices %}
-                    <option value="{{ c.name }}">{{ c.label }}</option>
-                    {% endfor %}
-                </select>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <input type="hidden" name="id" value="{{ template.id }}"/>
-    <input type="hidden" id="action_options" value="{{ action_options }}"/>
-    <input type="submit" value="Update"/> &nbsp;
-    <input type="button" onclick="javascript: window.location.href = '/tools/clone/{{ template.id }}'" value="Clone"/>
-</form>
