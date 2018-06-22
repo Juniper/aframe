@@ -8,7 +8,7 @@ html {
 /** General Style Info **/
 body {
 	background: #eee;
-	color: grey;
+	color: #4D5259;
 	font-family:"lucida grande",verdana,helvetica,arial,sans-serif;
 	font-size:100%;
 	margin: 0px;
@@ -21,7 +21,7 @@ pre {
 }
 
 a {
-	color: #888D90;
+	color: #4D5259;
 	text-decoration: none;
 }
 
