@@ -1,6 +1,20 @@
 
 {% extends "base.html" %}
 {% block title %}A-Frame{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>{{ input_form.name }}</li>
+{% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+	Automations 
+<span>>  
+	{{ input_form.name }}
+</span>
+{% endblock %}
+
 {% block scripts %}
 <script type="text/javascript">
  function preview_template() {
@@ -14,22 +28,39 @@
 </script>
 {% endblock%}
 {% block content %}
-<h2>{{ input_form.name }}</h2>
-<h4>{{ input_form.description }}</h4>
-<br/>
-{{ input_form.instructions }}
-<br/>
-<form method="POST" id="apply_form" action="/input_forms/applyStandalone">
-    <table>
-        {% include "input_forms/input_form_body.html" %}
-        <tr>
-            <td colspan="2">
-                <input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
-                <input type="hidden" name="preview" id="preview" value=""/>
-                <input type="button" onclick="javascript: apply_template()" value="Apply Template"/>
-                <input type="button" onclick="javascript: preview_template()" value="Preview Template"/>
-            </td>
-        </tr>
-    </table>
-</form>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:60%;margin:auto;">
+			<form method="POST" class="smart-form" id="apply_form" action="/input_forms/applyStandalone">
+				<header>
+					{{ input_form.name }}
+				</header>
+				<fieldset>
+				<section>
+					<h3>Description:</h3></br>
+					<label class="label" style="font-size:16px;">&nbsp;{{ input_form.description }}</label>
+				</section>
+				<section>
+					<h3>Instructions:</h3></br>
+					<label class="label" style="font-size:16px;">&nbsp;{{ input_form.instructions }}</label>
+				</section>
+				<section>
+					<h3>Configure:</h3>
+				</section>
+				{% include "input_forms/input_form_body.html" %}
+				</fieldset>
+				<input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
+				<input type="hidden" name="preview" id="preview" value=""/>
+				<footer>
+					<button type="button" class="btn btn-primary" onclick="javascript: apply_template()">
+						Apply Template
+					</button>
+					<button type="button" class="btn btn-info" onclick="javascript: preview_template()">
+						Preview Template
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}
