@@ -1,15 +1,35 @@
 {% extends "base.html" %}
 {% block title %}A-Frame{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Results</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-sliders"; style="font-size: xx-large;"></span>
+	Automations
+<span>>  
+	Results
+</span>
+{% endblock %}
+
 {% block content %}
-    <h2>Results</h2>
-    <div style="overflow: scroll">
-        {% if cache_key != None %}
-            <a href="{{ scheme }}://{{ host }}/tools/d/{{ cache_key }}">Download Binary Data</a>
-            <br/>
-        {% else %}
-            <pre>{{ results }}
-            </pre>
-        {% endif %}
-    </div>
-    <a href="javascript: window.history.back();"><-- Go Back</a>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:70%;margin:auto;">
+			<h2>Results</h2>
+			<div>
+				{% if cache_key != None %}
+					<a href="{{ scheme }}://{{ host }}/tools/d/{{ cache_key }}">Download Binary Data</a>
+					<br/>
+				{% else %}
+					<pre>{{ results }}
+					</pre>
+				{% endif %}
+			</div>
+			<a href="javascript: window.history.back();"><-- Go Back</a>
+		</div>
+	</div>
+</div>
 {% endblock %}
