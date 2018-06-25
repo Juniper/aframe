@@ -76,6 +76,12 @@ def create_group(request):
     return HttpResponseRedirect("/endpoints/list/%s" % group.id)
 
 
+def edit_group(request, group_id):
+    logger.info("__ endpoints edit_group __")
+    group = get_object_or_404(EndpointGroup, pk=group_id)
+    return HttpResponseRedirect("/endpoints/")
+
+
 def delete_group(request, group_id):
     logger.info("__ endpoints delete_group __")
     group = get_object_or_404(EndpointGroup, pk=group_id)
