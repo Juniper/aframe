@@ -1,6 +1,6 @@
 
 {% extends "base.html" %}
-{% block title %}A-Frame{% endblock %}
+{% block title %}A-Frame - New Screen{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
 
@@ -60,91 +60,89 @@
 </script>
 {% endblock%}
 {% block content %}
-<h2>Create a new Screen</h2>
-<form method="POST" action="/screens/create" id="create_form">
-    <table>
-        <tr>
-            <td>
-                Name:
-            </td>
-            <td>
-                <input type="text" name="name" id="name" size="50" placeholder="Name of this screen view"
-                       onblur="return clean_string_no_special(this);"/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Theme:
-            </td>
-            <td>
-                <select name="theme" id="theme">
+
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="well" style="width:85%;margin:auto">
+            <form method="post" enctype="multipart/form-data" action="/screens/create" id="create_form"  class="smart-form">
+<!-- <form method="POST" action="/screens/create" id="create_form">
+
+ -->
+    <h2>Create a New Screen</h2>
+
+    <fieldset>
+            <section>
+                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Name: </label><br>
+                    <input type="text" style="font-size: medium; width: 100%" name="name"  placeholder="Name of this screen view"></label> &nbsp;
+               
+            </section><br>
+
+            <section>
+                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Theme: </label><br>
+                    <select name="theme" id="theme">
                     {% for theme in themes %}
-                    <option value="{{ theme.base_template }}">{{ theme.label }}</option>
+                    <<option value="{{ theme.base_template }}" style="font-size: large; size: large">{{ theme.label }}</option>
                     {% endfor %}
                 </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Description:
-            </td>
-            <td>
-                <textarea rows="5" cols="60" name="description" id="description"></textarea>
-            </td>
-        </tr>
+               
+            </section><br>
+     <table>
 
-        <tr>
-            <td>
-                Add Automation Input Form:
-            </td>
-            <td>
-                <input type="text" size="25" id="template_autocomplete"
-                       placeholder="search input form definitions"> &nbsp;
-                <input type="button" onclick="javascript: add_automation()" value="Add" style="background-color: grey" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Automations:
-            </td>
-            <td>
-                <input type="hidden" name="input_forms" id="input_forms" value="">
+        <section>
+            <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;"> Description: </label><br>
+                    <textarea rows="5" cols="60" style="font-size: medium; width: 100%" name="description" id="description" placeholder=" Description"></textarea>
+        </section><br>
+
+        <section>
+                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Add Automation Input Form: </label><br>
+                    <input type="text" style="font-size: medium; width: 100%" name="name"  id="template_autocomplete"  placeholder="Search Input Form Definitions"></label><br><br>
+                   
+                    <input type="button" onclick="javascript: add_automation()" value="Add" style="background-color: rgb(94, 158, 214); color:#f6f6f6;" />
+               
+        </section><br>
+        <section>
+                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Added Automations: </label>
+                    <input type="hidden" name="input_forms" id="input_forms" value="">
                 <ul id="selected_automations_ui">
 
                 </ul>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Add Screen Widget:
-            </td>
-            <td>
-                <select id="screen_widget_select" name="screen_widget_add">
+               
+        </section><br>
+
+        <section>
+                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Add Screen Widget: </label><br>
+                    <select id="screen_widget_select" name="screen_widget_add">
                     {% for w in widgets %}
-                    <option value="{{ w.id }}">{{ w.label }}</option>
+                    <option value="{{ w.id }}" style="font-size: large">{{ w.label }}</option>
                     {% endfor %}
-                </select>
-                <input type="button" onclick="javascript: add_screen_widget()" value="Add" style="background-color: grey" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Screen Widgets:
-            </td>
-            <td>
-                <input type="hidden" name="screen_widgets" id="screen_widgets" value="">
+                    </select><br><br>
+                    <input type="button" onclick="javascript: add_screen_widget()" value="Add" style="background-color: rgb(94, 158, 214); color:#f6f6f6;" />
+               
+        </section><br>
+
+
+            <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Added Screen Widgets: </label><br>
+                    <!-- <select id="screen_widget_select" name="screen_widget_add">
+                    {% for w in widgets %}
+                    <option value="{{ w.id }}" style="font-size: large">{{ w.label }}</option>
+                    {% endfor %}
+                    </select>
+                    <input type="button" onclick="javascript: add_screen_widget()" value="Add" style="background-color: rgb(94, 158, 214); color:#f6f6f6;" /> -->
+               <input type="hidden" name="screen_widgets" id="screen_widgets" value="">
                 <ul id="selected_screen_widgets_ui">
 
                 </ul>
-            </td>
-        </tr>
+            
+                <input type="button" onclick="submit_form()" value="Save" style="background-color: rgb(94, 158, 214); color:#f6f6f6;" /></table>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</div>
 
-        <tr>
-            <td colspan="2">
-                <input type="button" onclick="submit_form()" value="Save" style="background-color: grey" />
-            </td>
-        </tr>
-    </table>
-</form>
+</div>
+</div>
+</div>
 
 {% endblock %}

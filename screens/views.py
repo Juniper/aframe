@@ -180,7 +180,7 @@ def create(request):
     return HttpResponseRedirect("/screens/" + str(screen_id))
 
 
-def edit(request):
+def edit(request, screen_id):
     return HttpResponseRedirect("/screens")
 
 
