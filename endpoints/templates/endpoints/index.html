@@ -1,5 +1,6 @@
 
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}A-Frame{% endblock %}
 
@@ -20,15 +21,9 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="well">
-			
 			<div class="table-responsive">
 				<table class="table table-bordered">
 					<thead>
-						<!--
-						<tr>
-							<th colspan="3">Endpoint Groups</th>
-						</tr>
-						-->
 						<tr>
 							<th>Name</th>
 							<th>Description</th>
@@ -44,7 +39,7 @@
 							<td>
 								{{ provider.description }}
 							</td>
-							<td width="146px">
+							<td width="150px">
 			            				<a href="/endpoints/editGroup/{{ provider.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
 			            				&nbsp;
 								<a href="/endpoints/deleteGroup/{{ provider.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
@@ -57,9 +52,138 @@
 
 			<a class="btn btn-primary" style="text-decoration:none;" href="/endpoints/newGroup/"><i class="fa fa-sitemap"></i> Create new Endpoint Group</a>
 		</div>
-
-		
 	</div>
 </div>
+
+<!-- WIDGET DEMO -->
+
+<!-- widget grid -->
+<section id="widget-grid" class="">
+
+	<!-- row -->
+	<div class="row">
+
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-12 col-md-12 col-lg-6">
+
+			<!-- Widget ID (each widget will need unique ID, i.e. the next would have id="wid-id-1")-->
+			<div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false" data-widget-deletebutton="false">
+				<!-- widget options:
+				usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+				data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="true"
+				data-widget-sortable="false"
+
+				-->
+				<header>
+					<label class="widget">Widget Example </label>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body">
+
+						Widget Body
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+		<!-- NEW WIDGET START -->
+		<article class="col-sm-12 col-md-12 col-lg-6">
+
+			<!-- Widget ID (each widget will need unique ID, i.e. the next would have id="wid-id-2")-->
+			<div class="jarviswidget jarviswidget-color-darken" id="wid-id-1" data-widget-editbutton="false" data-widget-deletebutton="false">
+				<!-- widget options:
+				usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+				data-widget-colorbutton="false"
+				data-widget-editbutton="false"
+				data-widget-togglebutton="false"
+				data-widget-deletebutton="false"
+				data-widget-fullscreenbutton="false"
+				data-widget-custombutton="false"
+				data-widget-collapsed="true"
+				data-widget-sortable="false"
+
+				-->
+				<header>
+					<label class="widget">Another Widget Example </label>
+
+				</header>
+
+				<!-- widget div-->
+				<div>
+
+					<!-- widget edit box -->
+					<div class="jarviswidget-editbox">
+						<!-- This area used as dropdown edit box -->
+
+					</div>
+					<!-- end widget edit box -->
+
+					<!-- widget content -->
+					<div class="widget-body">
+
+						Widget Body
+
+					</div>
+					<!-- end widget content -->
+
+				</div>
+				<!-- end widget div -->
+
+			</div>
+			<!-- end widget -->
+
+		</article>
+		<!-- WIDGET END -->
+
+	</div>
+
+	<!-- end row -->
+
+</section>
+<!-- end widget grid -->
+{% endblock %}
+
+{% block plugins %}	<!-- THESE ARE REQUIRED FOR THE WIDGETS TO WORK -->
+	<!-- jarvis widgets -->
+	<script src="{% static 'js/smartwidgets/jarvis.widget.min.js' %}"></script>
+
+	<script>
+		// DO NOT REMOVE : GLOBAL FUNCTIONS!
+		
+		$(document).ready(function() {
+			
+			pageSetUp();
+		
+		});
+
+	</script>
 
 {% endblock %}
