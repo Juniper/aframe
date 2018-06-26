@@ -74,7 +74,7 @@
     <fieldset>
             <section>
                 <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Name: </label><br>
-                    <input type="text" style="font-size: medium; width: 100%" name="name"  placeholder="Name of this screen view"></label> &nbsp;
+                    <input type="text" style="font-size: medium; width: 100%" name="name"  placeholder="Name of this screen view"  onblur="return clean_string_no_special(this)";></label> &nbsp;
                
             </section><br>
 
@@ -96,7 +96,7 @@
 
         <section>
                 <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Add Automation Input Form: </label><br>
-                    <input type="text" style="font-size: medium; width: 100%" name="name"  id="template_autocomplete"  placeholder="Search Input Form Definitions"></label><br><br>
+                    <input type="text" style="font-size: medium; width: 100%" id="template_autocomplete"  placeholder="Search Input Form Definitions"><br><br>
                    
                     <input type="button" onclick="javascript: add_automation()" value="Add" style="background-color: rgb(94, 158, 214); color:#f6f6f6;" />
                
