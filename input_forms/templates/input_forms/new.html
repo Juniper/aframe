@@ -1,222 +1,208 @@
 
 {% extends "base.html" %}
 {% block title %}A-Frame{% endblock %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Create Input Form</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-sliders"; style="font-size: xx-large;"></span>
+    Automations
+<span>>  
+    Create Input Form
+</span>
+{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
 
-    var template_variables = [];
+	var template_variables = [];
 
-    var widgets = $.parseJSON('{{ widgets_json|safe }}');
+	var widgets = $.parseJSON('{{ widgets_json|safe }}');
 
-    function submit_form() {
-        // on form submission, gather up all the template variables
-        // and keep in a json object. We only care about the constructed
-        // json object from here on out
+	function submit_form() {
+		// on form submission, gather up all the template variables
+		// and keep in a json object. We only care about the constructed
+		// json object from here on out
 
-        // get the json object hidden form element
-        var json = $("#json");
-        // get a ref to a document element that contains all our template variables
-        var template__variable__configs = $("#template__variable__configurator");
+		// get the json object hidden form element
+		var json = $("#json");
+		// get a ref to a document element that contains all our template variables
+		var template__variable__configs = $("#template__variable__configurator");
 
-        // do some basic validation on name and description
-        var name = $("#name").val();
-        var description = $("#description").val();
+		// do some basic validation on name and description
+		var name = $("#name").val();
+		var description = $("#description").val();
 
-        if (name == "" || description == "") {
-            alert("You must provide a valid name and description");
-            $("#name").focus();
-            return false;
-        }
+		if (name == "" || description == "") {
+			alert("You must provide a valid name and description");
+			$("#name").focus();
+			return false;
+		}
 
-        // use a jquery selector to find all document elements that 'start with' "template__variable__"
-        // iterate over each one
-        // for each template variable we want to know 5 things:
-        // what is the name of the variable, the human readable label, the default value, and the widget config
-        template__variable__configs.find('[id ^= "template__variable__"]').each(
-            function(a,r) {
-                // these are indexed by table row below
-                var row = $("#" + r.id);
+		// use a jquery selector to find all document elements that 'start with' "template__variable__"
+		// iterate over each one
+		// for each template variable we want to know 5 things:
+		// what is the name of the variable, the human readable label, the default value, and the widget config
+		template__variable__configs.find('[id ^= "template__variable__"]').each(
+			function(a,r) {
+				// these are indexed by table row below
+				var row = $("#" + r.id);
 
-                // get the label object use a 'ends with' selector
-                var name_label = row.find('[name $= "_label"]');
-                // let the dev know we found it!
-                console.log(name_label);
-                // get the name form object that corresponds to this label element
-                var name = name_label.attr("id").replace("_label", "");
-                // get thh value of the label
-                var label = name_label.val();
-                // now use the 'ends with' selector to get the default value form element and value
-                var default_value = row.find('[id $= "_default"]').val();
+				// get the label object use a 'ends with' selector
+				var name_label = row.find('[name $= "_label"]');
+				// let the dev know we found it!
+				console.log(name_label);
+				// get the name form object that corresponds to this label element
+				var name = name_label.attr("id").replace("_label", "");
+				// get thh value of the label
+				var label = name_label.val();
+				// now use the 'ends with' selector to get the default value form element and value
+				var default_value = row.find('[id $= "_default"]').val();
 
-                // now use the 'ends with' selector to get the widget_config value form element and value
-                var widget = row.find('[id $= "_widget"]').val();
+				// now use the 'ends with' selector to get the widget_config value form element and value
+				var widget = row.find('[id $= "_widget"]').val();
 
-                // now use the 'ends with' selector to get the widget_config value form element and value
-                var widget_config = row.find('[id $= "_widget_config"]').val();
+				// now use the 'ends with' selector to get the widget_config value form element and value
+				var widget_config = row.find('[id $= "_widget_config"]').val();
 
-                // verify we have something to work with
-                if (widget_config == "") {
-                    widget_config = "{}";
-                }
+				// verify we have something to work with
+				if (widget_config == "") {
+					widget_config = "{}";
+				}
 
-                // widget_config is a JSON string stored on the DOM
-                // convert it back to a data structure here before serializing the whole thing back to a string
-                // FIXME - should this be surrounded with try/catch?
-                var widget_config_object = JSON.parse(widget_config);
+				// widget_config is a JSON string stored on the DOM
+				// convert it back to a data structure here before serializing the whole thing back to a string
+				// FIXME - should this be surrounded with try/catch?
+				var widget_config_object = JSON.parse(widget_config);
 
-                // let's log it here for the dev again
-                console.log("name is: " + name);
-                console.log("default is: " + default_value);
-                console.log("label is: " + label);
+				// let's log it here for the dev again
+				console.log("name is: " + name);
+				console.log("default is: " + default_value);
+				console.log("label is: " + label);
 
-                // construct a simple object and add to the 'template_variables' array
-                t = {
-                        "name" : name,
-                        "label" : label,
-                        "default": default_value,
-                        "widget": widget,
-                        "widget_config": widget_config_object
-                    };
-                template_variables.push(t);
-            }
-        );
-        // dump the template_variables array to a string and set on the json form element
-        var json_text = JSON.stringify(template_variables, null, 2);
-        $("#json").val(json_text);
+				// construct a simple object and add to the 'template_variables' array
+				t = {
+						"name" : name,
+						"label" : label,
+						"default": default_value,
+						"widget": widget,
+						"widget_config": widget_config_object
+					};
+				template_variables.push(t);
+			}
+		);
+		// dump the template_variables array to a string and set on the json form element
+		var json_text = JSON.stringify(template_variables, null, 2);
+		$("#json").val(json_text);
 
-        // submit the form here after we are all done
-        $("#create_form").submit();
-    }
+		// submit the form here after we are all done
+		$("#create_form").submit();
+	}
 
-    $(window).load(function() {
-        $( "#template_autocomplete" ).autocomplete({
-            source: "/tools/search",
-        });
-    });
+	$(window).load(function() {
+		$( "#template_autocomplete" ).autocomplete({
+			source: "/tools/search",
+		});
+	});
 
 </script>
 {% endblock%}
 {% block content %}
-
 <div class="row">
-    <div class="col-sm-12">
-        <div class="well" style="width:85%;margin:auto">
-           <form method="POST" action="/input_forms/create" id="create_form"  class="smart-form">
-            <h2>Create Input Form for Template: {{ config_template.name }}</h2>
-
-    <fieldset>
-            <section>
-                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Name: </label><br>
-                    <input type="text" style="font-size: medium; width: 100%" name="name" id="name" value="{{ config_template.name }}" 
-                    onblur="return clean_string_no_special(this);"/></label> 
-               
-            </section><br>
-
-            <section>
-                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Description: </label><br>
-                    <td>
-                <textarea rows="5" cols="60" name="description" id="description" style="font-size:medium; margin:auto; padding:auto; width:100%">{{ config_template.description }}</textarea>
-            </td>
-               
-            </section><br>
-
-            <section>
-                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Instructions: </label><br>
-                    <textarea rows="5" cols="60" style="font-size: medium; width: 100%" name="instructions" id="instructions" placeholder="Use instructions to provide guidance on how the fields should be configured below"></textarea>
-               
-            </section><br>
-
-            <section>
-                <label class="input" style="color:black; font-size:large; margin:auto; padding:auto;">Template: </label><br>
-                    <td>
-                        {{ config_template.name }}
-                    </td>
-            </section><br>
-
-    <table>
-       <!--  <tr>
-            <td>
-                Name:
-            </td>
-            <td>
-                <input type="text" name="name" id="name" size="50" value="{{ config_template.name }}"
-                       onblur="return clean_string_no_special(this);"/>
-            </td>
-        </tr> -->
-        <!-- <tr>
-            <td>
-                Description:
-            </td>
-            <td>
-                <textarea rows="5" cols="60" name="description" id="description">{{ config_template.description }}</textarea>
-            </td>
-        </tr> -->
-        <!-- <tr>
-            <td>
-                Instructions:
-            </td>
-            <td>
-                <textarea rows="5" cols="60" name="instructions" id="instructions" placeholder="Use instructions to provide guidance on how the fields should be configured below"></textarea>
-            </td>
-        </tr> -->
-<!--         <tr>
-            <td>
-                Template:
-            </td>
-            <td>
-                {{ config_template.name }}
-            </td>
-        </tr> -->
-
-        <tr>
-            <td>
-                Available Tags:
-            </td>
-            <td>
-                <table id="template__variable__configurator">
-                    <th>Variable</th>
-                    <th>Label</th>
-                    <th>Default Value</th>
-                    <th>Widget</th>
-                    {% for t in available_tags %}
-                    <tr id="template__variable__{{ forloop.counter }}">
-                        <td>
-                            {{ t }}
-                        </td>
-                        <td>
-                            <input type="text" id="{{ t }}_label" name="{{ t }}_label" value="{{ t }}"
-                                   style="width: 150px"
-                            />
-                        </td>
-                        <td>
-                            <input type="text" id="{{ t }}_default" name="{{ t }}_default" value="none"
-                                   style="width: 150px"
-                            />
-                        </td>
-                        <td>
-                            <select name="{{ t }}_widget" id="{{ t }}_widget"
-                                    onchange="javascript: load_widget_configs('{{ t }}_widget')">
-                                {% for w in widgets %}
-                                <option value="{{ w.id }}">{{ w.label }}</option>
-                                {% endfor %}
-                            </select>
-                            <input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
-                            <input type="button" id="{{ t }}_widget_config_button" value="Configure"
-                                   onclick="javascript: load_widget_configs('{{ t }}_widget')"
-                                   style="display: none; width: 75px;"/>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="hidden" name="json" id="json"/>
-                <input type="hidden" name="config_template_id" value="{{ config_template.id }}"/>
-                <input type="button" onclick="submit_form()" value="Save"/>
-            </td>
-        </tr>
-    </table>
-</form>
+	<div class="col-sm-12">
+		<div class="well" style="width:80%;margin:auto">
+			<form method="POST" action="/input_forms/create" id="create_form"  class="smart-form">
+				<header>
+					Create Input Form for Template: {{ config_template.name }}
+				</header>
+				<fieldset>
+					<section>
+						<label class="label">Name</label>
+						<label class="input">
+							<input type="text" name="name" id="name" value="{{ config_template.name }}" onblur="return clean_string_no_special(this);">
+						</label> 
+					</section>
+					<section>
+						<label class="label">Description</label>
+						<label class="textarea">
+							<textarea rows="3" name="description" id="description">{{ config_template.description }}</textarea>
+					   	</label>
+					</section>
+					<section>
+						<label class="label">Instructions</label>
+						<label class="textarea">
+							<textarea rows="3" name="instructions" id="instructions" placeholder="Use instructions to provide guidance on how the fields should be configured below"></textarea>
+						</label>
+					</section>
+					<section>
+						<label class="label">Template</br></br>&nbsp;&nbsp;&nbsp;&nbsp;<font size="5">{{ config_template.name }}</font></label>
+					</section>
+					<section>
+						<label class="label">Available Tags:</label>
+						<div class="table-responsive">
+							<table class="table table-bordered" id="template__variable__configurator">
+								<thead>
+									<tr>
+										<th style="width:170px;max-width:170px;">Variable</th>
+										<th style="width:170px;max-width:170px;">Label</th>
+										<th style="width:200px;max-width:200px;">Default Value</th>
+										<th>UI Widget</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for t in available_tags %}
+									<tr id="template__variable__{{ forloop.counter }}">
+										<td>
+											{{ t }}
+										</td>
+										<td>
+											<label class="input">
+												<input type="text" id="{{ t }}_label" name="{{ t }}_label" value="{{ t }}">
+											</label>
+										</td>
+										<td>
+											<label class="input">
+												<input type="text" id="{{ t }}_default" name="{{ t }}_default" value="none">
+											</label>
+										</td>
+										<td>
+											<label class="select" style="float:left;">
+												<select name="{{ t }}_widget" id="{{ t }}_widget"
+													onchange="javascript: load_widget_configs('{{ t }}_widget')">
+													{% for w in widgets %}
+													<option value="{{ w.id }}">{{ w.label }}</option>
+													{% endfor %}
+												</select><i></i>
+											</label>
+											<input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
+											<button type="button" class="btn btn-lg btn-info" id="{{ t }}_widget_config_button" 
+								   				onclick="javascript: load_widget_configs('{{ t }}_widget')"
+								   				style="display:none;padding:5px;float:right;">
+												<i class="fa fa-gears"></i>
+												Configure
+											</button>
+										</td>
+									</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</section>
+				</fieldset>
+				<footer>
+					<input type="hidden" name="json" id="json"/>
+					<input type="hidden" name="config_template_id" value="{{ config_template.id }}"/>
+					<button type="button" class="btn btn-success" onclick="submit_form()">
+						Save
+					</button>
+					<button type="button" class="btn btn-danger" onclick="javascript: window.history.back();">
+						<i class="fa fa-times"></i>
+						Cancel
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}
