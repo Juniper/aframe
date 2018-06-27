@@ -301,9 +301,10 @@ def import_form(request):
 
         return HttpResponseRedirect("/input_forms")
     else:
-        form = ImportForm()
-        context = {'form': form}
-        return render(request, 'input_forms/import.html', context)
+        # form = ImportForm()
+        # context = {'form': form}
+        return render(request, 'input_forms/import.html')
+	# return HttpResponseRedirect("/input_forms/import.html")
 
 
 def update(request):

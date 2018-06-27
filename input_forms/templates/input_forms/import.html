@@ -27,7 +27,10 @@
 				</header>
 				<fieldset>
 					<section>
-						{{ form }}
+						<div class="input input-file">
+							<span class="button"><input id="file" type="file" name="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" placeholder="Select Automation to Import" readonly="">
+						</div>
+
 					</section>
 				</fieldset>
 				<footer>
