@@ -1,11 +1,12 @@
-
 {% extends "base.html" %}
+
 {% load staticfiles %}
 <html lang="en">
 <head>
+    
+
     <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}" />
     <link rel="stylesheet" href="{% static 'css/common.css' %}" />
-
     <title>{% block title %}Custom App{% endblock %}</title>
     <script type="text/javascript" src="{% static 'js/jquery-1.12.4.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
@@ -46,7 +47,6 @@
         a img {
             border:none;
         }
-
         h1 {
             color: darkblue;
             padding: 20px;
@@ -54,19 +54,15 @@
             border-bottom: 6px solid darkblue;
             box-shadow: 0px 0px 20px 0px black;
         }
-
         h2 {
             color: #ccc;
             padding-left: 25px;
             padding-top: 10px;
         }
-
         h3 {
             color: darkblue;
         }
-
         .screen_box {
-
             display: none;
             background: #eee;
             border: 1px solid #ddd;
@@ -74,35 +70,26 @@
             font-size: 75%;
             position: absolute;
             margin: 5px;
-            box-shadow: 5px 5px 20px 0px black;
-
         }
-
         .screen_box table {
             margin: 5px;
             padding: 10px;
             padding-top: 0px;
             margin-top: 0px;
         }
-
         .screen_box input[type=text],input[type=password] {
             width: 175px;
             margin: 4px;
             padding: 6px;
         }
-
         .screen_box input[type=button] {
             margin: 4px;
             padding: 6px;
-            border: 1px solid #000;
-            background-color: #ddd;
         }
-
         .screen_box_header tr td {
             font-weight: bold;
             border-bottom: 1px solid #666;
         }
-
         .overlay {
             position: fixed;
             margin: 0px;
@@ -115,7 +102,6 @@
             z-index: 99;
             overflow: scroll;
         }
-
         .overlay_box {
             margin: auto;
             margin-top: 30px;
@@ -124,40 +110,33 @@
             padding: 10px 10px 10px 10px;
             background-color: #eee;
         }
-
         .overlay_box table tr td {
             background: #eee;
             padding: 10px;
-            margin-top: 100px;
+            margin-top: 10px;
         }
-
         .overlay_box textarea {
             width: 850px;
         }
-
         .overlay_box input[type=text] {
             width: 250px;
             font-size: 75%;
             padding: 6px;
             margin: 4px;
         }
-
         .overlay_box input[type=button], .overlay_box input[type=submit], .overlay_box select {
             font-size: 75%;
             padding: 6px;
             margin: 4px;
         }
-
         .overlay_menu {
             size: 8px;
             text-align: right;
         }
-
-        .overlay_menu a:hover, .overlay_menu a, .overlay_menu a:visited {
+        .overlay_menu a:hover {
             text-decoration: none;
-            color: darkblue;
         }
-         #footer, #footer a {
+        #footer, #footer a {
             color: #ccc;
         }
     </style>
@@ -165,8 +144,12 @@
 <body>
 <div id="header">
     <h1>{{ screen.name }}</h1>
-</div>
+<!--         <img src="/Users/alkhan/Documents/aframe/common/static/images/UMassAmherst_horizon.png" alt="HTML5 Icon" style="width:128px;height:128px;">
+ -->
+  <!--   <span id="umass"> <img src="{% static 'images/UMassAmherst_horiz.png' %}" alt="UMass"> </span> -->
 
+
+</div>
         {% block content %}{% endblock %}
 
 </body>

@@ -1,4 +1,3 @@
-{% extends "screens/widgets/widget_base.html" %}
 {% load staticfiles %}
 {% block widget %}
 <td>
@@ -20,6 +19,7 @@
 
     <script type="text/javascript" src="{% static 'js/network_topology_utils.js' %}"></script>
     <script type="text/javascript">
+
 
         $(function() {
             var widget_layout_id = {{ widget_layout_id }};
@@ -82,8 +82,6 @@
 
             canvas.installEditPolicy(new draw2d.policy.canvas.SnapToCenterEditPolicy());
 
-            $('#widget_container_' + widget_layout_id).css('height', 'initial');
-            $('#widget_container_' + widget_layout_id).css('width', 'initial');
 
             // load the previously saved topology, if any
             if (config['name'] != undefined) {
@@ -92,250 +90,275 @@
         });
     </script>
 
+    <!-- widget grid -->
+<section id="widget-grid" class="">
 
-        <div class="network_topology_toolbar">
-            <div class="btn-group btn-group-justified">
-                <a href="javascript:void(0);" class="btn btn-default" onclick="javascript: reveal('add_network_device_menu_{{ widget_layout_id }}');">
-                    Add Network Device</a>
-                <a href="javascript:void(0);" class="btn btn-default" onclick="javascript: reveal('load_topology_dialogue_{{ widget_layout_id }}')">Load Network Topology</a>
-                <a href="javascript:void(0);" class="btn btn-default" onclick="javascript: create_new_topology({{ widget_layout_id }})">New Network Topology</a>
-                <a href="javascript:void(0);" class="btn btn-default" onclick="javascript: reveal('save_topology_dialogue_{{ widget_layout_id }}')">Save Network Topology</a>
-                <a href="javascript:void(0);" class="btn btn-default" onclick="javascript: update_network_topology({{ widget_layout_id }})">Update</a>
-                <a href="javascript:void(0);" class="btn btn-default" onclick=="javascript: reveal('configure_topology_dialogue_{{ widget_layout_id }}')">Configure Topology
-                    Widget</a>
-                <!-- <a href="javascript:void(0);" class="btn btn-default" onclick=""javascript: debug_topology({{ widget_layout_id }})">*</a> -->
-                </div>
+    <!-- row -->
+    <div class="row">
 
-            </div>
+        <!-- NEW WIDGET START -->
+       
 
+        <!-- NEW WIDGET START -->
+        <article class="col-sm-12 col-md-12 col-lg-6">
 
-<!-- 
-    <div id="network_topology_{{ widget_layout_id }}_toolbar" class="network_topology_toolbar">
-        <ul style="list-style: none">
-            <li style="display: inline">
-                <a href="#" font-size="100" onclick="javascript: reveal('add_network_device_menu_{{ widget_layout_id }}');">
-                    Add Network Device
-                </a>
-            </li>
-            <li style="display: inline">
-                <a href="javascript: reveal('load_topology_dialogue_{{ widget_layout_id }}')">Load Network Topology</a>
-            </li>
-            <li style="display: inline">
-                <a href="javascript: create_new_topology({{ widget_layout_id }})">New Network Topology</a>
-            </li>
-            <li style="display: inline">
-                <a href="javascript: reveal('save_topology_dialogue_{{ widget_layout_id }}')">Save Network Topology</a>
-            </li>
-            <li style="display: inline">
-                <a href="javascript: update_network_topology({{ widget_layout_id }})">Update</a>
-            </li>
-            <li style="display: inline">
-                <a href="javascript: reveal('configure_topology_dialogue_{{ widget_layout_id }}')">Configure Topology
-                    Widget</a>
-            </li>
-            <li style="display: inline">
-                <a href="javascript: debug_topology({{ widget_layout_id }})">*</a>
-            </li>
-        </ul>
-    </div> -->
+            <!-- Widget ID (each widget will need unique ID, i.e. the next would have id="wid-id-2")-->
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-2" data-widget-editbutton="false" data-widget-fullscreenbutton="false">
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
 
-    <div id="add_network_device_menu_{{ widget_layout_id }}" class="widget_overlay">
-        <div style="text-align: right">
-            <a href="javascript: reveal('add_network_device_menu_{{ widget_layout_id }}')">X</a>
-        </div>
-        <h3>Add Icon</h3>
+                -->
+                <header>
+                    <label class="widget">Network Topology Widget </label>
 
-        <input type="text" style="font-size:15px;" class="input-md" id="add_network_device_name_{{ widget_layout_id }}"
-               placeholder="Device Name"/>
+                </header>
 
+                <!-- widget div-->
+                <div>
 
-        <input type="text" style="font-size:15px;" class="input-md" id="add_network_device_ip_{{ widget_layout_id }}"
-               placeholder="IP Address"/>
-        <select id="add_network_device_icon_{{ widget_layout_id }}" style="font-size:15px;" class="input-md">
-            <option value="/static/images/server.png:25:50">Server</option>
-            <option value="/static/images/mx_large.png:50:50">MX Large</option>
-            <option value="/static/images/mx_small.png:50:25">MX Small</option>
-            <option value="/static/images/switch.png:50:20">Switch</option>
-            <option value="/static/images/router.png:50:50">Router</option>
-            <option value="/static/images/switch_chassis.png:50:50">Switch Chassis</option>
-        </select>
-        <script type="text/javascript">
-            $( "#add_network_device_name_{{ widget_layout_id }}" ).autocomplete({
-                source: "/endpoints/search_ip",
-                focus: function(event, ui) {
-                    event.preventDefault();
-                    $("#add_network_device_name_{{ widget_layout_id }}").val(ui.item.label);
-                },
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
 
-                select: function (event, ui) {
+                    </div>
+                    <!-- end widget edit box -->
 
-                    var return_label = ui.item.label;
-                    if (return_label.indexOf('/') > 0) {
-                        var rl_array = return_label.split('/');
-                        var group_name = rl_array[0];
-                        var endpoint_name = rl_array[1];
-                        $("#add_network_device_name_{{ widget_layout_id }}").val(endpoint_name);
-                    } else {
-                        $("#add_network_device_ip_{{ widget_layout_id }}").val(return_label);
-                    }
-                    var return_value = ui.item.value;
+                    <!-- widget content -->
+                    <div class="widget-body">
 
-                    if (return_value.indexOf(':') > 0) {
-                        var r_array = return_value.split(':');
-                        var group_id = r_array[0];
-                        var endpoint_ip = r_array[1];
-                        $("#add_network_device_ip_{{ widget_layout_id }}").val(endpoint_ip);
-
-                    } else {
-                        $("#add_network_device_ip_{{ widget_layout_id }}").val(return_value);
-                    }
-                    return false;
-                }
-            });
-
-        </script>
-        <!-- <input type="button" onclick="javascript: add_network_device({{ widget_layout_id }});" value="Add" style="background-color: grey" /> -->
-
-        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: add_network_device({{ widget_layout_id }});" class="btn bg-color-blue txt-color-white">Add</a>
-<!-- <a href="javascript:void(0);" class="btn bg-color-blue txt-color-white">.bg-color-blue</a> -->
-
-    </div>
-    <div id="save_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
-        <div style="text-align: right">
-            <a href="javascript: reveal('save_topology_dialogue_{{ widget_layout_id }}')">X</a>
-        </div>
-        <h3>Save Topology</h3>
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0"; >Topology Name</label>
-<!--         Topology Name:
- --><!--         <input type="text" size="25" id="save_network_topology_name_{{ widget_layout_id }}"
-               placeholder="Save Network Topology"/ style="background-color: lightblue"> -->
-                <input type="text" style="font-size:15px;" class="input-md" id="save_network_topology_name_{{ widget_layout_id }}" placeholder="Save Network Topology">
+                        <div class="well" style="margin:auto;"> 
 
 
 
-<!--         <input type="button" onclick="javascript: save_network_topology('{{ widget_layout_id }}')"
-               value="Save"/ style="background-color: grey" > -->
-        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: save_network_topology('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Save</a>
 
-    </div>
-    <div id="load_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
-        <div style="text-align: right">
-            <a href="javascript: reveal('load_topology_dialogue_{{ widget_layout_id }}')">X</a>
-        </div>
-        <h3>Load Topology</h3>
-<!--         Topology Name: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Topology Name</label>
+                        <div class="network_topology_toolbar">
+                            <div class="btn-group btn-group-justified">
+                                <a href="javascript:void(0);" class="btn btn-default" style= "white-space:normal; word-wrap: break-word;" onclick="javascript: reveal('add_network_device_menu_{{ widget_layout_id }}');">
+                                    Add Network Device</a>
+                                <a href="javascript:void(0);" class="btn btn-default" style= "white-space:normal; word-wrap: break-word;" onclick="javascript: reveal('load_topology_dialogue_{{ widget_layout_id }}')">Load Network Topology</a>
+                                <a href="javascript:void(0);" class="btn btn-default" style= "white-space:normal; word-wrap: break-word;" onclick="javascript: create_new_topology({{ widget_layout_id }})">New Network Topology</a>
+                                <a href="javascript:void(0);" class="btn btn-default" style= "white-space:normal; word-wrap: break-word;" onclick="javascript: reveal('save_topology_dialogue_{{ widget_layout_id }}')">Save Network Topology</a>
+                                <a href="javascript:void(0);" class="btn btn-default" style= "white-space:normal; word-wrap: break-word;" onclick="javascript: update_network_topology({{ widget_layout_id }})">Update</a>
+                                <a href="javascript:void(0);" class="btn btn-default" style= "white-space:normal; word-wrap: break-word;" onclick=="javascript: reveal('configure_topology_dialogue_{{ widget_layout_id }}')">Configure Topology
+                                    Widget</a>
+                                <!-- <a href="javascript:void(0);" class="btn btn-default" onclick=""javascript: debug_topology({{ widget_layout_id }})">*</a> -->
+                                </div>
 
-<!--         <input type="text" size="25" id="load_network_topology_name_{{ widget_layout_id }}"
-               placeholder="Load Network Topology"/ style="background-color: lightblue"> -->
-                <input type="text" style="font-size:15px;" class="input-md" id="load_network_topology_name_{{ widget_layout_id }}" placeholder="Load Network Topology">
+                            </div>
 
-<!--         <input type="button" onclick="javascript: load_network_topology('{{ widget_layout_id }}')"
-               value="Load"/ style="background-color: grey" > -->
-        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: load_network_topology('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Load</a>
 
-        <br/>
-        <!-- Browse all Network Topologies: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Browse All Network Topologies: </label>
 
-<!--         <input type="button" onclick="javascript: list_network_topologies('{{ widget_layout_id }}')"
-               value="Browse"/ style="background-color: grey" > -->
-        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: list_network_topologies('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Browse</a>
+                    <div id="add_network_device_menu_{{ widget_layout_id }}" class="widget_overlay">
+                        <div style="text-align: right">
+                            <a href="javascript: reveal('add_network_device_menu_{{ widget_layout_id }}')">X</a>
+                        </div>
+                        <h3>Add Icon</h3>
 
-    </div>
-    <div id="configure_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
-        <div style="text-align: right">
-            <a href="javascript: reveal('configure_topology_dialogue_{{ widget_layout_id }}')">X</a>
-        </div>
-        <h3>Configure Automation Actions</h3>
-        <table>
-            <tr>
-                <td>
-<!--                     Detail Widget: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Detail Widget: </label>
+                        <input type="text" style="font-size:15px;" class="input-md" id="add_network_device_name_{{ widget_layout_id }}"
+                               placeholder="Device Name"/>
 
+
+                        <input type="text" style="font-size:15px;" class="input-md" id="add_network_device_ip_{{ widget_layout_id }}"
+                               placeholder="IP Address"/>
+                        <select id="add_network_device_icon_{{ widget_layout_id }}" style="font-size:15px;" class="input-md">
+                            <option value="/static/images/server.png:25:50">Server</option>
+                            <option value="/static/images/mx_large.png:50:50">MX Large</option>
+                            <option value="/static/images/mx_small.png:50:25">MX Small</option>
+                            <option value="/static/images/switch.png:50:20">Switch</option>
+                            <option value="/static/images/router.png:50:50">Router</option>
+                            <option value="/static/images/switch_chassis.png:50:50">Switch Chassis</option>
+                        </select>
+                        <script type="text/javascript">
+                            $( "#add_network_device_name_{{ widget_layout_id }}" ).autocomplete({
+                                source: "/endpoints/search_ip",
+                                focus: function(event, ui) {
+                                    event.preventDefault();
+                                    $("#add_network_device_name_{{ widget_layout_id }}").val(ui.item.label);
+                                },
+
+                                select: function (event, ui) {
+
+                                    var return_label = ui.item.label;
+                                    if (return_label.indexOf('/') > 0) {
+                                        var rl_array = return_label.split('/');
+                                        var group_name = rl_array[0];
+                                        var endpoint_name = rl_array[1];
+                                        $("#add_network_device_name_{{ widget_layout_id }}").val(endpoint_name);
+                                    } else {
+                                        $("#add_network_device_ip_{{ widget_layout_id }}").val(return_label);
+                                    }
+                                    var return_value = ui.item.value;
+
+                                    if (return_value.indexOf(':') > 0) {
+                                        var r_array = return_value.split(':');
+                                        var group_id = r_array[0];
+                                        var endpoint_ip = r_array[1];
+                                        $("#add_network_device_ip_{{ widget_layout_id }}").val(endpoint_ip);
+
+                                    } else {
+                                        $("#add_network_device_ip_{{ widget_layout_id }}").val(return_value);
+                                    }
+                                    return false;
+                                }
+                            });
+
+                        </script>
+
+                        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: add_network_device({{ widget_layout_id }});" class="btn bg-color-blue txt-color-white">Add</a>
+
+                    </div>
+                    <div id="save_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
+                        <div style="text-align: right">
+                            <a href="javascript: reveal('save_topology_dialogue_{{ widget_layout_id }}')">X</a>
+                        </div>
+                        <h3>Save Topology</h3>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0"; >Topology Name</label>
+                                <input type="text" style="font-size:15px;" class="input-md" id="save_network_topology_name_{{ widget_layout_id }}" placeholder="Save Network Topology">
+
+                        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: save_network_topology('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Save</a>
+
+                    </div>
+                    <div id="load_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
+                        <div style="text-align: right">
+                            <a href="javascript: reveal('load_topology_dialogue_{{ widget_layout_id }}')">X</a>
+                        </div>
+                        <h3>Load Topology</h3>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Topology Name</label>
+
+                                <input type="text" style="font-size:15px;" class="input-md" id="load_network_topology_name_{{ widget_layout_id }}" placeholder="Load Network Topology">
+
+                        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: load_network_topology('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Load</a><br>
+
+                        <br/>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Browse All Network Topologies: </label>
+
+                        <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: list_network_topologies('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Browse</a>
+
+                    </div>
+                    <div id="configure_topology_dialogue_{{ widget_layout_id }}" class="widget_overlay">
+                        <div style="text-align: right">
+                            <a href="javascript: reveal('configure_topology_dialogue_{{ widget_layout_id }}')">X</a>
+                        </div>
+                        <h3>Configure Automation Actions</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Detail Widget: </label>
+
+                                </td>
+                                <td>
+                                         <input type="text" style="font-size:15px; padding:0; margin:0" class="input-md" id="detail_widget_{{ widget_layout_id }}" placeholder="Detail Widget">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Detail Widget ID Parameter: </label>
+
+                                </td>
+                                <td>
+                                       <input type="text" style="font-size:15px;" class="input-md" id="detail_identifier_param_{{ widget_layout_id }}" placeholder="Detail Widget ID Parameter">
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Config Widget: </label>
+
+                                </td>
+                                <td>
+                                       <input type="text" style="font-size:15px;" class="input-md" id="config_widget_{{ widget_layout_id }}" placeholder="Config Widget">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Config Widget ID Parameter: </label>
+
+                                </td>
+                                <td>
+                                   <input type="text" style="font-size:15px;" class="input-md" id="config_identifier_param_{{ widget_layout_id }}" placeholder="Config Widget ID Parameter">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Telemetry Widget: </label>
+
+                                </td>
+                                <td>
+                                    <input type="text" style="font-size:15px;" class="input-md" id="telemetry_widget_{{ widget_layout_id }}" placeholder="Telemetry Widget">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Telemetry ID Parameter: </label>
+
+                                </td>
+                                <td>
+                                    <input type="text" style="font-size:15px;" class="input-md" id="telemetry_identifier_param_{{ widget_layout_id }}" placeholder="Telemetry ID Parameter">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: save_network_topology_config('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Save</a>
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                    <div id="network_topology_{{ widget_layout_id }}" style="background-image: url({% static 'images/grid_lite.png' %});
+                                                        /*background-repeat: repeat;*/
+                                                        width:auto;
+                                                        height:500px;
+                                                        position: center"
+                                                        "></div>
+                    <input type="hidden" id="topology_name_{{ widget_layout_id }}"/>
                 </td>
-                <td>
-<!--                     <input type="text" size="25" id="detail_widget_{{ widget_layout_id }}" style="background-color: lightblue"/> -->
-                         <input type="text" style="font-size:15px; padding:0; margin:0" class="input-md" id="detail_widget_{{ widget_layout_id }}" placeholder="Detail Widget">
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-<!--                     Detail Widget ID Parameter: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Detail Widget ID Parameter: </label>
+                                    </div>
+                                    <!-- end widget content -->
 
-                </td>
-                <td>
-<!--                     <input type="text" size="25" id="detail_identifier_param_{{ widget_layout_id }}" style="background-color: lightblue"/>
- -->                    <input type="text" style="font-size:15px;" class="input-md" id="detail_identifier_param_{{ widget_layout_id }}" placeholder="Detail Widget ID Parameter">
+                                </div>
+                                <!-- end widget div -->
 
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <!-- Config Widget: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Config Widget: </label>
+                            </div>
+                            <!-- end widget -->
 
-                </td>
-                <td>
-<!--                     <input type="text" size="25" id="config_widget_{{ widget_layout_id }}" style="background-color: lightblue"/>
- -->                    <input type="text" style="font-size:15px;" class="input-md" id="config_widget_{{ widget_layout_id }}" placeholder="Config Widget">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <!-- Config Widget ID Parameter: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Config Widget ID Parameter: </label>
+                        </article>
+                        <!-- WIDGET END -->
 
-                </td>
-                <td>
-                   <!--  <input type="text" size="25" id="config_identifier_param_{{ widget_layout_id }}" style="background-color: lightblue"/> -->
-                   <input type="text" style="font-size:15px;" class="input-md" id="config_identifier_param_{{ widget_layout_id }}" placeholder="Config Widget ID Parameter">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <!-- Telemetry Widget: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Telemetry Widget: </label>
+                    </div>
 
-                </td>
-                <td>
-                    <!-- <input type="text" size="25" id="telemetry_widget_{{ widget_layout_id }}" style="background-color: lightblue"/> -->
-                    <input type="text" style="font-size:15px;" class="input-md" id="telemetry_widget_{{ widget_layout_id }}" placeholder="Telemetry Widget">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <!-- Telemetry ID Parameter: -->
-        <label class="label" style="font-size:15px; color:black; padding:0; margin:0" >Telemetry ID Parameter: </label>
+                    <!-- end row -->
 
-                </td>
-                <td>
-                    <!-- <input type="text" size="25" id="telemetry_identifier_param_{{ widget_layout_id }}" style="background-color: lightblue"/> -->
-                    <input type="text" style="font-size:15px;" class="input-md" id="telemetry_identifier_param_{{ widget_layout_id }}" placeholder="Telemetry ID Parameter">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-  <!--                   <input type="button" onclick="javascript: save_network_topology_config('{{ widget_layout_id }}')"
-                           value="Save"/ style="background-color: grey" > -->
+                </section>
+                <!-- end widget grid -->
+                {% endblock %}
 
-                    <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: save_network_topology_config('{{ widget_layout_id }}')" class="btn bg-color-blue txt-color-white">Save</a>
+                {% block plugins %} <!-- THESE ARE REQUIRED FOR THE WIDGETS TO WORK -->
+                    <!-- jarvis widgets -->
+                    <script src="{% static 'js/smartwidgets/jarvis.widget.min.js' %}"></script>
 
-                </td>
-            </tr>
-        </table>
+                    <script>
+                        // DO NOT REMOVE : GLOBAL FUNCTIONS!
+                        
+                        $(document).ready(function() {
+                            
+                            pageSetUp();
+                        
+                        });
 
-    </div>
-    <div id="network_topology_{{ widget_layout_id }}" style="background-image: url({% static 'images/grid_lite.png' %});
-                                        /*background-repeat: repeat;*/
-                                        width:1000px;
-                                        height:400px;
-                                        position: center"
-                                        "></div>
-    <input type="hidden" id="topology_name_{{ widget_layout_id }}"/>
-</td>
+                    </script>
+
+
+       
 {% endblock %}
