@@ -10,8 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
@@ -23,7 +23,6 @@ SECRET_KEY = "6byb6f6)0z@0e!z1^%+j)18z%+#wusz5jdr@nl+y*_cvp#o*o@"
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -92,15 +91,19 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'filename': '/tmp/aframe.log',
         },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler'
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'WARN',
             'propagate': True,
         },
         '': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
         },
     },
@@ -157,6 +160,7 @@ REGISTERED_ENDPOINT_PROVIDERS = (
 ACTION_PROVIDERS = (
     {
         "name": "NetconfAction",
+        "class": "NetconfAction",
         "label": "NetConf",
         "options": [
             {
@@ -195,7 +199,8 @@ ACTION_PROVIDERS = (
     },
     {
         "name": "SSHRemoteExecution",
-        "label": "SSH Remote Execution",
+        "class": "SSHRemoteExecution",
+        "label": "Remote/SSH Shell Script",
         "options": [
             {
                 "label": "Request Type",
@@ -229,6 +234,7 @@ ACTION_PROVIDERS = (
     },
     {
         "name": "GitAction",
+        "class": "GitAction",
         "label": "Git Repository Manipulation",
         "options": [
             {
@@ -265,12 +271,14 @@ ACTION_PROVIDERS = (
     },
     {
         "name": "ShellExecution",
-        "label": "Executes Template in a Shell on the local server",
+        "class": "ShellExecution",
+        "label": "Local Shell Script",
         "options": []
     },
     {
         "name": "RestAction",
-        "label": "REST API Action",
+        "class": "RestAction",
+        "label": "Advanced REST",
         "options": [
             {
                 "label": "Authentication Type",
@@ -325,7 +333,7 @@ ACTION_PROVIDERS = (
                 "type": "text",
                 "default": "n/a"
             },
-             {
+            {
                 "label": "Keystone Project Scope",
                 "name": "keystone_project",
                 "type": "text",
@@ -388,6 +396,51 @@ ACTION_PROVIDERS = (
                 "name": "accepts_type",
                 "type": "text",
                 "default": "application/json",
+            },
+            # Work in progress for custom headers and extensible list of configuration elements
+            # {
+            #     "label": "Custom Header",
+            #     "name": "header_list",
+            #     "type": "kv_list",
+            #     "default": "[]",
+            # }
+        ]
+    },
+    {
+        "name": "BasicRestAction",
+        "class": "RestAction",
+        "label": "Basic REST",
+        "options": [
+            {
+                "label": "Request type",
+                "name": "request_type",
+                "type": "select",
+                "choices": [
+                    {
+                        "name": "GET",
+                        "label": "Perform GET request",
+                    },
+                    {
+                        "name": "POST",
+                        "label": "Perform POST request",
+                    },
+                    {
+                        "name": "DELETE",
+                        "label": "Perform DELETE request",
+                    }
+                ]
+            },
+            {
+                "label": "Full URL",
+                "name": "full_url",
+                "type": "text",
+                "default": "https://127.0.0.1:8080/api"
+            },
+            {
+                "label": "Custom Header",
+                "name": "header_list",
+                "type": "kv_list",
+                "default": "[]",
             }
         ]
     }
@@ -426,7 +479,7 @@ REGISTERED_APP_THEMES = (
         "label": "White/Red",
         "base_template": "themes/white_red.html",
     },
-{
+    {
         "label": "White/Green",
         "base_template": "themes/white_green.html",
     },
@@ -614,5 +667,12 @@ SCREEN_WIDGETS = (
         "configuration_template": "list_config.html",
         "id": "simple_list",
         "render_template": "list.html"
+    },
+    {
+        "label": "Raw HTML",
+        "configurable": True,
+        "configuration_template": "html_config.html",
+        "id": "html_contents",
+        "render_template": "html.html"
     }
 )

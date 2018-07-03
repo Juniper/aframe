@@ -15,56 +15,56 @@
 {% block scripts %}
     <script type="text/javascript">
 
-    function get_action_options(action_name) {
+        function get_action_options(action_name) {
 
-        var doc = jQuery(document.documentElement);
-        doc.css("cursor", "progress");
+            let doc = jQuery(document.documentElement);
+            doc.css("cursor", "progress");
 
-        var params = {
-            "action_name" : action_name
-        }
+            let params = {
+                "action_name": action_name
+            };
 
-        var url = "/tools/actionOptions/"
+            let url = "/tools/actionOptions/";
 
-        var post = jQuery.post(url, params, function(response) {
-            data = eval(response);
-            if ("options" in data) {
-                console.log("dumping options");
-                var opts = data["options"];
-                for (o=0; o < opts.length; o++) {
-                    console.log(opts[o]);
+            let post = jQuery.post(url, params, function (response) {
+                let data = eval(response);
+                if ("options" in data) {
+                    console.log("dumping options");
+                    let opts = data["options"];
+                    for (let o = 0; o < opts.length; o++) {
+                        console.log(opts[o]);
+                    }
                 }
-            }
-        });
-        post.fail(function() {
-            alert("Could not perform request!");
-        });
-
-        post.always(function() {
-            doc.css("cursor", "");
-        });
-    }
-
-    function check_embedded_variable(el) {
-        var element_value = el.value;
-        console.log(element_value);
-        if (element_value.includes("{% templatetag openvariable %}")) {
-            console.log("Showing label options");
-            var label_input = $("#" + el.name + "_variable")
-            label_input.css("display", "");
-            //label_input.attr("placeholder", "Label for " + el.value);
-            label_input.val(el.name);
-        }
-    }
-
-    $(window).load(function() {
-        console.log("loading");
-        $("#id_action_provider").change(
-            function(v){
-                var selected_action = $("#id_action_provider").val();
-                get_action_options(selected_action);
             });
-    });
+            post.fail(function () {
+                alert("Could not perform request!");
+            });
+
+            post.always(function () {
+                doc.css("cursor", "");
+            });
+        }
+
+        function check_embedded_variable(el) {
+            let element_value = el.value;
+            console.log(element_value);
+            if (element_value.includes("{% templatetag openvariable %}")) {
+                console.log("Showing label options");
+                let label_input = $("#" + el.name + "_variable");
+                label_input.css("display", "");
+                //label_input.attr("placeholder", "Label for " + el.value);
+                label_input.val(el.name);
+            }
+        }
+
+        $(window).load(function () {
+            console.log("loading");
+            $("#id_action_provider").change(
+                function (v) {
+                    var selected_action = $("#id_action_provider").val();
+                    get_action_options(selected_action);
+                });
+        });
 
     </script>
 {% endblock %}

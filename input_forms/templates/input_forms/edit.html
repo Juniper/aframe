@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% block title %}A-Frame{% endblock %}
 
@@ -53,7 +52,7 @@
                 var widget_config = row.find('[id $= "_widget_config"]').val();
 
                 // verify we have something to work with
-                if (widget_config == "") {
+                if (widget_config === "") {
                     widget_config = "{}";
                 }
 

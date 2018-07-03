@@ -33,25 +33,30 @@
 		$("#create_form").submit();
 	}
 
-	function add_automation() {
-		let automation_name = $( "#template_autocomplete" ).val();
-		selected_automations.push(automation_name);
-		let new_li = $("<li>")
-		new_li.append(automation_name);
-		$("#selected_automations_ui").append(new_li);
+    function add_automation() {
+        let ta = $("#template_autocomplete");
+        let automation_name = ta.val();
 
-		$( "#template_autocomplete" ).val("");
-		$( "#template_autocomplete" ).focus();
-	}
+        selected_automations.push(automation_name);
+        let new_li = $("<li>")
+        new_li.append(automation_name);
+        $("#selected_automations_ui").append(new_li);
 
-	function add_screen_widget() {
-		let screen_widget_name = $('#screen_widget_select').val();
+        ta.val("");
+        ta.focus();
+    }
 
-		selected_screen_widgets.push(screen_widget_name);
-		let new_li = $("<li>")
-		new_li.append(screen_widget_name);
-		$("#selected_screen_widgets_ui").append(new_li);
-	}
+    function add_screen_widget() {
+        let screen_widget_name = $('#screen_widget_select').val();
+        if (screen_widget_name === 'none') {
+            return;
+        }
+        selected_screen_widgets.push(screen_widget_name);
+        let new_li = $("<li>")
+        new_li.append(screen_widget_name);
+        $("#selected_screen_widgets_ui").append(new_li);
+        $('#screen_widget_select').val('none');
+    }
 
 	$(window).load(function() {
 		$( "#template_autocomplete" ).autocomplete({
@@ -60,13 +65,14 @@
 				event.preventDefault();
 				$("#template_autocomplete").val(ui.item.label);
 			},
-			select: function (event, ui) {
-				$("#template_autocomplete").val(ui.item.label);
-				$("#template_autocomplete_id").val(ui.item.value);
-				return false;
-			}
-		});
-	});
+            select: function (event, ui) {
+                $("#template_autocomplete").val(ui.item.label);
+                $("#template_autocomplete_id").val(ui.item.value);
+                add_automation();
+                return false;
+            }
+        });
+    });
 
 
 </script>
