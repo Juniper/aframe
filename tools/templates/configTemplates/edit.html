@@ -110,8 +110,8 @@
 						<label class="label">Template Type</label>
 						<label class="select">
 							<select name="type">
-								<option value="standalone">Standalone</option> 
-								<option value="per-endpoint">Per-Endpoint</option>
+								<option value="standalone" {% if template.type == 'standalone' %} selected {% endif %}>Standalone</option> 
+								<option value="per-endpoint" {% if template.type == 'per-endpoint' %} selected {% endif %}>Per-Endpoint</option>
 							</select><i></i>
 						</label>
 					</section>
