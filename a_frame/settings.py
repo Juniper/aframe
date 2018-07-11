@@ -158,6 +158,13 @@ REGISTERED_ENDPOINT_PROVIDERS = (
     }
 )
 ACTION_PROVIDERS = (
+# Placeholder for Ansible integration
+#    {
+#        "name": "AnsibleAction",
+#        "class": "AnsibleAction",
+#        "label": "Ansible",
+#        "options": [],
+#    },
     {
         "name": "NetconfAction",
         "class": "NetconfAction",

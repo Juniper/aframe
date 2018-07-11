@@ -136,7 +136,7 @@
                     widget_config.val(widget_config_string);
 
                     console.log(t_config["widget_config"]);
-                    if (t_config["widget_config"] != "{}") {
+                    if (Object.keys(t_config["widget_config"]).length > 0) { // fix for config buttons always showing on load
                         var widget_config_button = row.find('[id $= "_widget_config_button"]');
                         widget_config_button.css("display", "");
                     }
