@@ -1,5 +1,18 @@
 
 {% extends "base.html" %}
+{% load staticfiles %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Configure Template</li>
+{% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+	Automations 
+<span>>  
+	Configure Template
+</span>
+{% endblock %}
 {% block title %}A-Frame{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
@@ -7,59 +20,67 @@
 </script>
 {% endblock%}
 {% block content %}
-<h2>{{ input_form.name }}</h2>
-{{ input_form.instructions }}
-<form method="POST" action="/input_forms/apply">
-    <table>
-        <tbody>
-        <tr style="background: white">
-            <td class="template_title">
-                Endpoint:
-            </td>
-            <td>
-                {{ endpoint.name }}
-                <input type="hidden" name="group_id" value="{{ group_id }}"/>
-                <input type="hidden" name="endpoint_id" value="{{ endpoint.id }}"/>
-                <input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
-            </td>
-        </tr>
-        <tr style="background: white">
-            <td>
-                IP Address:
-            </td>
-            <td>
-                {{ endpoint.ip }}
-            </td>
-        </tr>
-        <tr style="background: white">
-            <td>
-                Username:
-            </td>
-            <td>
-                <input type="text" name="global_username" value="{{ endpoint.username }}"
-                       title="Optional. Username to apply if the endpoint provider does not provide authentication parameters"
-                       style="margin-left: 0px;"/>
-            </td>
-        </tr>
-        <tr style="background: white">
-            <td>
-                Password:
-            </td>
-            <td>
-                <input type="password" value="{{ endpoint.password }}"
-                       title="Optional. Password to apply if the endpoint provider does not provide authentication parameters"
-                       name="global_password" style="margin-left: 0px;"/>
-            </td>
-        </tr>
-        </tbody>
-        {% include "input_forms/input_form_body.html" %}
-        <tbody>
-        <tr>
-            <td colspan="2" style="text-align: right;">
-                <input type="submit" value="Apply">
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</form>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:50%;margin:auto;">
+			<form method="POST" class="smart-form" action="/input_forms/apply">
+				<header>
+					{{ input_form.name }}
+				</header>
+				<fieldset>
+					<section>
+						<h3>Description:</h3></br>
+						<label class="label" style="font-size:16px;">&nbsp;{{ input_form.description }}</label>
+					</section>
+					<section>
+						<h3>Instructions:</h3></br>
+						<label class="label" style="font-size:16px;">&nbsp;{{ input_form.instructions }}</label>
+					</section>
+					<section>
+						<h3>Endpoint:</h3></br>
+						<label class="label" style="font-size:16px;">&nbsp;{{ endpoint.name }}</label>
+                				<input type="hidden" name="group_id" value="{{ group_id }}"/>
+                				<input type="hidden" name="endpoint_id" value="{{ endpoint.id }}"/>
+                				<input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
+					</section>
+					<section>
+						<h3>IP Address:</h3></br>
+						<label class="label" style="font-size:16px;">&nbsp;{{ endpoint.ip }}</label>
+					</section>
+				</fieldset>
+				<fieldset>
+					<section>
+						<label class="label">Username</label>
+						<label class="input">
+							<i class="icon-prepend fa fa-user"></i>
+							<input type="text" name="global_username" placeholder="Username" value="{{ endpoint.username }}">
+							<b class="tooltip tooltip-top-left">Optional: Username to apply if the endpoint provider does not provide authentication parameters</b>
+						</label>
+					</section>
+					<section>
+						<label class="label">Password</label>
+						<label class="input">
+							<i class="icon-prepend fa fa-lock"></i>
+							<input type="password" name="global_password" placeholder="Password" value="{{ endpoint.password }}">
+							<b class="tooltip tooltip-top-left">Optional. Password to apply if the endpoint provider does not provide authentication parameters</b>
+						</label>
+					</section>
+				</fieldset>
+				<fieldset>
+        				{% include "input_forms/input_form_body.html" %}
+				</fieldset>
+				<footer>
+					<button type="submit" class="btn btn-sm btn-success btn-next" data-last="Finish">
+						Apply
+					<i class="fa fa-arrow-right"></i></button>
+
+					<button type="button" class="btn btn-sm btn-warning btn-back" onclick="javascript: window.history.back()">
+						<i class="fa fa-arrow-left"></i>
+						Back
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}

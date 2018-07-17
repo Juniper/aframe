@@ -40,7 +40,7 @@ $(window).load(function() {
 {% block content %}
 <div class="row">
 	<div class="col-sm-12">
-		<div class="well" style="width:70%;margin:auto;">
+		<div class="well" style="width:60%;margin:auto;">
 			<form method="POST" class="smart-form" action="/input_forms/configureTemplate">
 				<header>
 					Endpoint Details
@@ -105,10 +105,10 @@ $(window).load(function() {
 				</fieldset>
 				<fieldset>
 					<section>
-						<h3>Apply Template:</h3></br>
+						<h3 align="center">Apply Template:</h3></br>
 						<input type="hidden" name="group_id" value="{{ group_id }}">
 						<input type="hidden" name="endpoint_id" value="{{ endpoint.id}}">
-						<label class="input" style="width:50%"> <i class="icon-prepend fa fa-search"></i>
+						<label class="input" style="width:60%;margin:auto;"> <i class="icon-prepend fa fa-search"></i>
 							<input type="text" name="input_form_name" id="template_autocomplete" placeholder="search Input Form Definitions">
 						</label>
 					</section>
