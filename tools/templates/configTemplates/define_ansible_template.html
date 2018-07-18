@@ -1,0 +1,109 @@
+
+<!-- This file is specifically for AnsibleAction templates, as they are different from all other templates -->
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}A-Frame - New Template{% endblock %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Define Template</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-sliders"; style="font-size: xx-large;"></span>
+    Automations
+<span>>  
+    Define Template
+</span>
+{% endblock %}
+{% block scripts %}
+	<script type="text/javascript">
+	function validateForm() {
+		return true;
+	}
+	$(window).load(function() {
+		$( "#template_autocomplete" ).autocomplete({
+			source: "/tools/search",
+		});
+	});
+
+	</script>
+{% endblock %}
+{% block content %}
+
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:80%;margin:auto">
+
+			<form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/create/" class="smart-form">
+				<header>
+					New Template - Step 3 of 3
+				</header>
+				<fieldset>
+					<h3>Info:</h3></br>
+					<section>
+						<label class="label" >Action Provider:  <font size="2" color="grey">{{action_provider}}</font></label>
+						{% for option in options.values %}
+						<label class="label">{{ option.label }}: <font size="2" color="grey">{{option.value}}</font></label>
+						{% endfor %}
+					</section>
+				</fieldset>
+				<fieldset>
+					<h3>Options:</h3></br>
+					<section>
+						<label class="label">Template Name</label>
+						<label class="input">
+							<input type="text" name="name" placeholder="New Template Name">
+						</label>
+					</section>
+					<section>
+						<label class="label">Description</label>
+						<label class="textarea">
+							<textarea rows="6" name="description" placeholder="A brief description of this template"></textarea>
+						</label>
+					</section>
+					<section style="width:30%">
+						<label class="label">Template Type</label>
+						<label class="select state-disabled">
+							<select name="type-hold" disabled="disabled">
+								<option value="standalone">Standalone</option>
+								<option value="per-endpoint" selected="selected">Per-Endpoint</option>
+							</select><i></i>
+						</label>
+						<input type="hidden" name="type" value="Per-Endpoint"/>
+					</section>
+					<section>
+						<label class="label">Template</label>
+						<label class="textarea state-disabled">
+							<textarea name="template-hold" disabled="disabled" rows="18">{{ playbook }}</textarea>
+						</label>
+						<input type="hidden" name="template" value="{{ playbook }}"/>
+						<input type="hidden" name="template_path" value="{{ playbook_path }}"/>
+					</section>
+					<section class="col col-6" style="height:57px;padding-left:0px">
+						<label class="label">Embed Template</label>
+						<label class="input">
+							<input type="text" name="embedded_template" id="template_autocomplete" placeholder="Search Template Definitions">
+						</label>
+					</section>
+					<section class="col col-6" style="height:57px;">
+						<button type="button" class="btn btn-lg btn-primary" style="position:relative;top:50%;transform:translateY(-50%);padding:8px;" onclick="javascript: embed_template()">
+							View API
+						</button>
+					</section>
+				</fieldset>
+				<input type="hidden" name="action_provider" value="{{ action_provider }}"/>
+				<footer>
+					<button type="submit" class="btn btn-success">
+						Create
+						<i class="fa fa-arrow-right"></i>
+					</button>
+					<button type="button" class="btn btn-danger" onclick="javascript: window.history.back();">
+						<i class="fa fa-arrow-left"></i>
+						Back
+					</button>
+				</footer> 
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -465,15 +465,18 @@ def apply_per_endpoint_template(request):
     json_object = json.loads(input_form.json)
 
     context = dict()
+    host_vars = {}    # only used for AnsibleAction
     for j in json_object:
         if '.' in j["name"]:
             # this is a json capable variable name
             j_dict = aframe_utils.generate_dict(j["name"], str(request.POST.get(j["name"], '')))
             context.update(j_dict)
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
         else:
             logger.debug("setting context %s" % j["name"])
             # don't worry about null values here
             context[j["name"]] = str(request.POST.get(j['name'], ''))
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
 
     context["af_endpoint_ip"] = endpoint["ip"]
     context["af_endpoint_id"] = endpoint["id"]
@@ -520,8 +523,12 @@ def apply_per_endpoint_template(request):
             action_options[opt_name]['value'] = pw_lookup_value
 
     action = action_provider.get_provider_instance(action_name, action_options)
-    action.set_endpoint(endpoint)
-    results = action.execute_template(completed_template)
+    if action_name == "AnsibleAction":
+        action.set_endpoint(endpoint, host_vars)
+        results = action.execute_template(config_template.template_path)
+    else:
+        action.set_endpoint(endpoint)
+        results = action.execute_template(completed_template)
     context = {"results": results}
 
     if "inline" in request.POST and request.POST["inline"] == 'yes_please':
@@ -702,7 +709,7 @@ def apply_template_to_queue(request):
         results += "================ %s ================\n" % endpoint["name"]
         action.set_endpoint(endpoint)
         result = action.execute_template(completed_template)
-        results += result
+        results += result or ""
         results += "\n"
 
     context = {"results": results}

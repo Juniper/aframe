@@ -158,13 +158,6 @@ REGISTERED_ENDPOINT_PROVIDERS = (
     }
 )
 ACTION_PROVIDERS = (
-# Placeholder for Ansible integration
-#    {
-#        "name": "AnsibleAction",
-#        "class": "AnsibleAction",
-#        "label": "Ansible",
-#        "options": [],
-#    },
     {
         "name": "NetconfAction",
         "class": "NetconfAction",
@@ -450,7 +443,21 @@ ACTION_PROVIDERS = (
                 "default": "[]",
             }
         ]
-    }
+    },
+    # Ansible integration
+    {
+        "name": "AnsibleAction",
+        "class": "AnsibleAction",
+        "label": "Ansible",
+        "options": [
+             {
+                 "label": "Playbook Path",
+                 "name": "playbook_path",
+                 "type": "text",
+                 "default": "/path/to/playbook.yml"
+             },
+         ]
+    },
 )
 
 REGISTERED_APP_THEMES = (

@@ -80,8 +80,13 @@ def define_template(request):
 
     print("Setting configured options to the session %s" % configured_options)
     request.session["new_template_action_options"] = configured_options
-    context = {"options": configured_options, "action_provider": action_provider_name}
-    return render(request, "configTemplates/define_template.html", context)
+    if action_provider_name == "AnsibleAction":
+        with open(configured_options['playbook_path']['value'], 'r') as playbook:
+            context = {"options": configured_options, "action_provider": action_provider_name, "playbook": playbook.read(), "playbook_path": configured_options['playbook_path']['value']}
+        return render(request, "configTemplates/define_ansible_template.html", context)
+    else:
+        context = {"options": configured_options, "action_provider": action_provider_name}
+        return render(request, "configTemplates/define_template.html", context)
 
 
 def get_options_for_action(request):
@@ -170,6 +175,8 @@ def create(request):
     template.name = request.POST["name"]
     template.description = request.POST["description"]
     template.action_provider = request.POST["action_provider"]
+    if request.POST["action_provider"] == "AnsibleAction":
+        template.template_path = request.POST["template_path"]
     template.template = request.POST["template"].strip().replace('\r\n', '\n')
     template.type = request.POST["type"]
 
