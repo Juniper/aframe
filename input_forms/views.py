@@ -287,6 +287,7 @@ def import_form(request):
         template.action_provider_options = template_options["action_provider_options"]
         template.type = template_options["type"]
         template.template = unquote(template_options["template"])
+        template.template_path = template_options["template_path"]
 
         template.save()
 

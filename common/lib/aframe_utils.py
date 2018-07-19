@@ -447,6 +447,7 @@ def export_input_form(input_form_id):
     template_options["action_provider_options"] = config_template.action_provider_options
     template_options["type"] = config_template.type
     template_options["template"] = quote(config_template.template)
+    template_options["template_path"] = config_template.template_path
 
     form_options = dict()
     form_options["name"] = input_form.name
