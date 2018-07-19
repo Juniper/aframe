@@ -152,7 +152,7 @@ def detail(request, input_form_id):
     inline_per_endpoint = False
 
     context = {"input_form": input_form, "json_object": json_object, 'action_options': action_options,
-               'inline_per_endpoint': inline_per_endpoint}
+               'inline_per_endpoint': inline_per_endpoint, 'action_provider': config_template.action_provider}
 
     if input_form.script.type == "standalone":
         return render(request, "input_forms/configure_standalone_template.html", context)

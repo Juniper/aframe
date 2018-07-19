@@ -60,7 +60,7 @@
 			<label class="label">Password</label>
 			<label class="input">
 				<i class="icon-prepend fa fa-lock"></i>
-				<input type="text" name="global_password" placeholder="Password">
+				<input type="password" name="global_password" placeholder="Password">
 				<b class="tooltip tooltip-top-left">Optional: Password to apply if the endpoint provider does not provide authentication parameters</b>
 			</label>
 		</section>
@@ -69,9 +69,16 @@
 		{% include "input_forms/input_form_body.html" %}
 	</fieldset>
 	<footer>
+		<button type="submit" class="btn btn-success" href="javascript:void(0);">
+			Apply
+			<i class="fa fa-arrow-right"></i>
+		</button>
+		<button type="button" class="btn btn-warning" onclick="javascript: window.history.back();">
+			<i class="fa fa-arrow-left"></i>
+			Cancel
+		</button>
 		<input type="hidden" name="group_id" value="{{ group_id }}"/>
 		<input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
-		<button type="submit" class="btn btn-primary">Apply</button>
 	</footer>
 </form>
 		</div>

@@ -24,6 +24,15 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="well" style="width:60%;margin:auto;">
+			{% if action_provider == 'AnsibleAction' %}
+			<div class="alert alert-warning fade in">
+				<button class="close" data-dismiss="alert">
+					× <!-- wadu hek -->
+				</button>
+				<i class="fa-fw fa fa-warning"></i>
+				<strong>Warning</strong> If the contents of the playbook are edited, select "Edit Template" from the main automations page, and save without changing anything to update the template preview.
+			</div>
+			{% endif %}
 			<form method="POST" class="smart-form" action="/input_forms/applyStandalone">
 				<header>
 					{{ input_form.name }} Preview
