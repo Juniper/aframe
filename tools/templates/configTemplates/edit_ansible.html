@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}A-Frame - Edit Template{% endblock %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Edit Template</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-sliders"; style="font-size: xx-large;"></span>
+    Automations
+<span>>  
+    Edit Template
+</span>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+        function validateForm() {
+            var d = $('#id_description');
+            var n = $('#id_name');
+            if (n.val() == "") {
+                alert("Please enter a name!");
+                n.focus();
+                return false;
+            }
+            if (d.val() == "") {
+                alert("Please enter a description!");
+                d.focus();
+                return false;
+            }
+        }
+
+        function check_embedded_variable(el) {
+            var element_value = el.value;
+            console.log(element_value);
+            if (element_value.includes("{% templatetag openvariable %}")) {
+                console.log("Showing label options");
+                var label_input = $("#" + el.name + "_variable")
+                label_input.css("display", "");
+                label_input.attr("placeholder", "Label for " + el.value);
+            } else {
+                var label_input = $("#" + el.name + "_variable")
+                label_input.css("display", "none");
+                label_input.val("");
+            }
+        }
+
+        $(window).load(function () {
+            // Set values for all items from the action_options json object
+            // jQuery is much cleaner to set form values than django templates
+            // i.e. much less logic in the template
+
+            // get the action options hidden form element value
+            var ao = $("#action_options").val();
+            // parse into JSON
+            var action_options_json = JSON.parse(ao);
+            // iterate over each one
+            for (opt in action_options_json) {
+                var opt_obj = action_options_json[opt];
+                var name = opt_obj["name"];
+                console.log(name + " : " + opt_obj["value"]);
+                // use jquery 'exact match' selector to get the appropriate form element
+                var opt_form_element = $('[name = "' + name + '"]');
+                // set the value of the form element here
+                opt_form_element.val(opt_obj["value"]);
+                // do we have a customized action option?
+                if (opt_obj["value"].includes("{% templatetag openvariable %}")) {
+                    // yes we do, let's show the label option form element
+                    console.log("Showing label options");
+                    // naming convention is always option name with "_variable" appended
+                    var label_input = $("#" + name + "_variable");
+                    // show it
+                    label_input.css("display", "");
+                    // set the value from the json object
+                    label_input.val(opt_obj["variable"]);
+                }
+            }
+
+            $("#template_autocomplete").autocomplete({
+                source: "/tools/search",
+            });
+        });
+
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:70%;margin:auto">
+			<form method="POST" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/update/" class="smart-form">
+				{% csrf_token %}
+				<header>
+					Edit Template
+				</header>
+				<fieldset>
+					<section style="width:60%">
+						<label class="label">Template Name</label>
+						<label class="input">
+							<input type="text" name="name" value="{{ template.name }}">
+						</label>
+					</section>
+					<section style="width:60%">
+						<label class="label">Description</label>
+						<label class="textarea">
+							<textarea rows="4" name="description">{{ template.description }}</textarea>
+						</label>
+					</section>
+					<section style="width:60%">
+						<label class="label">Template Type</label>
+						<label class="select state-disabled">
+							<select name="type-hold" disabled="disabled">
+								<option value="standalone">Standalone</option> 
+								<option value="per-endpoint" selected="selected">Per-Endpoint</option>
+							</select><i></i>
+						</label>
+						<input type="hidden" name="type" value="Per-Endpoint"/>
+					</section>
+					<section>
+						<label class="label">Template</label>
+						<label class="textarea state-disabled">
+							<textarea rows="15" name="template-hold" disabled="disabled">{{ template.template }}</textarea>
+						</label>
+						<input type="hidden" name="template" value="{{ template.template }}"/>
+					</section>  
+				</fieldset>
+				<fieldset>
+					<h3>Tools</h3></br>
+					<section class="col col-6" style="height:57px">
+						<label class="label">Embed Template</label>
+						<label class="input">
+							<input type="text" name="embedded_template" id="template_autocomplete" placeholder="Search Template Definitions">
+						</label>
+						   
+					</section>
+					<section class="col col-6" style="height:57px;">
+						<button type="button" class="btn btn-lg btn-primary" style="position:relative;top:50%;transform:translateY(-50%);padding:8px;" onclick="javascript: embed_template()">
+							View API
+						</button>
+					</section>
+				</fieldset>
+				<fieldset>
+					<h3>Action Options</h3></br>
+					{% for opts in default_options %}
+					<section style="width:60%">
+						{% if opts.type == "text" %}
+						<label class="label">{{ opts.label }}</label>
+						<label class="input">
+							<input type="text" name="{{ opts.name }}" onblur="javascript: check_embedded_variable(this)" placeholder="{{ opts.default }}">
+						</label>
+					</section>	
+						<input type="text" name="{{ opts.name }}_variable"
+							id="{{ opts.name }}_variable"
+							placeholder="{% templatetag openvariable %} Variable {% templatetag closevariable %} Label"
+							style="display: none; width: 100%;"/>
+						{% elif opts.type == 'secret' %}
+						<label class="label">{{ opts.label }}</label>
+						<label class="select">
+							<select name="{{ opts.name }}" title="Secret lookup from conf/secrets.yml">
+								{% for s in secrets %}
+									<option value="{{ s.name }}">{{ s.label }}</option>
+								{% endfor %}
+							</select><i></i>
+						</label>
+					</section>
+						{% else %}
+						<label class="label">{{ opts.label }}</label>
+						<label class="select">
+							<select name="{{ opts.name }}">
+								{% for c in opts.choices %}
+								<option value="{{ c.name }}">{{ c.label }}</option><br>
+								{% endfor %}
+							</select><i></i>
+						</label>
+					</section>
+						{% endif %}
+					{% endfor %}
+				</fieldset>
+				<input type="hidden" name="id" value="{{ template.id }}"/>
+				<input type="hidden" id="action_options" value="{{ action_options }}"/><br>
+				<footer>
+					<button type="submit" class="btn btn-success" href="javascript:void(0);">
+						Update
+					</button>
+					<button type="button" class="btn btn-primary" onclick="javascript: window.location.href = '/tools/clone/{{ template.id }}'">
+						Clone
+					</button>
+					<button type="button" class="btn btn-danger" onclick="javascript: window.history.back();">
+						<i class="fa fa-times"></i>
+						Cancel
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

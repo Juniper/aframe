@@ -110,6 +110,8 @@ def edit(request, template_id):
                "default_options": default_options,
                "secrets": secrets
                }
+    if (template.action_provider == "AnsibleAction"):
+        return render(request, "configTemplates/edit_ansible.html", context)
     return render(request, "configTemplates/edit.html", context)
 
 
@@ -136,7 +138,12 @@ def update(request):
                     # check for hidden action option customization
                     if opt["name"] + "_variable" in request.POST:
                         print("FOUND VARIABLE in tools update!")
-                        print("value is %s " % request.POST[opt["name"] + "_variable"])
+   			print(opt["name"])
+                        if (opt["name"] == "playbook_path"):
+                            template.template_path = request.POST[opt["name"]]
+                            with open(template.template_path) as tmp:
+                                template.template = tmp.read() # update displayed template
+                        print("value is %s " % request.POST[opt["name"]])
                         o["variable"] = request.POST[opt["name"] + "_variable"]
 
                     configured_options[o["name"]] = o

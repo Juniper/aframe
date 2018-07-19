@@ -656,15 +656,18 @@ def apply_template_to_queue(request):
     logger.debug(input_form.json)
     json_object = json.loads(input_form.json)
 
+    host_vars = {}    # only used for AnsibleAction
     context = dict()
     for j in json_object:
         if '.' in j["name"]:
             # this is a json capable variable name
             j_dict = aframe_utils.generate_dict(j["name"], str(request.POST[j["name"]]))
             context.update(j_dict)
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
         else:
             logger.debug("setting context %s" % j["name"])
             context[j["name"]] = str(request.POST[j["name"]])
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
 
     logger.debug(context)
 
@@ -707,8 +710,12 @@ def apply_template_to_queue(request):
         completed_template = str(compiled_template.render(context))
 
         results += "================ %s ================\n" % endpoint["name"]
-        action.set_endpoint(endpoint)
-        result = action.execute_template(completed_template)
+        if action_name == "AnsibleAction":
+            action.set_endpoint(endpoint, host_vars)
+            result = action.execute_template(config_template.template_path)
+        else:
+            action.set_endpoint(endpoint)
+            result = action.execute_template(completed_template)
         results += result or ""
         results += "\n"
 

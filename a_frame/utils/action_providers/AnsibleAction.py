@@ -19,10 +19,12 @@ class AnsibleAction(ActionBase):
     def set_endpoint(self, endpoint, host_vars):
         """
             Builds the inventory file for the specified endpoint, including the variables provided from the input form
+
+            :param host_vars: contains the variables from the input_form to be added to inventory
         """
 
         contents = ''
-        contents += "[" + endpoint['name'] + "]\n"
+        contents += "[" + endpoint['name'].replace(' ','') + "]\n"
         contents += endpoint['ip'] + " ansible_connection=ssh ansible_ssh_user=" + endpoint['username'] + " ansible_ssh_pass=" + endpoint['password'] + "\n\n"
         contents += "[all:vars]\n"
         for key in host_vars:
@@ -35,6 +37,14 @@ class AnsibleAction(ActionBase):
         return
 
     def execute_template(self, template):
+        """
+           Builds Ansible command to execute, writes it to a tmp file, and then executes it.
+           Requires SSHPass, logs into servers via SSH rather than keys.
+           Certainly vulnerable to command injection on local machine.
+
+           :param template: path to the playbook to be ran
+           :return: String results from the output of the script
+        """
         command = ''
         command += "ansible-playbook "
         command += template
