@@ -755,7 +755,7 @@ def load_widget_config(request):
     logger.info("__ input_forms load_widget_config __")
     required_fields = set(["widget_id", "target_id"])
     if not required_fields.issubset(request.POST):
-        logger.error("Did no find all required fields in request")
+        logger.error("Did not find all required fields in request")
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
     widget_id = request.POST["widget_id"]
