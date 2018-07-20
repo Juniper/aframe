@@ -15,6 +15,8 @@ To use the Ansible features you will also need to install SSHPass:
 apt-get install sshpass
 (will need to create a custom brew if you are running the server on OS X)
 
+If Ansible templates are failing to execute, try adding `remote_tmp = /tmp/ansible/$USER` to your ansible.cfg
+
 first, create your db by running "$ python ./manage.py migrate"
 then run the application by "$ python ./manage.py runserver 0.0.0.0:8080"
 

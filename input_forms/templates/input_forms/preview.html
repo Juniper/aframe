@@ -24,6 +24,13 @@
 <div class="row">
 	<div class="col-sm-12">
 		<div class="well" style="width:60%;margin:auto;">
+			<div class="alert alert-info fade in">
+				<button class="close" data-dismiss="alert">
+					×
+				</button>
+				<i class="fa-fw fa fa-info"></i>
+				<strong>Info!</strong> This is a per-endpoint template. To execute this template, first choose an endpoint and select this template.
+			</div>
 			{% if action_provider == 'AnsibleAction' %}
 			<div class="alert alert-warning fade in">
 				<button class="close" data-dismiss="alert">
@@ -63,8 +70,6 @@
 					</button>
 				</footer>
 			</form>
-			<br/>
-			<label class="label">This is a per-endpoint template. To execute this template, first choose an endpoint and select this template.</label>
 		</div>
 	</div>
 </div>
