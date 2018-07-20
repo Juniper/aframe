@@ -18,19 +18,19 @@
 {% block content %}
 <div class="row">
 	<div class="col-sm-12">
-		<div class="well" style="width:60%;margin:auto;">
+		<div class="well" style="width:40%;margin:auto;">
 			<form method="POST" class="smart-form" action="/screens/update" id="create_form">
 				<header>
 					Edit Screen
 				</header>
 				<fieldset>
-					<section style="width:60%;">
+					<section>
 						<label class="label">Name</label>
 						<label class="input">
 							<input type="text" name="name" id="name" value="{{ screen.name }}" onblur="return clean_string_no_special(this);"/>
 						</label>
 					</section>
-					<section style="width:60%;">
+					<section>
 						<label class="label">Tag</label>
 						<label class="input">
 							<input type="text" name="tag" value="{{ screen.tag }}"/>
