@@ -17,6 +17,17 @@
 </span>
 {% endblock %}
 
+{% block scripts %}
+<script type="text/javascript">
+function deleteItem(id) {
+	var ask = window.confirm("Are you sure you want to delete this item?");
+	if (ask) {
+		window.location.href = "/endpoints/deleteGroup/" + id;
+	}
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="row">
 	<div class="col-sm-12">
@@ -41,7 +52,7 @@
 						<td width="130px">
 			    				<a href="/endpoints/editGroup/{{ provider.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
 			    				&nbsp;
-							<a href="/endpoints/deleteGroup/{{ provider.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+							<a href="javascript:void(0);" onclick="deleteItem({{ provider.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
 						</td>
 					</tr>
 					{% endfor %}

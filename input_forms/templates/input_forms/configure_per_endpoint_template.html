@@ -16,6 +16,14 @@
 {% block title %}A-Frame{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
+$(document).ready(function() {		// prevents user from submitting form without widgets checking inputs
+	$(window).keydown(function(event) {
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+});
 
 </script>
 {% endblock%}

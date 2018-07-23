@@ -17,6 +17,17 @@
 </span>
 {% endblock %}
 
+{% block scripts %}
+<script type="text/javascript">
+function deleteItem(id) {
+	var ask = window.confirm("Are you sure you want to delete this item?");
+	if (ask) {
+		window.location.href = "delete/" + id;
+	}
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="row">
 	<div class="col-sm-12">
@@ -45,7 +56,7 @@
 							<a href="edit/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
 									&nbsp;
 							<a href="export/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Export</a> &nbsp;
-							<a href="delete/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+							<a href="javascript:void(0);" onclick="deleteItem({{ screen.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
 						</td>
 					</tr>
 						{% endfor %}

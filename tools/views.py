@@ -218,6 +218,7 @@ def clone(request, template_id):
     dolly.action_provider = template.action_provider
     dolly.action_provider_options = template.action_provider_options
     dolly.template = template.template
+    dolly.template_path = template.template_path
     dolly.type = template.type
 
     print("Cloning template %s" % template.name)

@@ -16,6 +16,17 @@
 </span>
 {% endblock %}
 
+{% block scripts %}
+<script type="text/javascript">
+function deleteItem(id) {
+	var ask = window.confirm("Are you sure you want to delete this item?");
+	if (ask) {
+		window.location.href = "/tools/delete/" + id;
+	}
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="row">
 	<div class="col-sm-12">
@@ -48,7 +59,7 @@
 									&nbsp;
 							<a href="export/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-download"></i> Export</a>
 									&nbsp;
-							<a href="/tools/delete/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+							<a href="javascript:void(0);" onclick="deleteItem({{ input_form.script.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
 							</td>
 					</tr>
 						{% endfor %}
