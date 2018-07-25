@@ -44,13 +44,13 @@ function deleteItem(id) {
 					{% for provider in provider_list %}
 					<tr>
 						<td>
-							<a href="/endpoints/list/{{ provider.id }}">{{ provider.name }}</a>
+							<a href="{{ configure_group.id }}">{{ provider.name }}</a>
 						</td>
 						<td>
 							{{ provider.description }}
 						</td>
 						<td width="130px">
-			    				<a href="/endpoints/editGroup/{{ provider.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
+			    				<a href="configureGroup/{{ configure_group.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
 			    				&nbsp;
 							<a href="javascript:void(0);" onclick="deleteItem({{ provider.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
 						</td>

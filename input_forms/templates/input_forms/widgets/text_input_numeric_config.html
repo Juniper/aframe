@@ -31,15 +31,43 @@
         console.log('all done');
         close_overlay();
     }
+
 </script>
-Numeric Range Validation. The entered value must be a numeral between lower and higher bounds
-<br/>
-Lower: <input type="text" id="numeric_range_lower" value="0" style="width: 100"/>
-&nbsp; - &nbsp;
-Higher: <input type="text" id="numeric_range_higher" value="4096" style="width: 100"/>
-<br/>
-<input type="button" onclick="javascript: set_numeric_range_config('{{ target_id }}')" value="OK"/>
-<br/>
+<table>
+    <tr>
+        <td colspan="2">
+            <!-- Simple Static Image. New images can be added to the common/lib/static/images directory -->
+
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Numeric Range Validation. The entered value must be a numeral between lower and higher bounds</label>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Lower:</label>
+
+        </td>
+        <td>
+            <!-- <input type="text" id="static_image_url" value="/static/images/a-frame-logo.png" title="add images to the common/lib/static/images directory"/> -->
+
+             <input type="text" id="numeric_range_lower" placeholder="0" style="width: 100"/>
+        </td>
+    </tr>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Higher:</label>
+        </td>
+        <td>
+             <input type="text" id="numeric_range_higher" placeholder="4096" style="width: 100"/>
+        </td>
+    </tr>
+     <td colspan="2">
+<!--             <input type="button" onclick="javascript: set_static_image_config()" value="OK"/>
+ -->
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: set_numeric_range_config('{{ target_id }}')" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+
+        </td>
+    </tr>
+</table>
 {% endblock %}
-
-

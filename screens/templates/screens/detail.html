@@ -462,7 +462,7 @@
 
     <h2>{{ screen.name }}</h2>
 
-    <div class="screen_box" id="screen_box_base" onclick="javascript: bring_window_to_front(this)">
+    <div class="screen_box" id="screen_box_base" style="color:black;" onclick="javascript: bring_window_to_front(this)">
     </div>
 
     <div class="screen_box widget_box" id="widget_box_base" onclick="javascript: bring_window_to_front(this)">
@@ -470,21 +470,22 @@
 
     <div class="screen_box" id="configuration_box" onclick="javascript: bring_window_to_front(this)">
         <div class="overlay_menu">
-            <div style="font-size:large; text-align:left">
-                        Screen Configuration
-                    </div>
             <div class="overlay_close">
-                <a href="#" onclick="close_config_window()">
+                <a href="#" style="color:black;" onclick="close_config_window()">
                     X
                 </a>
             </div>
+            <div style="color:black; font-size:large; padding-left: 20px; text-align:left">
+                        Screen Configuration
+                    </div>
+            
         </div>
         <form action="/input_forms/applyStandalone">
             <table style="width: auto; margin-top: auto; padding-top: auto; padding: auto; ">
                 <tbody class="screen_box_menu">
                 <tr>
                     <td>
-                        <input type="text" size=auto id="template_autocomplete"
+                        <input type="text" style="color:black; width:101%;" id="template_autocomplete"
                                placeholder="Add Automation to Screen"/>
                     </td>
                     <td>
@@ -493,11 +494,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="font-size:large" class="template_title">
+                    <td style="color:black; font-size:large; padding-left:20px" class="template_title">
                         Add Widget:
                     </td>
                     <td>
-                        <select id="widget" onchange="add_widget_config();">
+                        <select id="widget" style="color:black;" onchange="add_widget_config();">
                             <option value="">Add</option>
                             {% for widget in available_widgets %}
                                 <option value="{{ widget.id }}">{{ widget.label }}</option>
@@ -506,11 +507,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="font-size:large" class="template_title">
+                    <td style="color:black;font-size:large; padding-left:20px" class="template_title">
                         Update Theme:
                     </td>
                     <td>
-                        <select name="theme" id="theme" onchange="javascript: theme_changed()">
+                        <select name="theme" style="color:black;" id="theme" onchange="javascript: theme_changed()">
                             {% for theme in themes %}
                                 {% if theme.base_template == screen.theme %}
                                     <option value="{{ theme.base_template }}"
@@ -523,7 +524,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td style="padding-left:15px">
                         <input type="button" onclick="update_layout()" value="Save Screen Layout"/>
                     </td>
                 </tr>

@@ -38,6 +38,17 @@
                 list_title = wc['list_title'];
 
                 console.log(wc);
+
+                $('#widget_container_{{ widget_layout_id }}').css('height', 'initial');
+                $('#widget_container_{{ widget_layout_id }}').css('width', 'initial');
+
+                // fixme - move to onload function
+                $("#{{ widget_layout_id }}_col_1_header").append(col_1_header);
+                $("#{{ widget_layout_id }}_col_1_key").append(col_1_key);
+                $("#{{ widget_layout_id }}_col_2_header").append(col_2_header);
+                $("#{{ widget_layout_id }}_col_2_key").append(col_2_key);
+
+                $("#{{ widget_layout_id }}_list_title").append(list_title);
             }
 
             var url = '/tools/execute_template';
@@ -66,7 +77,8 @@
                 // fixme - move to onload function
                 $("#{{ widget_layout_id }}_col_1_header").html(col_1_header);
                 $("#{{ widget_layout_id }}_col_2_header").html(col_2_header);
-
+                $("#{{ widget_layout_id }}_col_1_key").html(col_1_key);
+                $("#{{ widget_layout_id }}_col_2_key").html(col_2_key);
                 $("#{{ widget_layout_id }}_list_title").html(list_title);
 
             });
@@ -74,15 +86,21 @@
 
 </script>
 <td>
+     <label class="label" style="font-size: medium; color:black;">Simple List</label><br><br>
     <table>
-        <tbody class="screen_box_header">
-            <td colspan="2" id="{{ widget_layout_id }}_list_title"></td>
+        <tbody class="screen_box_header" style="color:black; width: 100%; height: 100%">
+            <td colspan="2" rowspan="2" style="color:black; font-size:small" id="{{ widget_layout_id }}_list_title"></td>
         </tbody>
         <tbody>
-            <th id="{{ widget_layout_id }}_col_1_header"></th>
-            <th id="{{ widget_layout_id }}_col_2_header"></th>
+            <th id="{{ widget_layout_id }}_col_1_header"style="color:black; font-size: x-small"></th>
+            <th id="{{ widget_layout_id }}_col_2_header"style="color:black; font-size: x-small"></th>
+            
         </tbody>
-        <tbody id="{{ widget_layout_id }}_list_body"></tbody>
+        <tbody>
+            <th id="{{ widget_layout_id }}_col_1_key"style="color:black; font-size: x-small"></th>
+            <th id="{{ widget_layout_id }}_col_2_key"style="color:black; font-size: x-small"></th>
+        </tbody>
+        <tbody id="{{ widget_layout_id }}_list_body"style="color:black; font-size: small"></tbody>
     </table>
 </td>
 {% endblock %}
