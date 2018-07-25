@@ -98,7 +98,7 @@ class EndpointBase(object):
             implementation has been provided here
         """
         for endpoint in self:
-            print endpoint
+            print "test" + str(endpoint)
             if endpoint["id"] == endpoint_id:
                 return endpoint
 

@@ -395,6 +395,9 @@ def configure_template_for_endpoint(request):
 
     config_template = input_form.script
     action_options = json.loads(config_template.action_provider_options)
+    if "AnsibleInventory" in str(endpoint):
+        if "playbook_path" not in action_options:
+            return render(request, "error.html", {"error": "Invalid automation for this type of endpoint!"})
 
     context = {"input_form": input_form, "json_object": json_object, "endpoint": endpoint, "group_id": group_id,
                'action_options': action_options
@@ -448,24 +451,37 @@ def apply_per_endpoint_template(request):
     provider_instance = endpoint_provider.get_provider_instance_from_group(group_id)
     endpoint = provider_instance.get_endpoint_by_id(endpoint_id)
 
-    if "username" not in endpoint or endpoint["username"] == "":
-        if "global_username" in request.POST:
-            endpoint["username"] = request.POST["global_username"]
-        else:
-            raise Exception("Authentication is required!")
+    context = dict()
+    inv_name = None
+    # Working under the assumption that if you have defined you own inventory, authentication is likely included
+    if "inv_name" in request.POST:
+        print("Found inventory file")
+        inv_name = request.POST["inv_name"]
+    else:
+        if "username" not in endpoint or endpoint["username"] == "":
+            if "global_username" in request.POST:
+                endpoint["username"] = request.POST["global_username"]
+            else:
+                raise Exception("Authentication is required!")
 
-    if "password" not in endpoint or endpoint["password"] == "":
-        if "global_password" in request.POST:
-            endpoint["password"] = request.POST["global_password"]
-        else:
-            raise Exception("Authentication is required!")
+        if "password" not in endpoint or endpoint["password"] == "":
+            if "global_password" in request.POST:
+                endpoint["password"] = request.POST["global_password"]
+            else:
+                raise Exception("Authentication is required!")
+
+        context["af_endpoint_ip"] = endpoint["ip"]
+        context["af_endpoint_id"] = endpoint["id"]
+        context["af_endpoint_name"] = endpoint["name"]
+        context["af_endpoint_username"] = endpoint["username"]
+        context["af_endpoint_password"] = endpoint["password"]
+        context["af_endpoint_type"] = endpoint["type"]
 
     input_form = InputForm.objects.get(pk=input_form_id)
 
     logger.debug(input_form.json)
     json_object = json.loads(input_form.json)
 
-    context = dict()
     host_vars = {}    # only used for AnsibleAction
     for j in json_object:
         if '.' in j["name"]:
@@ -479,12 +495,6 @@ def apply_per_endpoint_template(request):
             context[j["name"]] = str(request.POST.get(j['name'], ''))
             host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
 
-    context["af_endpoint_ip"] = endpoint["ip"]
-    context["af_endpoint_id"] = endpoint["id"]
-    context["af_endpoint_name"] = endpoint["name"]
-    context["af_endpoint_username"] = endpoint["username"]
-    context["af_endpoint_password"] = endpoint["password"]
-    context["af_endpoint_type"] = endpoint["type"]
 
     logger.debug(context)
 
@@ -525,7 +535,7 @@ def apply_per_endpoint_template(request):
 
     action = action_provider.get_provider_instance(action_name, action_options)
     if action_name == "AnsibleAction":
-        action.set_endpoint(endpoint, host_vars)
+        action.set_endpoint(inv_name or endpoint, host_vars)
         results = action.execute_template(config_template.template_path)
     else:
         action.set_endpoint(endpoint)

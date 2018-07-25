@@ -155,6 +155,10 @@ REGISTERED_ENDPOINT_PROVIDERS = (
     {
         "class": "SaltMinion",
         "name": "Salt Minions",
+    },
+    {
+        "class": "AnsibleInventory",
+        "name": "Ansible Inventory",
     }
 )
 ACTION_PROVIDERS = (

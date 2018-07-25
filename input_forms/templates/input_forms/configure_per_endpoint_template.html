@@ -46,15 +46,26 @@ $(document).ready(function() {		// prevents user from submitting form without wi
 					</section>
 					<section>
 						<h3>Endpoint:</h3></br>
+						{% if endpoint.name %}
 						<label class="label" style="font-size:16px;">&nbsp;{{ endpoint.name }}</label>
+						{% else %}
+						<label class="label" style="font-size:16px;">&nbsp;{{ endpoint.inv_name }}</label>
+                				<input type="hidden" name="inv_name" value="{{ endpoint.inv_name }}"/>
+						{% endif %}
                 				<input type="hidden" name="group_id" value="{{ group_id }}"/>
+						{% if endpoint.id %}
                 				<input type="hidden" name="endpoint_id" value="{{ endpoint.id }}"/>
+						{% else %}
+                				<input type="hidden" name="endpoint_id" value="1"/>
+						{% endif %}
                 				<input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
 					</section>
+					{% if endpoint.ip %}
 					<section>
 						<h3>IP Address:</h3></br>
 						<label class="label" style="font-size:16px;">&nbsp;{{ endpoint.ip }}</label>
 					</section>
+					{% endif %}
 				</fieldset>
 				<fieldset>
 					<section>

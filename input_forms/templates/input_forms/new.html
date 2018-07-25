@@ -163,7 +163,7 @@
 										</td>
 										<td>
 											<label class="input">
-												<input type="text" id="{{ t }}_default" name="{{ t }}_default" value="none">
+												<input type="text" id="{{ t }}_default" name="{{ t }}_default" value="{% templatetag openvariable %} {{ t }} {% templatetag closevariable %}">
 											</label>
 										</td>
 										<td>

@@ -93,6 +93,22 @@ def endpoint_list(request, group_id):
     logger.info("__ endpoints endpoint_list __")
     group = get_object_or_404(EndpointGroup, pk=group_id)
     provider_instance = endpoint_provider.get_provider_instance_from_group(group_id)
+    if group.provider_class == "AnsibleInventory":
+        try:
+            with file(provider_instance.inv_name) as f:
+                inv = f.read()
+        except IOError as e:
+            inv = "Could not read inventory file!\n" + str(e)
+
+        endpoint = provider_instance.get_endpoint_by_id(1) # dummy value
+
+        context = {"endpoint_group": group,
+                   "endpoint": endpoint,
+                   "provider": group.provider_class,
+                   "provider_instance": provider_instance,
+                   "inventory": inv,
+                   }
+        return render(request, "endpoints/list_ansible.html", context)
 
     page_size = int(settings.DEVICE_LIST_PAGING_SIZE)
     offset = 0

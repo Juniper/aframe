@@ -25,6 +25,14 @@
     $("#preview").val('');
     $("#apply_form").submit();
  }
+$(document).ready(function() {		// prevents user from submitting form without widgets checking inputs
+	$(window).keydown(function(event) {
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+});
 </script>
 {% endblock%}
 {% block content %}
