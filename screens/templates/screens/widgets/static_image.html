@@ -1,8 +1,12 @@
 {% extends "screens/widgets/widget_base.html" %}
 {% block widget %}
-<td>
-    <div id="image_title_{{ widget_layout_id }}"></div>
-    <img title="static_image" id="static_image_{{ widget_layout_id }}"/>
+<label class="label" style="font-size: medium; color:black;">Static Image</label><br><br>
+
+    <td>
+        <img title="static_image" id="static_image_{{ widget_layout_id }}"
+            style="color:black;list-style: none; margin-left: auto; padding: 5px; font-size: small;">
+        </ul>
+    
     <script type="text/javascript">
 
         $(function() {

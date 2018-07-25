@@ -1,16 +1,39 @@
 {% extends "screens/widgets/widget_base.html" %}
 {% block widget %}
-<script type="text/javascript">
-        let widget_layout_id = {{ widget_layout_id }};
+    <label class="label" style="color:black">Raw HTML</label>
 
-        if (layout['widgets'][widget_layout_id]['widget_config'] !== undefined) {
+    <td>
+        <ul id="raw_html{{ widget_layout_id }}"
+            style="color:black;list-style: none; margin-left: auto; padding: 5px; font-size: small;">
+        </ul>
+
+
+		<script type="text/javascript">
+
+		    var widget_layout_id = {{ widget_layout_id }};
+            var menu_list_options = []
+
+
+		    if (layout['widgets'][widget_layout_id]['widget_config'] !== undefined) {
             wc = layout['widgets'][widget_layout_id]['widget_config'];
+            }
             console.log(wc);
-        }
-</script>
-<td>
-    <div>
-        <pre>{{ automation_results }}</pre>
-    </div>
+            console.log('set height');
+        
+	       $(function () {
+                let widget_layout_id = {{ widget_layout_id }};
+                console.log(widget_layout_id);
+
+
+
+            $('#widget_container_' + {{ widget_layout_id }}).css('height', '');
+
+
+        });
+
+    </script>
+    <pre>{{ automation_results }}</pre>
+    
 </td>
 {% endblock %}
+

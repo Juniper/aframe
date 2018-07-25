@@ -70,32 +70,40 @@
         console.log('all done');
         close_overlay();
     }
-
 </script>
-Static List of Options. Add options below to populate the select options widget
+
+<label class="label" style="font-size:15px; color:black; margin:5px" >Static List of Options. Add options below to populate the select options widget</label>
+
+<!-- Static List of Options. Add options below to populate the list options widget -->
 <br/>
 <table>
+    <style> table td {
+        font-size: 14px;
+    }
+</style>
     <tr>
         <th>Option Name</th>
         <th>Option Value</th>
+        
     </tr>
     <tbody id="select_list_table_rows">
-
     </tbody>
     <tbody>
     <tr>
         <td>
-            <input type="text" id="select_list_option_name"/>
+            <input type="text" id="select_list_option_name" style="font-size:15px; margin:7px; padding:2px" placeholder="Option Name" />
         </td>
-        <td>
-            <input type="text" id="select_list_option_value"/>
-            <input type="button" onclick="javascript: add_select_list_option()" value="Add"/>
+        <td> 
+            <input type="text" id="select_list_option_value" style="font-size:15px;margin:7px; padding:2px" placeholder="Option Value" />
+            <!-- <input type="button" onclick="javascript: add_menu_list_option()" value="Add" style="background-color: lightblue"/> -->
+
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: add_select_list_option()" value="Add" class="btn bg-color-blue txt-color-white">Add</a>
         </td>
     </tr>
     </tbody>
 </table>
-<input type="button" onclick="javascript: set_select_input_config('{{ target_id }}')" value="OK"/>
+<!-- <input type="button" onclick="javascript: set_list_input_config()" value="OK"/ style="background-color: lightblue"> -->
+<a href="javascript:void(0);" style="text-decoration: none; margin-left:17px" onclick="javascript: set_select_input_config('{{ target_id }}')" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+
 <br/>
 {% endblock %}
-
-

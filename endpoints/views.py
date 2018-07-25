@@ -17,7 +17,36 @@ def index(request):
     context = {"provider_list": provider_list}
     return render(request, "endpoints/index.html", context)
 
+def update(request):
+    logger.info("__ endpoints update __")
+    required_fields = {"name", "description", "provider_class"}
+    if not required_fields.issubset(request.POST):
+        logger.error("Did not find all required fields in request")
+        return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
+    name = request.POST["name"]
+    description = request.POST["description"]
+    provider_class = request.POST["provider_class"]
+
+
+
+
+    provider_instance = endpoint_provider.get_provider_instance(provider_class)
+
+    provider_options = provider_instance.get_config_options()
+
+    provider_options_json = json.dumps(provider_options)
+
+
+    endpoint = get_object_or_404(EndpointGroup, pk=endpoint_id)
+
+    endpoint.name = name
+    endpoint.description = description
+    endpoint_provider = provider
+    endpoint.save()
+    return HttpResponseRedirect("/endpoints")
+
+ 
 def new_group(request):
     logger.info("__ endpoints new_group __")
     provider_list = endpoint_provider.get_endpoint_discovery_provider_list()
@@ -190,7 +219,6 @@ def add_endpoints_to_queue(request):
     takes a list of selected endpoints and adds them to the user session under a key named
     "endpoint_queue". Also adds another list of "endpoint_queue_names" to avoid limitations with django template
     language stuff to show already selected items in the queue
-
     """
     logger.info("__ endpoints add_endpoints_to_queue __")
     required_fields = set(["endpoints", "group_id"])
@@ -287,4 +315,3 @@ def search_ip(request):
             results.append(r)
 
     return HttpResponse(json.dumps(results), content_type="application/json")
-

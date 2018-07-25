@@ -311,7 +311,7 @@ def update(request):
     logger.info("__ input_forms update __")
     required_fields = set(["input_form_id", "config_template_id", "name", "description", "json"])
     if not required_fields.issubset(request.POST):
-        logger.error("Did no find all required fields in request")
+        logger.error("Did not find all required fields in request")
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
     input_form_id = request.POST["input_form_id"]

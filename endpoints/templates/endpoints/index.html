@@ -50,7 +50,7 @@ function deleteItem(id) {
 							{{ provider.description }}
 						</td>
 						<td width="130px">
-			    				<a href="/endpoints/editGroup/{{ provider.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
+			    				<a href="configureGroup/{{ configure_group.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
 			    				&nbsp;
 							<a href="javascript:void(0);" onclick="deleteItem({{ provider.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
 						</td>

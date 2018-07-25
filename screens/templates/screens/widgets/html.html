@@ -1,6 +1,9 @@
 <div class="overlay_menu" id="html_contents_title_{{ widget_layout_id }}">
     <!-- widget_base.html -->
     <div class="overlay_close">
+
+        <label class="label" style="font-size: medium; color:black">Raw HTML</label>
+
         <a href="#" title="Configure"
            onclick="sticky_widget({{ widget_layout_id }})">
             &#9660;
@@ -10,9 +13,11 @@
             &#10033;
         </a>
         <a href="#" title="Close" onclick="close_screen_widget({{ widget_layout_id }})">X</a>
+
+
     </div>
 </div>
-<td>
+
     <div id="html_contents_{{ widget_layout_id }}" class="widget_html_contents"></div>
     <script type="text/javascript">
 
