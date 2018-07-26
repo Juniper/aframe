@@ -167,6 +167,13 @@
 											</label>
 										</td>
 										<td>
+											{% if "." in t %}
+											<label class="select state-disabled" style="float:left;width:100px;">
+												<select name="{{ t }}_" id="{{ t }}_" disabled="disabled">
+													<option value="disabled">Disabled</option>
+												</select><i></i>
+											</label>
+											{% else %}
 											<label class="select" style="float:left;">
 												<select name="{{ t }}_widget" id="{{ t }}_widget"
 													onchange="javascript: load_widget_configs('{{ t }}_widget')">
@@ -175,6 +182,7 @@
 													{% endfor %}
 												</select><i></i>
 											</label>
+											{% endif %}
 											<input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
 											<button type="button" class="btn btn-lg btn-info" id="{{ t }}_widget_config_button" 
 								   				onclick="javascript: load_widget_configs('{{ t }}_widget')"

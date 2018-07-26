@@ -224,6 +224,15 @@
 											</label>
 										</td>
 										<td>
+											{% if "." in t %}
+											<div style="max-width:222px;"> <!-- select won't scale without this div -->
+												<label class="select state-disabled" style="float:left;width:100%;">
+													<select name="{{ t }}_" id="{{ t }}_" disabled="disabled">
+														<option value="disabled">Disabled</option>
+													</select><i></i>
+												</label>
+											</div>
+											{% else %}
 											<label style="float:left;" class="select">
 												<select name="{{ t }}_widget" id="{{ t }}_widget"
 													onchange="javascript: load_widget_configs('{{ t }}_widget')">
@@ -232,6 +241,7 @@
 													{% endfor %}
 												</select><i></i>
 											</label>
+											{% endif %}
 											<input type="hidden" name="{{ t }}_widget_config" id="{{ t }}_widget_config" value=""/>
 											<a class="btn btn-lg btn-info" id="{{ t }}_widget_config_button" href="javascript: load_widget_configs('{{ t }}_widget');" style="padding:5px;display: none;float:right;"/>
 												<i class="fa fa-gears"></i>

@@ -24,17 +24,15 @@ class AnsibleAction(ActionBase):
 			:param host_vars: contains the variables from the input_form to be added to inventory
 		"""
 		print("endpoint type: " + type(endpoint).__name__)
+		self.extra_vars = host_vars
 		if type(endpoint).__name__ == "unicode":
 			self.filename = endpoint
-			self.extra_vars = host_vars
 			return
 
 		contents = ''
 		contents += "[" + endpoint['name'].replace(' ','') + "]\n"
 		contents += endpoint['ip'] + " ansible_connection=ssh ansible_ssh_user=" + endpoint['username'] + " ansible_ssh_pass=" + endpoint['password'] + "\n\n"
-		contents += "[all:vars]\n"
-		for key in host_vars:
-			contents += key + "='" + host_vars[key] + "'\n"
+		print(contents)
 
 		self.tmp_path, self.filename = tempfile.mkstemp()
 		with os.fdopen(self.tmp_path, 'w') as tmp:
@@ -59,7 +57,9 @@ class AnsibleAction(ActionBase):
 		if self.extra_vars:
 			command += " --extra-vars ' "
 			for key in self.extra_vars:
-				command += key + "=" + self.extra_vars[key] + " "
+				# if user is leaving vars alone don't include them in command
+				if not (self.extra_vars[key][0] == "{" and self.extra_vars[key][1] == "{" and self.extra_vars[key][-1] == "}" and self.extra_vars[key][-2] == "}"):
+					command += key + "=" + self.extra_vars[key] + " "
 			command += "'"
 		print("built command: %s" % command)
 

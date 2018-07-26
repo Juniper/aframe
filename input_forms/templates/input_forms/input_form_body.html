@@ -10,9 +10,17 @@
 {% endfor %}
 {% for j in json_object %}
 <section>
+	{% if "." in j.label %}
+	{% with template_name='input_forms/widgets/disabled.html' %}
+		{% include ""|add:template_name %}
+	{% endwith %}
+	{% else %}
+	{% ifnotequal j.widget "disabled" %}
 	<label class="label">{{ j.label }}</label>
+	{% endifnotequal %}
 	{% with template_name='input_forms/widgets/'|add:j.widget|add:".html" %}
 		{% include ""|add:template_name %}
 	{% endwith %}
+        {% endif %}
 </section>
 {% endfor %}

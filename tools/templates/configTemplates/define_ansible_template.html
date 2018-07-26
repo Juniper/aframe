@@ -38,7 +38,7 @@
 				×
 			</button>
 			<i class="fa-fw fa fa-warning"></i>
-			<strong>Warning</strong> If your playbook contains a variable of the form {% templatetag openvariable %} x.y {% templatetag closevariable %}, it will be detected as a configurable var, but configurable widgets cannot be loaded for it!
+			<strong>Warning</strong> If your playbook contains a variable of the form {% templatetag openvariable %} x.y {% templatetag closevariable %}, it will automatically be disabled and will not be displayed in the input form.
 		</div>
 			<form method="post" enctype="multipart/form-data" onsubmit="javascript: return validateForm();" action="/tools/create/" class="smart-form">
 				<header>

@@ -596,6 +596,12 @@ WIDGETS = (
         "id": "endpoint_ip_search_input",
         "render_template": "endpoint_ip_search_input.html"
     },
+    {
+        "label": "Disabled",
+        "configurable": False,
+        "id": "disabled",
+        "render_template": "disabled.html"
+    },
 )
 
 # Screen widgets are used to parse the output of the various automations and input_forms created in aframe.
