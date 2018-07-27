@@ -1,14 +1,32 @@
 
 {% extends "base.html" %}
 {% block title %}A-Frame{% endblock %}
+
+{% block breadcrumb %}
+<li>Error</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-warning"; style="font-size: xx-large;"></span>
+	Error
+</span>
+{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
 
 </script>
 {% endblock%}
 {% block content %}
-<h2>Error</h2>
-<pre>
-{{ error }}
-</pre>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:70%;margin:auto;">
+			<h2 style="margin:0px;padding-top:0px;">Error Info</h2>
+			<pre>{{ error }}</pre>
+			<button type="button" class="btn btn-warning" onclick="javascript: window.history.back();">
+				<i class="fa fa-arrow-left"></i>
+				Go back
+			</button>
+		</div>
+	</div>
+</div>
 {% endblock %}

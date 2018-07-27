@@ -15,7 +15,7 @@ class AnsibleAction(ActionBase):
 	# for inventory file
 	tmp_path = ''
 	filename = ''
-	extra_vars = None
+	extra_vars = {}		# evals false while empty
 
 	def set_endpoint(self, endpoint, host_vars):
 		"""
@@ -24,7 +24,13 @@ class AnsibleAction(ActionBase):
 			:param host_vars: contains the variables from the input_form to be added to inventory
 		"""
 		print("endpoint type: " + type(endpoint).__name__)
-		self.extra_vars = host_vars
+		print("host vars: " + str(host_vars))
+		# Only save vars that are adjusted
+		for key in host_vars:
+			if not (host_vars[key][0] == "{" and host_vars[key][1] == "{" and host_vars[key][-1] == "}" and host_vars[key][-2] == "}"):
+				self.extra_vars[key] = host_vars[key]
+		print("extra vars: " + str(self.extra_vars))
+
 		if type(endpoint).__name__ == "unicode":
 			self.filename = endpoint
 			return
@@ -43,12 +49,13 @@ class AnsibleAction(ActionBase):
 	def execute_template(self, template):
 		"""
 			Builds Ansible command to execute, writes it to a tmp file, and then executes it.
-			Requires SSHPass, logs into servers via SSH rather than keys.
+			Requires SSHPass, logs into servers via SSH rather than keys by default. (Can use any auth means if you add a custom inventory endpoint)
 			Certainly vulnerable to command injection on local machine.
 
 			:param template: path to the playbook to be ran
 			:return: String results from the output of the script
 		"""
+
 		command = ''
 		command += "ansible-playbook "
 		command += template
@@ -78,6 +85,7 @@ class AnsibleAction(ActionBase):
 			print output
 			if self.tmp_path != '':
 				os.remove(self.filename)
+			self.extra_vars = {}
 			return output
 		except CalledProcessError as cpe:
 			o = "Error calling local script"
@@ -88,5 +96,6 @@ class AnsibleAction(ActionBase):
 			print o
 			if self.tmp_path != '':
 				os.remove(self.filename)
+			self.extra_vars = {}
 			return o
 
