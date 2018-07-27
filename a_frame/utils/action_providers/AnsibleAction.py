@@ -85,7 +85,7 @@ class AnsibleAction(ActionBase):
 			print output
 			if self.tmp_path != '':
 				os.remove(self.filename)
-			self.extra_vars = {}
+			self.extra_vars.clear()
 			return output
 		except CalledProcessError as cpe:
 			o = "Error calling local script"
@@ -96,6 +96,6 @@ class AnsibleAction(ActionBase):
 			print o
 			if self.tmp_path != '':
 				os.remove(self.filename)
-			self.extra_vars = {}
+			self.extra_vars.clear()
 			return o
 
