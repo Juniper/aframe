@@ -35,7 +35,7 @@ class AnsibleInventory(EndpointBase):
 
 	# Searching widgets break because of this
 	def get_next(self):
-		return None
+		return self
 
 	def get_endpoint_by_id(self, endpoint_id): # no need to find specific endpoints, there's only one
 		return self

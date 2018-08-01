@@ -320,5 +320,4 @@ def search_ip(request):
             r["label"] = provider.name + "/" + endpoint.get('name', 'unknown')
             results.append(r)
 
-    print("results: " + str(results))
     return HttpResponse(json.dumps(results), content_type="application/json")
