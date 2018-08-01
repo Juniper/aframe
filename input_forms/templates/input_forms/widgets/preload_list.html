@@ -1,7 +1,7 @@
-<td>
-    <select name="{{ j.name }}" id="{{ j.name }}">
-        {% for o in j.widget_data %}
-        <option value="{{ o.value }}">{{ o.key }}</option>
-        {% endfor %}
-    </select>
-</td>
+<label class="select">
+	<select name="{{ j.name }}" id="{{ j.name }}">
+		{% for o in j.widget_data %}
+		<option value="{{ o.value }}">{{ o.key }}</option>
+		{% endfor %}
+	</select><i></i>
+</label>

@@ -276,6 +276,9 @@ def search(request):
     for provider in provider_list:
 
         provider_instance = endpoint_provider.get_provider_instance_from_group(provider.id)
+        if "Ansible" in str(provider_instance):
+             print("Ansible Instance, skipping")
+             continue
         provider_instance.apply_filter("Name", term)
         endpoints_list = provider_instance.get_page(0, 128)
 
@@ -304,6 +307,9 @@ def search_ip(request):
     for provider in provider_list:
 
         provider_instance = endpoint_provider.get_provider_instance_from_group(provider.id)
+        if "Ansible" in str(provider_instance):
+             print("Ansible Instance, skipping")
+             continue
         provider_instance.apply_filter("Name", term)
         endpoints_list = provider_instance.get_page(0, 128)
 
@@ -314,4 +320,5 @@ def search_ip(request):
             r["label"] = provider.name + "/" + endpoint.get('name', 'unknown')
             results.append(r)
 
+    print("results: " + str(results))
     return HttpResponse(json.dumps(results), content_type="application/json")

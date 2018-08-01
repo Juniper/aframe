@@ -2,7 +2,7 @@
 {% block overlay %}
     <script type="text/javascript">
         console.log('{{ target_id }}');
-        let config_element = $('#{{ target_id }}_config');
+        var config_element = $('#{{ target_id }}_config');
 
         if (config_element.val() != "") {
 

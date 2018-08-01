@@ -9,7 +9,7 @@ class AnsibleInventory(EndpointBase):
 	"""
 
 	inv_name = ""
-        etype = "ansible"
+	etype = "ansible"
 
 	def get_config_options(self):
 		"""
@@ -33,8 +33,9 @@ class AnsibleInventory(EndpointBase):
 		print(config)
 		return
 
+	# Searching widgets break because of this
 	def get_next(self):
-		return self
+		return None
 
 	def get_endpoint_by_id(self, endpoint_id): # no need to find specific endpoints, there's only one
 		return self
