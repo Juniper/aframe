@@ -33,7 +33,6 @@ class AnsibleInventory(EndpointBase):
 		print(config)
 		return
 
-	# Searching widgets break because of this
 	def get_next(self):
 		return self
 

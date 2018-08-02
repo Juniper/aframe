@@ -33,36 +33,31 @@ function deleteItem(id) {
 		<div class="well">
 			<table id="automation_dt" class="table table-striped table-bordered table-hover" width="100%">
 				<thead>
-					<!--
-					<tr>
-						<th colspan="3">Endpoint Groups</th>
-					</tr>
-					-->
 					<tr>
 						<th>Name</th>
-						<th>Description</th>
+						<th style="width:500px;">Description</th>
 						<th>Options</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for input_form in input_form_list %}
-					   <tr>
-							<td><a href="{{ input_form.id }}">{{ input_form.name }}</a> </td>
-							<td>{{ input_form.description }}</td>
-							</td>
-							<td width="460px">
-							
-							<a href="edit/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Form</a> &nbsp;
-							<a href="/tools/edit/{{ input_form.script.id }}/" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Template</a>
-									&nbsp;
-							<a href="/tools/clone/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-copy"></i> Clone</a>
-									&nbsp;
-							<a href="export/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-download"></i> Export</a>
-									&nbsp;
-							<a href="javascript:void(0);" onclick="deleteItem({{ input_form.script.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
-							</td>
+					<tr>
+						<td><a href="{{ input_form.id }}">{{ input_form.name }}</a></td>
+						<td>{{ input_form.description }}</td>
+						</td>
+						<td width="460px">
+						
+						<a href="edit/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Form</a> &nbsp;
+						<a href="/tools/edit/{{ input_form.script.id }}/" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit Template</a>
+								&nbsp;
+						<a href="/tools/clone/{{ input_form.script.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-copy"></i> Clone</a>
+								&nbsp;
+						<a href="export/{{ input_form.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-download"></i> Export</a>
+								&nbsp;
+						<a href="javascript:void(0);" onclick="deleteItem({{ input_form.script.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+						</td>
 					</tr>
-						{% endfor %}
+					{% endfor %}
 				</tbody>
 			</table>
 

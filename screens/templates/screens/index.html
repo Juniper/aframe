@@ -34,37 +34,28 @@ function deleteItem(id) {
 		<div class="well">
 			<table id="screens_dt" class="table table-striped table-bordered table-hover" width="100%">
 				<thead>
-					<!--
-					<tr>
-						<th colspan="3">Endpoint Groups</th>
-					</tr>
-					-->
 					<tr>
 						<th>Name</th>
-						<th>Description</th>
+						<th style="width:700px;">Description</th>
 						<th>Options</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for screen in screen_list %}
-					   <tr>
-							<td><a href="{{ screen.id }}">{{ screen.name }}</a> </td>
-
-						 <td>{{ screen.description }}</td>
-						</td>
+					<tr>
+						<td><a href="{{ screen.id }}">{{ screen.name }}</a></td>
+						<td>{{ screen.description }}</td>
 						<td width="215px">
-							<a href="edit/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a>
-									&nbsp;
-
+							<a href="edit/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a> &nbsp;
 							<a href="export/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Export</a> &nbsp;
 							<a href="javascript:void(0);" onclick="deleteItem({{ screen.id }});" style="text-decoration:none;" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
 						</td>
 					</tr>
-						{% endfor %}
+					{% endfor %}
 				</tbody>
 			</table>
 
-			<a class="btn btn-primary" style="text-decoration:none;" <a href="/screens/new">Define New Screen</a>
+			<a class="btn btn-primary" style="text-decoration:none;" href="/screens/new"><i class="fa fa-plus"></i> Define New Screen</a>
 
 		</div>
 	</div>

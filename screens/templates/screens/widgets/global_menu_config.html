@@ -2,8 +2,17 @@
 {% block overlay %}
     <script type="text/javascript">
         console.log('{{ widget_layout_id }}');
-        let widget_layout_id = {{ widget_layout_id }};
-        let widget_id = '{{ widget_id }}';
+        // conditionals to make sure we don't declare vars that already exist
+        if (widget_layout_id != undefined) {
+            widget_layout_id = {{ widget_layout_id }};
+        } else {
+            let widget_layout_id = {{ widget_layout_id }};
+        }
+        if (widget_id != undefined) {
+            widget_id = '{{ widget_id }}';
+        } else {
+            let widget_id = '{{ widget_id }}';
+        }
         let global_menu_list_options = [];
         $(function () {
             let wgcs = '{{ widget_global_config|safe }}';
@@ -31,7 +40,7 @@
         });
         function add_global_menu_list_option() {
             let i = global_menu_list_options.length;
-            console.log('ading new id ' + i);
+            console.log('adding new id ' + i);
             let new_row_id = "global_menu_list_row_" + i + "_{{ widget_layout_id }}";
             let option_name = $("#global_menu_list_option_name").val();
             let option_value = $("#global_menu_list_option_value").val();
