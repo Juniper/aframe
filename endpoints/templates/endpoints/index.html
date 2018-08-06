@@ -44,7 +44,7 @@ function deleteItem(id) {
 					{% for provider in provider_list %}
 					<tr>
 						<td>
-							<a href="/endpoints/list/{{ provider.id }}">{{ provider.name }}</a>
+							<a href="/endpoints/list/{{ provider.id }}"><u>{{ provider.name }}</u></a>
 						</td>
 						<td>
 							{{ provider.description }}

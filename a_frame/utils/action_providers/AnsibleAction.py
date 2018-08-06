@@ -19,7 +19,8 @@ class AnsibleAction(ActionBase):
 
 	def set_endpoint(self, endpoint, host_vars):
 		"""
-			Builds the inventory file for the specified endpoint, including the variables provided from the input form
+			Saves location of inventory file to read from, or
+			builds the inventory file for the specified endpoint, including the variables provided from the input form
 
 			:param host_vars: contains the variables from the input_form to be added to inventory
 		"""
@@ -27,7 +28,10 @@ class AnsibleAction(ActionBase):
 		print("host vars: " + str(host_vars))
 		# Only save vars that are adjusted
 		for key in host_vars:
-			if not (host_vars[key][0] == "{" and host_vars[key][1] == "{" and host_vars[key][-1] == "}" and host_vars[key][-2] == "}"):
+			print("length: " + str(len(host_vars[key])))
+			if len(host_vars[key]) == 0: # handles variables the user wants to leave completely empty
+				self.extra_vars[key] = host_vars[key]
+			elif not (host_vars[key][0] == "{" and host_vars[key][1] == "{" and host_vars[key][-1] == "}" and host_vars[key][-2] == "}"):
 				self.extra_vars[key] = host_vars[key]
 		print("extra vars: " + str(self.extra_vars))
 
@@ -35,6 +39,7 @@ class AnsibleAction(ActionBase):
 			self.filename = endpoint
 			return
 
+		# This will only run if it needs to build its own inventory file
 		contents = ''
 		contents += "[" + endpoint['name'].replace(' ','') + "]\n"
 		contents += endpoint['ip'] + " ansible_connection=ssh ansible_ssh_user=" + endpoint['username'] + " ansible_ssh_pass=" + endpoint['password'] + "\n\n"
@@ -65,7 +70,9 @@ class AnsibleAction(ActionBase):
 			command += " --extra-vars ' "
 			for key in self.extra_vars:
 				# if user is leaving vars alone don't include them in command
-				if not (self.extra_vars[key][0] == "{" and self.extra_vars[key][1] == "{" and self.extra_vars[key][-1] == "}" and self.extra_vars[key][-2] == "}"):
+				if len(self.extra_vars[key]) == 0: # handles variables the user wants to leave completely empty
+					command += key + "= default(\"\") "
+				elif not (self.extra_vars[key][0] == "{" and self.extra_vars[key][1] == "{" and self.extra_vars[key][-1] == "}" and self.extra_vars[key][-2] == "}"):
 					command += key + "=" + self.extra_vars[key] + " "
 			command += "'"
 		print("built command: %s" % command)

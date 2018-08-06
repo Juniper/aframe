@@ -43,7 +43,7 @@ function deleteItem(id) {
 				<tbody>
 					{% for screen in screen_list %}
 					<tr>
-						<td><a href="{{ screen.id }}">{{ screen.name }}</a></td>
+						<td><a href="{{ screen.id }}"><u>{{ screen.name }}</u></a></td>
 						<td>{{ screen.description }}</td>
 						<td width="215px">
 							<a href="edit/{{ screen.id }}" style="text-decoration:none;" class="btn btn-xs btn-info"><i class="fa fa-edit"></i> Edit</a> &nbsp;
