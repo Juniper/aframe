@@ -1,26 +1,26 @@
-
-<tbody>
-    {% for ao, ao_val in action_options.items %}
-    {% if ao_val.variable %}
-    <tr>
-        <td class="template_title">
-            {{ ao_val.variable }}
-        </td>
-        <td>
-            <input type="text" name="action_options_{{ ao_val.name }}" placeholder="{{ ao.name }}"
-                   style="margin-left: 0px;"/>
-        </td>
-    </tr>
-    {% endif %}
-    {% endfor %}
-    {% for j in json_object %}
-    <tr>
-        <td class="template_title">
-            {{ j.label }}
-        </td>
-        {% with template_name='input_forms/widgets/'|add:j.widget|add:".html" %}
-            {% include ""|add:template_name %}
-        {% endwith %}
-    </tr>
-    {% endfor %}
-</tbody>
+{% for ao, ao_val in action_options.items %}
+{% if ao_val.variable %}
+<section>
+	<label class="label">{{ ao_val.variable }}</label>
+	<label class="input">
+		<input type="text" name="action_options_{{ ao_val.name }}" placeholder="{{ ao.name }}"/>
+	</label>
+</section>
+{% endif %}
+{% endfor %}
+{% for j in json_object %}
+<section>
+	{% if "." in j.label %}
+	{% with template_name='input_forms/widgets/disabled.html' %}
+		{% include ""|add:template_name %}
+	{% endwith %}
+	{% else %}
+	{% ifnotequal j.widget "disabled" %}
+	<label class="label">{{ j.label }}</label>
+	{% endifnotequal %}
+	{% with template_name='input_forms/widgets/'|add:j.widget|add:".html" %}
+		{% include ""|add:template_name %}
+	{% endwith %}
+        {% endif %}
+</section>
+{% endfor %}

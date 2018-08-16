@@ -11,6 +11,12 @@ Instructions for Ubuntu 14.04:
 sudo apt-get install python-netaddr python-pip python-nmap nmap python-lxml python-dev libssl-dev libxslt-dev python-paramiko -y
 sudo pip install django junos-eznc
 
+To use the Ansible features on non-Ansible inventory endpoints you will also need to install SSHPass:
+apt-get install sshpass
+(will need to create a custom brew if you are running the server on OS X)
+
+If Ansible templates are failing to execute, try adding `remote_tmp = /tmp/ansible/$USER` to your ansible.cfg
+
 first, create your db by running "$ python ./manage.py migrate"
 then run the application by "$ python ./manage.py runserver 0.0.0.0:8080"
 

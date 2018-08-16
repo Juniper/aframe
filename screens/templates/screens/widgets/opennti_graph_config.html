@@ -1,16 +1,13 @@
 {% extends "screens/widgets/widget_overlay.html" %}
 {% block overlay %}
 <script type="text/javascript">
-
     var widget_layout_id = {{ widget_layout_id }};
     var widget_id = '{{ widget_id }}';
     if (layout['widgets'][widget_layout_id] == undefined) {
         console.log('OPENNTI SETTING WIDGET_CONFIG');
         layout['widgets'][widget_layout_id] = {};
     }
-
     function set_opennti_graph_config(){
-
         var config = {};
         var open_nti_host = $('[name = "open_nti_host"]').val();
         var from = $('[name = "from"]').val();
@@ -19,9 +16,7 @@
         var interface_regex = $('[name = "interface_regex"]').val();
         var width = $('[name = "width"]').val();
         var height = $('[name = "height"]').val();
-
         var refresh = $('#opennti_graph_refresh').val();
-
         var params = {
             "template_name": "{{ consumes_input_form }}",
             "open_nti_host": open_nti_host,
@@ -32,22 +27,16 @@
             "width": width,
             "height": height,
         }
-
         var config = {};
-
         var url = '/tools/execute_template/';
         var post = $.post(url, params, function(response) {
-
             var url = response['output'].replace('\n', '');
             console.log(response);
             config['url'] = url;
             config['refresh'] = parseInt(refresh) * 1000;
             config['title'] = host_regex + " " + interface_regex;
-
         });
-
         console.log(config);
-
         // Every screen config should get the 'widget_config' and 'widget_id' at minimum
         layout['widgets'][widget_layout_id]['widget_config'] = config;
         layout['widgets'][widget_layout_id]['widget_id'] = '{{ widget_id }}';
@@ -55,7 +44,6 @@
         close_overlay();
         setTimeout(function() { load_widget(widget_id, widget_layout_id) }, 1000);
     }
-
 </script>
 <table>
     <tbody>

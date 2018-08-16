@@ -1,58 +1,95 @@
 
 {% extends "base.html" %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Configure for Queue</li>
+{% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+	Automations 
+<span>>  
+	Configure for Queue
+</span>
+{% endblock %}
 {% block title %}A-Frame{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
+$(document).ready(function() {		// prevents user from submitting form without widgets checking inputs
+	$(window).keydown(function(event) {
+		if(event.keyCode == 13) {
+			event.preventDefault();
+			return false;
+		}
+	});
+});
 
 </script>
 {% endblock%}
 {% block content %}
-<h2>{{ input_form.name }}</h2>
-{{ input_form.instructions }}
-<form method="POST" action="/input_forms/applyToQueue">
-    <table>
-        <tbody>
-        <tr style="background: white">
-            <td class="template_title">
-                Queue:
-            </td>
-            <td>
-                {% for e in endpoints %}
-                 {{ e.name }} <br/>
-                {% endfor %}
-            </td>
-        </tr>
-        <tr style="background: white">
-            <td>
-                Username:
-            </td>
-            <td>
-                <input type="text" name="global_username" value="username"
-                       title="Optional. Username to apply if the endpoint provider does not provide authentication parameters"
-                       style="margin-left: 0px;"/>
-            </td>
-        </tr>
-        <tr style="background: white">
-            <td>
-                Password:
-            </td>
-            <td>
-                <input type="password" name="global_password"
-                       title="Optional. Password to apply if the endpoint provider does not provide authentication parameters"
-                       value="password" style="margin-left: 0px;"/>
-            </td>
-        </tr>
-        </tbody>
-        {% include "input_forms/input_form_body.html" %}
-        <tbody>
-        <tr>
-            <td colspan="2" style="text-align: right;">
-                <input type="hidden" name="group_id" value="{{ group_id }}"/>
-                <input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
-                <input type="submit" value="Apply">
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:50%;margin:auto;">
+<label class="label" style="font-size:17px;white-space:normal;">{{ input_form.instructions }}</label>
+<form method="POST" class="smart-form" action="/input_forms/applyToQueue">
+	<header>
+		{{ input_form.name }}
+	</header>
+	<fieldset>
+		<section>
+			<div class="table-responsive" style="max-height:450px;margin:auto;overflow:auto;">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Endpoint Queue</th>
+						</tr>
+					</thead>
+					<tbody>
+							{% for e in endpoints %}
+						<tr>
+							<td>
+								{{ e.name }}
+							</td>
+						</tr>
+							{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</section>
+		<section>
+			<label class="label">Username</label>
+			<label class="input">
+				<i class="icon-prepend fa fa-user"></i>
+				<input type="text" name="global_username" placeholder="Username">
+				<b class="tooltip tooltip-top-left">Optional: Username to apply if the endpoint provider does not provide authentication parameters</b>
+			</label>
+		</section>
+		<section>
+			<label class="label">Password</label>
+			<label class="input">
+				<i class="icon-prepend fa fa-lock"></i>
+				<input type="password" name="global_password" placeholder="Password">
+				<b class="tooltip tooltip-top-left">Optional: Password to apply if the endpoint provider does not provide authentication parameters</b>
+			</label>
+		</section>
+	</fieldset>
+	<fieldset>
+		{% include "input_forms/input_form_body.html" %}
+	</fieldset>
+	<footer>
+		<button type="submit" class="btn btn-success" href="javascript:void(0);">
+			Apply
+			<i class="fa fa-arrow-right"></i>
+		</button>
+		<button type="button" class="btn btn-warning" onclick="javascript: window.history.back();">
+			<i class="fa fa-arrow-left"></i>
+			Cancel
+		</button>
+		<input type="hidden" name="group_id" value="{{ group_id }}"/>
+		<input type="hidden" name="input_form_id" value="{{ input_form.id }}"/>
+	</footer>
 </form>
+		</div>
+	</div>
+</div>
 {% endblock %}

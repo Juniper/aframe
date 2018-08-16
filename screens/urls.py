@@ -19,6 +19,8 @@ urlpatterns = [
         name="detail"),
     url(r"^new$", views.new,
         name="new"),
+    url(r"^import$", views.import_screen,
+        name="import_screen"),
     url(r"^load_widget_config$", views.load_widget_config,
         name="load_widget_config"),
     url(r"^load_widget$", views.load_widget,
@@ -39,4 +41,8 @@ urlpatterns = [
         name="get_widget_config"),
     url(r"^deleteWidgetConfig$", views.delete_widget_config,
         name="delete_widget_config"),
+    url(r"^export/(?P<screen_id>[^/]+)$", views.export_screen,
+        name="export_screen"),
+    url(r"^search$", views.search,
+        name="search"),
 ]

@@ -1,0 +1,86 @@
+
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}A-Frame{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/endpoints/">Endpoints</a></li>
+<li>Endpoint Group</li>
+{% endblock %}
+
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-database"></i> 
+	Endpoints 
+<span>>  
+	Endpoint Group
+</span>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript">
+
+    $(window).load(function() {
+
+        $( "#template_autocomplete" ).autocomplete({
+            source: "/input_forms/search",
+            focus: function(event, ui) {
+                event.preventDefault();
+                $("#template_autocomplete").val(ui.item.label);
+            },
+            select: function (event, ui) {
+                $("#template_autocomplete").val(ui.item.label);
+                return false;
+            }
+        });
+    });
+
+</script>
+{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well">
+			<div class="alert alert-warning fade in" style="width:70%;margin:auto;">
+				<button class="close" data-dismiss="alert">
+					×
+				</button>
+				<i class="fa-fw fa fa-warning"></i>
+				<strong>Warning</strong> This endpoint is provided through an Ansible inventory file! You will only be able to run playbook automations on this endpoint.
+			</div>
+
+			<h2>Endpoint Group: {{ endpoint_group.name }}</h2>
+			<h3>{{ endpoint_group.description }}</h3>
+			<br/>
+			<pre style="width:60%;margin:auto;">{{ inventory }}</pre>
+			<br/>
+			
+			<form method="POST" class="smart-form" style="width:50%;margin:auto" action="/input_forms/configureTemplate">
+				<header align="center">
+					Apply Template to Endpoint:
+				</header>
+				<fieldset>
+					<input type="hidden" name="group_id" value="{{ endpoint_group.id }}">
+					<input type="hidden" name="endpoint_id" value="1">
+					<section style="width:90%;margin:auto">
+						<label class="input">
+							<i class="icon-prepend fa fa-search"></i>
+							<input type="text" name="input_form_name" id="template_autocomplete" placeholder="Search Input Form Definitions">
+						</label>
+					</section>
+				<fieldset>
+				<footer>
+					<button type="submit" class="btn btn-primary" href="javascript:void(0);">
+						Apply
+						<i class="fa fa-arrow-right"></i>
+					</button>
+					<button type="button" class="btn btn-warning" onclick="javascript: window.history.back();">
+						<i class="fa fa-arrow-left"></i>
+						Back
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -152,7 +152,7 @@ def detail(request, input_form_id):
     inline_per_endpoint = False
 
     context = {"input_form": input_form, "json_object": json_object, 'action_options': action_options,
-               'inline_per_endpoint': inline_per_endpoint}
+               'inline_per_endpoint': inline_per_endpoint, 'action_provider': config_template.action_provider}
 
     if input_form.script.type == "standalone":
         return render(request, "input_forms/configure_standalone_template.html", context)
@@ -207,6 +207,10 @@ def new_from_template(request, template_id):
 
 def create(request):
     logger.info("__ input_forms create __")
+    print request.POST["config_template_id"]
+    print request.POST["name"]
+    print request.POST["description"]
+    print request.POST["json"]
     required_fields = set(["config_template_id", "name", "description", "json"])
     if not required_fields.issubset(request.POST):
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
@@ -232,30 +236,35 @@ def create(request):
 def export_form(request, input_form_id):
     logger.info("__ input_forms export_form __")
     logger.info("exporting %s" % input_form_id)
+
+    exported_json = aframe_utils.export_input_form(input_form_id)
+
     input_form = InputForm.objects.get(pk=input_form_id)
     config_template = input_form.script
+    #
+    # template_options = dict()
+    # template_options["name"] = config_template.name
+    # template_options["description"] = config_template.description
+    # template_options["action_provider"] = config_template.action_provider
+    # template_options["action_provider_options"] = config_template.action_provider_options
+    # template_options["type"] = config_template.type
+    # template_options["template"] = quote(config_template.template)
+    #
+    # form_options = dict()
+    # form_options["name"] = input_form.name
+    # form_options["description"] = input_form.description
+    # form_options["instructions"] = input_form.instructions
+    # form_options["json"] = quote(input_form.json)
+    #
+    # exported_object = dict()
+    # exported_object["template"] = template_options
+    # exported_object["form"] = form_options
+    #
+    # logger.debug(json.dumps(exported_object))
 
-    template_options = dict()
-    template_options["name"] = config_template.name
-    template_options["description"] = config_template.description
-    template_options["action_provider"] = config_template.action_provider
-    template_options["action_provider_options"] = config_template.action_provider_options
-    template_options["type"] = config_template.type
-    template_options["template"] = quote(config_template.template)
+    # response = HttpResponse(json.dumps(exported_object), content_type="application/json")
 
-    form_options = dict()
-    form_options["name"] = input_form.name
-    form_options["description"] = input_form.description
-    form_options["instructions"] = input_form.instructions
-    form_options["json"] = quote(input_form.json)
-
-    exported_object = dict()
-    exported_object["template"] = template_options
-    exported_object["form"] = form_options
-
-    logger.debug(json.dumps(exported_object))
-
-    response = HttpResponse(json.dumps(exported_object), content_type="application/json")
+    response = HttpResponse(exported_json, content_type="application/json")
     response['Content-Disposition'] = 'attachment; filename=' + 'aframe-' + str(config_template.name) + '.json'
 
     return response
@@ -278,6 +287,7 @@ def import_form(request):
         template.action_provider_options = template_options["action_provider_options"]
         template.type = template_options["type"]
         template.template = unquote(template_options["template"])
+        template.template_path = template_options["template_path"]
 
         template.save()
 
@@ -292,16 +302,16 @@ def import_form(request):
 
         return HttpResponseRedirect("/input_forms")
     else:
-        form = ImportForm()
-        context = {'form': form}
-        return render(request, 'input_forms/import.html', context)
+        # form = ImportForm()
+        # context = {'form': form}
+        return render(request, 'input_forms/import.html')
 
 
 def update(request):
     logger.info("__ input_forms update __")
     required_fields = set(["input_form_id", "config_template_id", "name", "description", "json"])
     if not required_fields.issubset(request.POST):
-        logger.error("Did no find all required fields in request")
+        logger.error("Did not find all required fields in request")
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
     input_form_id = request.POST["input_form_id"]
@@ -385,6 +395,9 @@ def configure_template_for_endpoint(request):
 
     config_template = input_form.script
     action_options = json.loads(config_template.action_provider_options)
+    if "AnsibleInventory" in str(endpoint):
+        if "playbook_path" not in action_options:
+            return render(request, "error.html", {"error": "Invalid automation for this type of endpoint!"})
 
     context = {"input_form": input_form, "json_object": json_object, "endpoint": endpoint, "group_id": group_id,
                'action_options': action_options
@@ -438,40 +451,50 @@ def apply_per_endpoint_template(request):
     provider_instance = endpoint_provider.get_provider_instance_from_group(group_id)
     endpoint = provider_instance.get_endpoint_by_id(endpoint_id)
 
-    if "username" not in endpoint or endpoint["username"] == "":
-        if "global_username" in request.POST:
-            endpoint["username"] = request.POST["global_username"]
-        else:
-            raise Exception("Authentication is required!")
+    context = dict()
+    inv_name = None
+    # Working under the assumption that if you have defined you own inventory, authentication is likely included
+    if "inv_name" in request.POST:
+        print("Found inventory file")
+        inv_name = request.POST["inv_name"]
+    else:
+        if "username" not in endpoint or endpoint["username"] == "":
+            if "global_username" in request.POST:
+                endpoint["username"] = request.POST["global_username"]
+            else:
+                raise Exception("Authentication is required!")
 
-    if "password" not in endpoint or endpoint["password"] == "":
-        if "global_password" in request.POST:
-            endpoint["password"] = request.POST["global_password"]
-        else:
-            raise Exception("Authentication is required!")
+        if "password" not in endpoint or endpoint["password"] == "":
+            if "global_password" in request.POST:
+                endpoint["password"] = request.POST["global_password"]
+            else:
+                raise Exception("Authentication is required!")
+
+        context["af_endpoint_ip"] = endpoint["ip"]
+        context["af_endpoint_id"] = endpoint["id"]
+        context["af_endpoint_name"] = endpoint["name"]
+        context["af_endpoint_username"] = endpoint["username"]
+        context["af_endpoint_password"] = endpoint["password"]
+        context["af_endpoint_type"] = endpoint["type"]
 
     input_form = InputForm.objects.get(pk=input_form_id)
 
     logger.debug(input_form.json)
     json_object = json.loads(input_form.json)
 
-    context = dict()
+    host_vars = {}    # only used for AnsibleAction
     for j in json_object:
         if '.' in j["name"]:
             # this is a json capable variable name
             j_dict = aframe_utils.generate_dict(j["name"], str(request.POST.get(j["name"], '')))
             context.update(j_dict)
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
         else:
             logger.debug("setting context %s" % j["name"])
             # don't worry about null values here
             context[j["name"]] = str(request.POST.get(j['name'], ''))
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
 
-    context["af_endpoint_ip"] = endpoint["ip"]
-    context["af_endpoint_id"] = endpoint["id"]
-    context["af_endpoint_name"] = endpoint["name"]
-    context["af_endpoint_username"] = endpoint["username"]
-    context["af_endpoint_password"] = endpoint["password"]
-    context["af_endpoint_type"] = endpoint["type"]
 
     logger.debug(context)
 
@@ -511,8 +534,12 @@ def apply_per_endpoint_template(request):
             action_options[opt_name]['value'] = pw_lookup_value
 
     action = action_provider.get_provider_instance(action_name, action_options)
-    action.set_endpoint(endpoint)
-    results = action.execute_template(completed_template)
+    if action_name == "AnsibleAction":
+        action.set_endpoint(inv_name or endpoint, host_vars)
+        results = action.execute_template(config_template.template_path)
+    else:
+        action.set_endpoint(endpoint)
+        results = action.execute_template(completed_template)
     context = {"results": results}
 
     if "inline" in request.POST and request.POST["inline"] == 'yes_please':
@@ -640,15 +667,18 @@ def apply_template_to_queue(request):
     logger.debug(input_form.json)
     json_object = json.loads(input_form.json)
 
+    host_vars = {}    # only used for AnsibleAction
     context = dict()
     for j in json_object:
         if '.' in j["name"]:
             # this is a json capable variable name
             j_dict = aframe_utils.generate_dict(j["name"], str(request.POST[j["name"]]))
             context.update(j_dict)
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
         else:
             logger.debug("setting context %s" % j["name"])
             context[j["name"]] = str(request.POST[j["name"]])
+            host_vars[j["name"]] = str(request.POST.get(j["name"], ''))
 
     logger.debug(context)
 
@@ -691,9 +721,13 @@ def apply_template_to_queue(request):
         completed_template = str(compiled_template.render(context))
 
         results += "================ %s ================\n" % endpoint["name"]
-        action.set_endpoint(endpoint)
-        result = action.execute_template(completed_template)
-        results += result
+        if action_name == "AnsibleAction":
+            action.set_endpoint(endpoint, host_vars)
+            result = action.execute_template(config_template.template_path)
+        else:
+            action.set_endpoint(endpoint)
+            result = action.execute_template(completed_template)
+        results += result or ""
         results += "\n"
 
     context = {"results": results}
@@ -731,7 +765,7 @@ def load_widget_config(request):
     logger.info("__ input_forms load_widget_config __")
     required_fields = set(["widget_id", "target_id"])
     if not required_fields.issubset(request.POST):
-        logger.error("Did no find all required fields in request")
+        logger.error("Did not find all required fields in request")
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
     widget_id = request.POST["widget_id"]

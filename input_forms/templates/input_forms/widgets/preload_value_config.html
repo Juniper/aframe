@@ -40,30 +40,43 @@
         console.log('all done');
         close_overlay();
     }
+
+
 </script>
-Preload a value that comes from the results of *another* automation. This will execute the desired automation
-and insert the returned value.
+<table>
+    <tr>
+        <td colspan="2">
+            <!-- Simple Static Image. New images can be added to the common/lib/static/images directory -->
 
-<br/>
-<input type="text" name="input_form_name" size="25" id="template_autocomplete"
-       placeholder="search automations" value=""> &nbsp;
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Preload a value that comes from the results of *another* automation. 
+            <br>This will execute the desired automation and insert the returned value.</label>
+            <br>
+            <input type="text" name="input_form_name" size="25" id="template_autocomplete" placeholder="search automations" value="">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Key to use as 'Display Name':</label>
 
-<br/>
-Key to use as 'Display Name':
-<input type="text" id="preload_value_key_name" style="width: 75px"/>
-&nbsp;
-Key to use as 'Value':
-<input type="text" id="preload_value_value_name" style="width: 75px"/>
-
-<br/>
-<input type="button" onclick="javascript: set_preload_value_config('{{ target_id }}')" value="OK"/>
-
-<script type="text/javascript">
+             <input type="text" id="preload_value_key_name" style="width: 75px"/>
+        </td>
+    </tr>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Key to use as 'Value':</label>
+            <input type="text" id="preload_value_value_name" style="width: 75px"/>
+        </td>
+    </tr>
+     <td colspan="2">
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: set_preload_value_config('{{ target_id }}')" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+        </td>
+    </tr>
+    <script type="text/javascript">
     $( "#template_autocomplete" ).autocomplete({
         source: "/input_forms/searchStandalone",
     });
 
 </script>
+</table>
 {% endblock %}
-
-

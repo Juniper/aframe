@@ -40,24 +40,29 @@
 <table>
     <tr>
         <td colspan="2">
-            Simple Static Image. New images can be added to the common/lib/static/images directory
+            <!-- Simple Static Image. New images can be added to the common/lib/static/images directory -->
+
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Simple Static Image. New images can be added to the common/lib/static/images directory</label>
+
         </td>
     </tr>
     <tr>
         <td>
-            URL:
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >URL</label>
+
         </td>
         <td>
-            <input type="text" id="static_image_url" value="/static/images/a-frame-logo.png"
-                    title="add images to the common/lib/static/images directory"/>
+            <!-- <input type="text" id="static_image_url" value="/static/images/a-frame-logo.png" title="add images to the common/lib/static/images directory"/> -->
+
+            <input type="text" style="font-size:11px;" class="input-md"id="static_image_url" value="/static/images/a-frame-logo.png" title="add images to the common/lib/static/images directory"/> 
         </td>
     </tr>
     <tr>
         <td>
-            Refresh Interval:
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Refresh Interval</label>
         </td>
         <td>
-            <select id="static_image_refresh">
+            <select id="static_image_refresh" style="font-size:15px;" class="input-md">
                 <option value="0" selected="selected">None</option>
                 <option value="30">30</option>
                 <option value="60">60</option>
@@ -70,7 +75,10 @@
     </tr>
     <tr>
         <td colspan="2">
-            <input type="button" onclick="javascript: set_static_image_config()" value="OK"/>
+<!--             <input type="button" onclick="javascript: set_static_image_config()" value="OK"/>
+ -->
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: set_static_image_config()" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+
         </td>
     </tr>
 </table>

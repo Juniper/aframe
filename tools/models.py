@@ -9,6 +9,7 @@ class ConfigTemplate(models.Model):
     name = models.CharField(max_length=32)
     description = models.TextField()
     template = models.TextField()
+    template_path = models.TextField(default='')
     action_provider = models.CharField(max_length=64)
     action_provider_options = models.CharField(max_length=512)
     type = models.CharField(max_length=32, choices=type_choices, default="standalone")

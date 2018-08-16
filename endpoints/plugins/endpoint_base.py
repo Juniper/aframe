@@ -98,7 +98,7 @@ class EndpointBase(object):
             implementation has been provided here
         """
         for endpoint in self:
-            print endpoint
+            print "test" + str(endpoint)
             if endpoint["id"] == endpoint_id:
                 return endpoint
 
@@ -219,25 +219,37 @@ class EndpointBase(object):
         self.instance_config = config
         self.load_instance_config(config)
 
-    def get_page(self, offset, page_size):
+    def get_page(self, offset=None, page_size=None):
         results = []
         index = 0
-        try:
-            while index < offset:
-                self.next()
-                index += 1
+	if offset and page_size:
+            try:
+                while index < offset:
+                    self.next()
+                    index += 1
 
-            while len(results) < page_size:
-                r = self.next()
-                results.append(r)
+                while len(results) < page_size:
+                    r = self.next()
+                    results.append(r)
+                    print results
+
+                return results
+
+            except StopIteration:
+                print "iter stopped"
                 print results
+                return results
+        else:
+            try:
+                while True:
+                    r = self.next()
+                    results.append(r)
+                    print results
 
-            return results
-
-        except StopIteration:
-            print "iter stopped"
-            print results
-            return results
+            except StopIteration:
+                print "iter stopped"
+                print results
+                return results
 
 
 

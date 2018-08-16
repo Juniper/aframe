@@ -2,7 +2,7 @@
 {% block overlay %}
     <script type="text/javascript">
         console.log('{{ target_id }}');
-        let config_element = $('#{{ target_id }}_config');
+        var config_element = $('#{{ target_id }}_config');
 
         if (config_element.val() != "") {
 
@@ -50,26 +50,53 @@
             console.log('all done');
             close_overlay();
         }
-    </script>
-    TextArea Configuration. Configure the size of the widget using the rows and cols attributes. Sanitize will
-    'stringify' the variable contents before sending to the action. This can be useful to escape special characters
-    when using a REST API for example.
 
-    <br/>
-    Cols: <input type="text" id="textarea_cols" value="5" style="width: 100px;"/>
-    &nbsp; - &nbsp;
-    Rows: <input type="text" id="textarea_rows" value="10" style="width: 100px"/>
-    <br/>
-    <br/>
-    Sanitize Imput:
-    <select id="textarea_sanitize">
-        <option value="yes">Yes</option>
-        <option value="no">No</option>
-    </select>
-    <br/>
-    <br/>
-    <input type="button" onclick="set_textarea_config('{{ target_id }}')" value="OK"/>
-    <br/>
+</script>
+<table>
+    <tr>
+        <td colspan="2">
+            <!-- Simple Static Image. New images can be added to the common/lib/static/images directory -->
+
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >TextArea Configuration:
+                <br>Configure the size of the widget using the rows and cols attributes. 
+                <br> Sanitize will 'stringify' the variable contents before sending to the action. This can be <br>
+                useful to escape special characters when using a REST API for example.</label>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Cols:</label>
+
+        </td>
+        <td>
+             <input type="text" id="textarea_cols" placeholder="5" style="width: 100px;"/>
+        </td>
+    </tr>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Rows: </label>
+        </td>
+        <td>
+             <input type="text" id="textarea_rows" placeholder="10" style="width: 100px"/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Sanitize Input: </label>
+        </td>
+        <td>
+            <select id="textarea_sanitize">r
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+        </td>
+    </tr>
+     <td colspan="2">
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="set_textarea_config('{{ target_id }}')" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+
+        </td>
+    </tr>
+</table>
 {% endblock %}
-
-

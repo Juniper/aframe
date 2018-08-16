@@ -17,7 +17,36 @@ def index(request):
     context = {"provider_list": provider_list}
     return render(request, "endpoints/index.html", context)
 
+def update(request):
+    logger.info("__ endpoints update __")
+    required_fields = {"name", "description", "provider_class"}
+    if not required_fields.issubset(request.POST):
+        logger.error("Did not find all required fields in request")
+        return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
+    name = request.POST["name"]
+    description = request.POST["description"]
+    provider_class = request.POST["provider_class"]
+
+
+
+
+    provider_instance = endpoint_provider.get_provider_instance(provider_class)
+
+    provider_options = provider_instance.get_config_options()
+
+    provider_options_json = json.dumps(provider_options)
+
+
+    endpoint = get_object_or_404(EndpointGroup, pk=endpoint_id)
+
+    endpoint.name = name
+    endpoint.description = description
+    endpoint_provider = provider
+    endpoint.save()
+    return HttpResponseRedirect("/endpoints")
+
+ 
 def new_group(request):
     logger.info("__ endpoints new_group __")
     provider_list = endpoint_provider.get_endpoint_discovery_provider_list()
@@ -76,6 +105,12 @@ def create_group(request):
     return HttpResponseRedirect("/endpoints/list/%s" % group.id)
 
 
+def edit_group(request, group_id):
+    logger.info("__ endpoints edit_group __")
+    group = get_object_or_404(EndpointGroup, pk=group_id)
+    return HttpResponseRedirect("/endpoints/")
+
+
 def delete_group(request, group_id):
     logger.info("__ endpoints delete_group __")
     group = get_object_or_404(EndpointGroup, pk=group_id)
@@ -87,6 +122,22 @@ def endpoint_list(request, group_id):
     logger.info("__ endpoints endpoint_list __")
     group = get_object_or_404(EndpointGroup, pk=group_id)
     provider_instance = endpoint_provider.get_provider_instance_from_group(group_id)
+    if group.provider_class == "AnsibleInventory":
+        try:
+            with file(provider_instance.inv_name) as f:
+                inv = f.read()
+        except IOError as e:
+            inv = "Could not read inventory file!\n" + str(e)
+
+        endpoint = provider_instance.get_endpoint_by_id(1) # dummy value
+
+        context = {"endpoint_group": group,
+                   "endpoint": endpoint,
+                   "provider": group.provider_class,
+                   "provider_instance": provider_instance,
+                   "inventory": inv,
+                   }
+        return render(request, "endpoints/list_ansible.html", context)
 
     page_size = int(settings.DEVICE_LIST_PAGING_SIZE)
     offset = 0
@@ -106,7 +157,7 @@ def endpoint_list(request, group_id):
         argument = request.GET["argument"]
         provider_instance.apply_filter(filter_name, argument)
 
-    endpoint_array = provider_instance.get_page(offset, page_size)
+    endpoint_array = provider_instance.get_page()
 
     if len(endpoint_array) < page_size:
         next_offset = -1
@@ -168,7 +219,6 @@ def add_endpoints_to_queue(request):
     takes a list of selected endpoints and adds them to the user session under a key named
     "endpoint_queue". Also adds another list of "endpoint_queue_names" to avoid limitations with django template
     language stuff to show already selected items in the queue
-
     """
     logger.info("__ endpoints add_endpoints_to_queue __")
     required_fields = set(["endpoints", "group_id"])
@@ -226,6 +276,9 @@ def search(request):
     for provider in provider_list:
 
         provider_instance = endpoint_provider.get_provider_instance_from_group(provider.id)
+        if "Ansible" in str(provider_instance):
+             print("Ansible Instance, skipping")
+             continue
         provider_instance.apply_filter("Name", term)
         endpoints_list = provider_instance.get_page(0, 128)
 
@@ -254,6 +307,9 @@ def search_ip(request):
     for provider in provider_list:
 
         provider_instance = endpoint_provider.get_provider_instance_from_group(provider.id)
+        if "Ansible" in str(provider_instance):
+             print("Ansible Instance, skipping")
+             continue
         provider_instance.apply_filter("Name", term)
         endpoints_list = provider_instance.get_page(0, 128)
 
@@ -265,4 +321,3 @@ def search_ip(request):
             results.append(r)
 
     return HttpResponse(json.dumps(results), content_type="application/json")
-

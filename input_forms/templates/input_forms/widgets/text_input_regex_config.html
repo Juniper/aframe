@@ -14,7 +14,7 @@
 
             // set some defaults in case the user quits before saving!
             let widget_config = {
-                "regex": "^[\\w+|_]+$" ,
+                "regex": "^[\\w+|_\\s+]+$" ,
                 "hint": "Only a-z 0-9 and _ are allowed characters"
             };
 
@@ -41,17 +41,42 @@
             console.log('all done');
             close_overlay();
         }
+</script>
+<table>
+    <tr>
+        <td colspan="2">
+            <!-- Simple Static Image. New images can be added to the common/lib/static/images directory -->
 
-    </script>
-    Regex Validation. The entered value must match this regex pattern
-    <br/>
-    Regex <input type="text" id="regex_pattern" value="^[\\w+|_]+$" style="width: 150px"/>
-    <br/>
-    Failure Message
-    <input type="text" id="regex_hint" value="Only a-z 0-9 and _ are allowed characters" style="width: 350px"/>
-    <br/>
-    <input type="button" onclick="javascript: set_text_input_regex_config('{{ target_id }}')" value="OK"/>
-    <br/>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Regex Validation. The entered value must match this regex pattern. </label>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Regex:</label>
+
+        </td>
+        <td>
+            <!-- <input type="text" id="static_image_url" value="/static/images/a-frame-logo.png" title="add images to the common/lib/static/images directory"/> -->
+
+             <input type="text" id="regex_pattern" placeholder="^[\\w+|_]+$" style="width: 150px"/>
+        </td>
+    </tr>
+    </tr>
+    <tr>
+        <td>
+            <label class="label" style="font-size:15px; color:black; padding:0; margin:0;" >Failure Message: </label>
+        </td>
+        <td>
+             <input type="text" id="regex_hint" placeholder="Only a-z 0-9 and _ are allowed characters" style="width: 400px"/>
+        </td>
+    </tr>
+     <td colspan="2">
+<!--             <input type="button" onclick="javascript: set_static_image_config()" value="OK"/>
+ -->
+            <a href="javascript:void(0);" style="text-decoration: none" onclick="javascript: set_text_input_regex_config('{{ target_id }}')" value="OK" class="btn bg-color-blue txt-color-white">OK</a>
+
+        </td>
+    </tr>
+</table>
 {% endblock %}
-
-

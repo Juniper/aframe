@@ -1,15 +1,50 @@
 
 {% extends "base.html" %}
 {% block title %}A-Frame{% endblock %}
+{% block breadcrumb %}
+<li><a href="/input_forms/">Network Automations</a></li>
+<li>Import Autmation</li>
+{% endblock %}
+{% block pageheader %}
+<i class="fa fa-lg fa-fw fa-sliders"></i> 
+	Automations 
+<span>>
+	Import Automation
+</span>
+{% endblock %}
 {% block scripts %}
 <script type="text/javascript">
 
 </script>
 {% endblock%}
 {% block content %}
-<h3>Import Automation</h3>
-<form enctype="multipart/form-data" method="POST">{% csrf_token %}
-{{ form }}
-<input type="submit" value="Import"/>
-</form>
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:50%;margin:auto">
+			<form class="smart-form" enctype="multipart/form-data" method="POST">{% csrf_token %}
+				<header>
+					Import Automation
+				</header>
+				<fieldset>
+					<section>
+						<div class="input input-file">
+							<span class="button"><input id="file" type="file" name="file" onchange="this.parentNode.nextSibling.value = this.value">Browse</span><input type="text" placeholder="Select Automation to Import" readonly="">
+						</div>
+
+					</section>
+				</fieldset>
+				<footer>
+					<button type="submit" class="btn btn-primary">
+						<i class="fa fa-upload"></i>
+						Import
+					</button>
+					<button type="button" class="btn btn-warning" onclick="javascript: window.history.back();">
+						<i class="fa fa-arrow-left"></i>
+						Go back
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
 {% endblock %}

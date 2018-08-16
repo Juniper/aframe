@@ -62,7 +62,8 @@ def define_template(request):
     options = action_provider.get_options_for_provider(action_provider_name)
     configured_options = dict()
     for opt in options:
-        if opt["name"] in request.POST:
+
+        if "name" in opt and opt["name"] in request.POST:
             o = dict()
             o["name"] = opt["name"]
             o["value"] = request.POST[opt["name"]]
@@ -77,17 +78,22 @@ def define_template(request):
             context = {"error": "Required option not found in request!"}
             return render(request, "error.html", context)
 
-    print "Setting configured options to the session %s" % configured_options
+    print("Setting configured options to the session %s" % configured_options)
     request.session["new_template_action_options"] = configured_options
-    context = {"options": configured_options, "action_provider": action_provider_name}
-    return render(request, "configTemplates/define_template.html", context)
+    if action_provider_name == "AnsibleAction":
+        with open(configured_options['playbook_path']['value'], 'r') as playbook:
+            context = {"options": configured_options, "action_provider": action_provider_name, "playbook": playbook.read(), "playbook_path": configured_options['playbook_path']['value']}
+        return render(request, "configTemplates/define_ansible_template.html", context)
+    else:
+        context = {"options": configured_options, "action_provider": action_provider_name}
+        return render(request, "configTemplates/define_template.html", context)
 
 
 def get_options_for_action(request):
     action_name = request.POST["action_name"]
-    print action_name
+    print(action_name)
     for a in settings.ACTION_PROVIDERS:
-        print a
+        print(a)
         if a["name"] == action_name:
             return HttpResponse(json.dumps(a), content_type="application/json")
 
@@ -104,6 +110,8 @@ def edit(request, template_id):
                "default_options": default_options,
                "secrets": secrets
                }
+    if (template.action_provider == "AnsibleAction"):
+        return render(request, "configTemplates/edit_ansible.html", context)
     return render(request, "configTemplates/edit.html", context)
 
 
@@ -120,7 +128,7 @@ def update(request):
             options = action_provider.get_options_for_provider(template.action_provider)
             configured_options = dict()
             for opt in options:
-                print "Checking %s" % opt["name"]
+                print("Checking %s" % opt["name"])
                 if opt["name"] in request.POST:
                     o = dict()
                     o["name"] = opt["name"]
@@ -129,8 +137,13 @@ def update(request):
 
                     # check for hidden action option customization
                     if opt["name"] + "_variable" in request.POST:
-                        print "FOUND VARIABLE in tools update!"
-                        print "value is %s " % request.POST[opt["name"] + "_variable"]
+                        print("FOUND VARIABLE in tools update!")
+   			print(opt["name"])
+                        if (opt["name"] == "playbook_path"):
+                            template.template_path = request.POST[opt["name"]]
+                            with open(template.template_path) as tmp:
+                                template.template = tmp.read() # update displayed template
+                        print("value is %s " % request.POST[opt["name"]])
                         o["variable"] = request.POST[opt["name"] + "_variable"]
 
                     configured_options[o["name"]] = o
@@ -159,6 +172,9 @@ def update(request):
 
 def create(request):
     required_fields = set(["name", "description", "template", "type"])
+    print request.POST["name"]
+    print request.POST["description"]
+    print request.POST["type"]
     if not required_fields.issubset(request.POST):
         return render(request, "error.html", {"error": "Invalid Parameters in POST"})
 
@@ -166,6 +182,8 @@ def create(request):
     template.name = request.POST["name"]
     template.description = request.POST["description"]
     template.action_provider = request.POST["action_provider"]
+    if request.POST["action_provider"] == "AnsibleAction":
+        template.template_path = request.POST["template_path"]
     template.template = request.POST["template"].strip().replace('\r\n', '\n')
     template.type = request.POST["type"]
 
@@ -176,9 +194,9 @@ def create(request):
 
     configured_action_options = request.session["new_template_action_options"]
     template.action_provider_options = json.dumps(configured_action_options)
-    print "action options are:"
-    print configured_action_options
-    print "Saving form"
+    print("action options are:")
+    print(configured_action_options)
+    print("Saving form")
     template.save()
     return HttpResponseRedirect("/input_forms/view_from_template/%s" % template.id)
 
@@ -200,10 +218,34 @@ def clone(request, template_id):
     dolly.action_provider = template.action_provider
     dolly.action_provider_options = template.action_provider_options
     dolly.template = template.template
+    dolly.template_path = template.template_path
     dolly.type = template.type
 
-    print "Cloning template %s" % template.name
+    print("Cloning template %s" % template.name)
     dolly.save()
+    dollies_id = dolly.id
+
+    # attempt to save any existing input form associations on the session
+    # we'll retrieve this later when creating a new input form
+    try:
+        input_form = InputForm.objects.get(script=template)
+
+        if 'cloned_templates' in request.session:
+            cloned_templates = request.session['cloned_templates']
+        else:
+            cloned_templates = dict()
+
+        cloned_templates[dollies_id] = dict()
+        cloned_templates[dollies_id]['cloned_from'] = template.id
+        cloned_templates[dollies_id]['input_form_id'] = input_form.id
+        print('added a template to the cloned templates cache in the session')
+        print(dollies_id)
+
+        request.session['cloned_templates'] = cloned_templates
+
+    except InputForm.DoesNotExist as dne:
+        print('Could not find input_form for this cloned template')
+
     return HttpResponseRedirect('/tools/edit/%s/' % dolly.id)
 
 
@@ -225,7 +267,7 @@ def get_input_parameters_for_template(config_template):
     for node in t.template.nodelist:
         defined_tags = node.get_nodes_by_type(VariableNode)
         for v in defined_tags:
-            print "adding %s as an available tag" % v.filter_expression
+            print("adding %s as an available tag" % v.filter_expression)
             variable_string = str(v.filter_expression)
             if variable_string not in input_parameters:
                 if not variable_string.startswith("af_"):
@@ -242,7 +284,7 @@ def get_input_parameters_for_template(config_template):
     for action_option in action_options:
         opts = action_options[action_option]
         if "variable" in opts and opts["variable"] != '':
-            print action_option
+            print(action_option)
             item = dict()
             # item['name'] = 'action_options_' + opts['name']
             item['name'] = 'action_options_' + opts['name']
@@ -258,7 +300,7 @@ def get_input_parameters_for_template(config_template):
         "action_option_variables": action_option_variables
     }
 
-    print config_template.type
+    print(config_template.type)
 
     if config_template.type == "per-endpoint":
         input_parameters.append("af_endpoint_ip")
@@ -284,6 +326,7 @@ def get_template_input_parameters_overlay(request):
 
     config_template = get_object_or_404(ConfigTemplate, name=template_name)
     template_usage = get_input_parameters_for_template(config_template)
+    template_usage['a_frame_url'] = '{}://{}/tools/execute_template'.format(request.scheme, request.get_host())
 
     return render(request, "configTemplates/overlay.html", template_usage)
 
@@ -352,7 +395,7 @@ def chain_template(request):
     :param request: HTTPRequest either x-www-form-urlencoded or application/json
     :return: the output of the template specified by the template_id parameter
     """
-    print request.META["CONTENT_TYPE"]
+    print(request.META["CONTENT_TYPE"])
     if request.META["CONTENT_TYPE"] == "application/json":
         try:
             data = json.loads(request.body)
@@ -384,19 +427,19 @@ def chain_template(request):
         template_id = request.POST["template_id"]
         config_template = ConfigTemplate.objects.get(pk=template_id)
         template_api = get_input_parameters_for_template(config_template)
-
+        template_api['a_frame_url'] = '{}://{}/tools/execute_template'.format(request.scheme, request.get_host())
         context = dict()
 
         try:
-            print str(template_api["input_parameters"])
+            print(str(template_api["input_parameters"]))
             input_parameters = template_api["input_parameters"]
 
             for j in input_parameters:
-                print "setting context %s" % j
+                print("setting context %s" % j)
                 context[j] = str(request.POST[j])
 
         except Exception as ex:
-            print str(ex)
+            print(str(ex))
             error = {"output": "missing required parameters", "status": 1}
             return HttpResponse(json.dumps(error), content_type="application/json")
 
@@ -404,11 +447,11 @@ def chain_template(request):
     # compiled_template = get_template_from_string(config_template.template)
     completed_template = str(compiled_template.render(context))
 
-    print completed_template
+    print(completed_template)
     action_name = config_template.action_provider
     action_options = json.loads(config_template.action_provider_options)
 
-    print "action name is: " + action_name
+    print("action name is: " + action_name)
 
     action = action_provider.get_provider_instance(action_name, action_options)
     if config_template.type == "per-endpoint":
@@ -432,7 +475,7 @@ def chain_template(request):
         response = {"output": results, "status": 0}
 
     except Exception as ex:
-        print str(ex)
+        print(str(ex))
         response = {"output": "Error executing template", "status": 1}
 
     return HttpResponse(json.dumps(response), content_type="application/json")
@@ -443,15 +486,14 @@ def bind_automation(request):
 
 
 def download_from_cache(request, cache_key):
-    print 'ok %s' % cache_key
+    print('downloading cache object: %s' % cache_key)
     cache_object = cache.get(cache_key)
-    print cache_object
     filename = 'aframe_archive'
     if type(cache_object) is dict:
-        if 'content_type' in cache_object:
-            content_type = cache_object['content_type']
-            if 'zip' in content_type:
-                filename = 'aframe_archive.zip'
+        if 'filename' in cache_object:
+            print('Found a filename to use')
+            filename = cache_object['filename']
+            print(filename)
 
         response = HttpResponse(content_type=cache_object['content_type'])
         response['Content-Disposition'] = 'attachment; filename=%s' % filename

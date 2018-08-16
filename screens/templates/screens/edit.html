@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}A-Frame{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="/screens/">Screens</a></li>
+<li>Edit Screen</li>
+{% endblock %}
+
+{% block pageheader %}
+<span class="fa fa-xlg fa-fw fa-desktop"; style="font-size: xx-large;"></span>
+	Screens
+<span>>  
+	Edit Screen
+</span>
+{% endblock %}
+{% block scripts %}
+{% endblock%}
+{% block content %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="well" style="width:40%;margin:auto;">
+			<form method="POST" class="smart-form" action="/screens/update" id="create_form">
+				<header>
+					Edit Screen
+				</header>
+				<fieldset>
+					<section>
+						<label class="label">Name</label>
+						<label class="input">
+							<input type="text" name="name" id="name" value="{{ screen.name }}" onblur="return clean_string_no_special(this);"/>
+						</label>
+					</section>
+					<section>
+						<label class="label">Tag</label>
+						<label class="input">
+							<input type="text" name="tag" value="{{ screen.tag }}"/>
+						</label>
+					</section>
+					<section>
+						<label class="label">Description</label>
+						<label class="textarea">
+							<textarea rows="5" name="description">{{ screen.description }}</textarea>
+						</label>
+					</section>
+				</fieldset>
+				<footer>
+					<input type="hidden" name="screen_id" value="{{ screen.id }}"/>
+					<button type="submit" class="btn btn-success" href="javascript:void(0);">
+						<i class="fa fa-save"></i>
+						Update
+					</button>
+					<button type="button" class="btn btn-danger" onclick="javascript: window.history.back();">
+						<i class="fa fa-times"></i>
+						Cancel
+					</button>
+				</footer>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

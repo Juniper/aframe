@@ -13,6 +13,7 @@ urlpatterns = [
     url(r"^newGroup", views.new_group, name="new_group"),
     url(r"^configureGroup", views.configure_group, name="configure_group"),
     url(r"^createGroup", views.create_group, name="create_group"),
+    url(r"^editGroup/(?P<group_id>[^/]+)/$", views.edit_group, name="edit_group"),
     url(r"^deleteGroup/(?P<group_id>[^/]+)/$", views.delete_group,
         name="delete_group"),
     url(r"^search_ip$", views.search_ip, name="search_ip"),
