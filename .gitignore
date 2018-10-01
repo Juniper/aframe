@@ -15,6 +15,5 @@ db.sqlite3.*
 conf/imports/themes/
 conf/imports/forms/
 conf/imports/screens/
-screens/templates/themes/test.html
-screens/templates/themes/pan.html
+#screens/templates/themes/test.html
 .gitignore
